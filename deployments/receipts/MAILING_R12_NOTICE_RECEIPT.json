@@ -1,0 +1,11 @@
+{
+  "receipt_id": "MAILING_R12_NOTICE_RECEIPT",
+  "dispatch_id": "DISPATCH-R12-008",
+  "server": "MAILING_SERVER",
+  "module": "WM.DEPLOYMENT_NOTICE.R1",
+  "status": "COMPLETED",
+  "timestamp": "2026-09-02T04:26:01Z",
+  "notification_required": false,
+  "reason": "No HR review required; deployment completed successfully",
+  "queue_status": "EMPTY - NO NOTIFICATIONS QUEUED"
+}
