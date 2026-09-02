@@ -1,0 +1,282 @@
+{
+  "workset": {
+    "workset_id": "BRAINK_R12_SERVER_ROOM_WORKSET",
+    "status": "COMPILED_FOR_RUNTIME_CONSUMPTION",
+    "source_queue": "BRAINK_DEPLOY_QUEUE_R12_AGENTIC_GENOME_SERVER_ROOM",
+    "undertaking": "BrainK runtime evolution through genome-paired server room deployment",
+    "room": "AI_SERVER_ROOM.BRAINK.RUNTIME_EVOLUTION.R1",
+    "dispatch_rule": "Each server receives the same deployment instruction class, specialized by service function, adapter target, receipt obligation, and failure route.",
+    "global_success_state": "DEPLOYED_AND_OBSERVED_OR_REPAIR_ROUTED"
+  },
+  "server_room_dispatch_records": [
+    {
+      "dispatch_id": "DISPATCH-R12-001",
+      "server": "BRAINK_SERVER",
+      "module": "WM.BRAINK_MEMORY_UPDATE.R1",
+      "operation": "register deployment queue, workset, service genome, server-room manifest, receipt expectations",
+      "input": [
+        "BRAINK_DEPLOY_QUEUE_R12_AGENTIC_GENOME_SERVER_ROOM",
+        "GENOME.BRAINK.RUNTIME_EVOLUTION.R12",
+        "AI_SERVER_ROOM.BRAINK.RUNTIME_EVOLUTION.R1"
+      ],
+      "expected_state_effect": [
+        "deployment queue enters BrainK memory",
+        "work modules become addressable",
+        "server-room routes become visible to continuation engine"
+      ],
+      "required_receipt": "BRAINK_R12_QUEUE_MEMORY_REGISTERED",
+      "failure_route": "HR_SERVER"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-002",
+      "server": "AGENTIC_AI_SERVER",
+      "module": "WM.AGENT_FUNCTION_REPLICATION.R1",
+      "operation": "replicate R10/R11/R12 functions into generated module set",
+      "input": [
+        "capability lattice",
+        "adapter registry",
+        "observer transition",
+        "carrier rewrite",
+        "service genome compiler",
+        "server-room composer"
+      ],
+      "expected_state_effect": [
+        "callable functions written",
+        "tests written",
+        "self-coding receipt emitted"
+      ],
+      "required_receipt": "R11_SELF_CODING_VISIBLE_SUMMARY",
+      "failure_route": "BRAINK_SERVER.REPAIR"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-003",
+      "server": "REPO_SERVER",
+      "module": "WM.DEPLOY_REPO_FUNCTIONS.R1",
+      "operation": "write module set to repository, run tests, commit, push or open PR",
+      "input": [
+        "enterprise/*.py",
+        "enterprise/generated/*.py",
+        "scripts/kex-ci/*.py",
+        "KEDDEH_SECTOR_RUNTIME_REPO/*",
+        "rooms/ai_server_room/*"
+      ],
+      "expected_state_effect": [
+        "repository files exist",
+        "test result captured",
+        "commit or PR reference created"
+      ],
+      "required_receipt": "REPO_R12_DEPLOYMENT_RECEIPT",
+      "failure_route": "HR_SERVER.REPO_BINDING_OWNER"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-004",
+      "server": "VFS_SERVER",
+      "module": "WM.DEPLOY_VIRTUAL_SPACE.R1",
+      "operation": "mirror deployed files into VFS artifact graph and bind lineage",
+      "input": [
+        "R10 runtime modules",
+        "R11 self-coding outputs",
+        "R12 service genome/server-room manifests"
+      ],
+      "expected_state_effect": [
+        "VFS paths written",
+        "artifact hashes recorded",
+        "lineage edges created"
+      ],
+      "required_receipt": "VFS_R12_ARTIFACT_MIRROR_RECEIPT",
+      "failure_route": "BRAINK_SERVER.REPAIR"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-005",
+      "server": "RUNTIME_SERVER",
+      "module": "WM.REGISTER_RUNTIME.R1",
+      "operation": "register R10, R11, and R12 runtimes",
+      "input": [
+        "R10_AGENTIC_ADDRESSABILITY_RUNTIME",
+        "R11_AGENTIC_SELF_CODING_RUNTIME",
+        "R12_SERVICE_GENOME_SERVER_ROOM_RUNTIME"
+      ],
+      "expected_state_effect": [
+        "runtime IDs registered",
+        "adapter bindings declared",
+        "tick entrypoints addressable"
+      ],
+      "required_receipt": "RUNTIME_R12_REGISTRATION_RECEIPT",
+      "failure_route": "BRAINK_SERVER.REPAIR"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-006",
+      "server": "OBSERVER_SERVER",
+      "module": "WM.OBSERVE_DEPLOYMENT.R1",
+      "operation": "read back repository, VFS, runtime, receipts, and room manifest visibility",
+      "input": [
+        "repo file list",
+        "VFS mirror paths",
+        "runtime registry",
+        "receipt paths",
+        "room manifest"
+      ],
+      "expected_state_effect": [
+        "observer memory updated",
+        "missing/visible states classified",
+        "repair or promotion route selected"
+      ],
+      "required_receipt": "OBSERVER_R12_DEPLOYMENT_READBACK",
+      "failure_route": "BRAINK_SERVER.REPAIR"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-007",
+      "server": "HR_SERVER",
+      "module": "WM.HR_REVIEW_ASSIGNMENT.R1",
+      "operation": "assign human/business owners for unresolved adapter, repo, VFS, runtime or observer failures",
+      "input": [
+        "failed dispatch records",
+        "unbound adapter records",
+        "test failures",
+        "missing readbacks"
+      ],
+      "expected_state_effect": [
+        "owner assigned",
+        "review state opened",
+        "next repair action recorded"
+      ],
+      "required_receipt": "HR_R12_DEPLOYMENT_WORK_RECORD",
+      "failure_route": "BRAINK_SERVER.CONTINUATION"
+    },
+    {
+      "dispatch_id": "DISPATCH-R12-008",
+      "server": "MAILING_SERVER",
+      "module": "WM.DEPLOYMENT_NOTICE.R1",
+      "operation": "notify owners when HR review or external action is required",
+      "input": [
+        "HR_R12_DEPLOYMENT_WORK_RECORD",
+        "repair route",
+        "owner contact class"
+      ],
+      "expected_state_effect": [
+        "notification queued",
+        "delivery status observed"
+      ],
+      "required_receipt": "MAILING_R12_NOTICE_RECEIPT",
+      "failure_route": "HR_SERVER"
+    }
+  ],
+  "genome_pair_execution_map": {
+    "genome_id": "GENOME.BRAINK.RUNTIME_EVOLUTION.R12",
+    "status": "PAIRINGS_COMPILED",
+    "pairs": [
+      {
+        "pair_id": "PAIR.BRAINK_TO_AGENTIC_AI",
+        "source": "BRAINK_SERVER:deployment_queue",
+        "target": "AGENTIC_AI_SERVER:function_generation",
+        "adapter": "adapter://braink/work-module-dispatch",
+        "state_effect": "agent work modules become executable assignments"
+      },
+      {
+        "pair_id": "PAIR.AGENTIC_AI_TO_REPO",
+        "source": "AGENTIC_AI_SERVER:function_outputs",
+        "target": "REPO_SERVER:repository_files",
+        "adapter": "adapter://repo/write-commit-push",
+        "state_effect": "generated functions enter repository space"
+      },
+      {
+        "pair_id": "PAIR.AGENTIC_AI_TO_VFS",
+        "source": "AGENTIC_AI_SERVER:function_outputs",
+        "target": "VFS_SERVER:artifact_graph",
+        "adapter": "adapter://vfs/artifact-write",
+        "state_effect": "generated functions enter virtual artifact space"
+      },
+      {
+        "pair_id": "PAIR.REPO_TO_RUNTIME",
+        "source": "REPO_SERVER:runtime_modules",
+        "target": "RUNTIME_SERVER:runtime_registry",
+        "adapter": "adapter://runtime/register-module",
+        "state_effect": "repository modules become runtime-addressable"
+      },
+      {
+        "pair_id": "PAIR.RUNTIME_TO_OBSERVER",
+        "source": "RUNTIME_SERVER:registration_state",
+        "target": "OBSERVER_SERVER:readback",
+        "adapter": "adapter://observer/runtime-readback",
+        "state_effect": "runtime visibility is classified"
+      },
+      {
+        "pair_id": "PAIR.OBSERVER_TO_BRAINK",
+        "source": "OBSERVER_SERVER:classified_state",
+        "target": "BRAINK_SERVER:observer_memory",
+        "adapter": "adapter://braink/observer-absorb",
+        "state_effect": "observer memory mutates continuation route"
+      },
+      {
+        "pair_id": "PAIR.FAILURE_TO_HR",
+        "source": "BRAINK_SERVER:unresolved_binding_or_failure",
+        "target": "HR_SERVER:owner_assignment",
+        "adapter": "adapter://hr/work-record",
+        "state_effect": "unresolved deployment becomes owned work"
+      },
+      {
+        "pair_id": "PAIR.HR_TO_MAILING",
+        "source": "HR_SERVER:review_required",
+        "target": "MAILING_SERVER:notification_queue",
+        "adapter": "adapter://mailing/dispatch",
+        "state_effect": "owners receive deployment/repair notice"
+      }
+    ]
+  },
+  "process_state_transition": {
+    "before": "DEPLOYMENT_QUEUE_CREATED",
+    "operation": "COMPILE_SERVER_ROOM_WORKSET",
+    "after": "SERVER_ROOM_WORKSET_COMPILED",
+    "state_effects": [
+      "deployment work is partitioned by server",
+      "same instruction class is specialized per service role",
+      "genome service pairs define cross-server dependencies",
+      "HR and BrainK become unification endpoints",
+      "observer readback is embedded as runtime memory"
+    ],
+    "next_executable_state": "SERVER_ROOM_DISPATCH_READY"
+  },
+  "next_executable_handoff": {
+    "handoff_id": "SERVER_ROOM_DISPATCH_READY_R12",
+    "status": "READY",
+    "consumer": "BRAINK_SERVER",
+    "then": [
+      "dispatch DISPATCH-R12-001 to BRAINK_SERVER",
+      "dispatch DISPATCH-R12-002 to AGENTIC_AI_SERVER",
+      "dispatch DISPATCH-R12-003 to REPO_SERVER",
+      "dispatch DISPATCH-R12-004 to VFS_SERVER",
+      "dispatch DISPATCH-R12-005 to RUNTIME_SERVER",
+      "dispatch DISPATCH-R12-006 to OBSERVER_SERVER",
+      "dispatch DISPATCH-R12-007 to HR_SERVER when failures/unbound states exist",
+      "dispatch DISPATCH-R12-008 to MAILING_SERVER when HR notice is required"
+    ],
+    "required_final_receipt": "BRAINK_R12_DEPLOYED_AND_OBSERVED_OR_REPAIR_ROUTED"
+  },
+  "deployment_receipt_template": {
+    "receipt_id": "BRAINK_R12_DEPLOYED_AND_OBSERVED_OR_REPAIR_ROUTED",
+    "status": "PENDING_SYSTEM_RECEIPT",
+    "must_report": {
+      "braink_queue_memory": "REGISTERED | FAILED",
+      "agentic_function_generation": "VISIBLE | FAILED",
+      "repo_deployment": "COMMITTED | PR_OPENED | ADAPTER_UNBOUND | FAILED",
+      "vfs_mirror": "MIRRORED | ADAPTER_UNBOUND | FAILED",
+      "runtime_registration": "REGISTERED | ADAPTER_UNBOUND | FAILED",
+      "observer_readback": "VISIBLE | PARTIAL | CONTRADICTION | FAILED",
+      "hr_review": "NOT_REQUIRED | OPENED",
+      "mailing_notice": "NOT_REQUIRED | QUEUED | FAILED"
+    },
+    "claim_rule": "Only the fields returned by server receipts become accepted deployment state."
+  },
+  "current_state": {
+    "status": "SERVER_ROOM_WORKSET_COMPILED",
+    "not_more_code_repetition": true,
+    "next_route": "BRAINK_SERVER consumes SERVER_ROOM_DISPATCH_READY_R12",
+    "unification": [
+      "genome-paired services",
+      "server-room dispatch",
+      "HR ownership records",
+      "BrainK memory/proof/continuation",
+      "observer readback as endogenous state"
+    ]
+  }
+}
