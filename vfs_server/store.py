@@ -96,6 +96,21 @@ class VFSStore:
                 db.execute("COMMIT")
             except Exception: db.execute("ROLLBACK"); raise
         return {"verified":ok,"artifact":rec.as_dict(),"receipt":receipt.as_dict()}
+    def verify_receipt_chain(self):
+        with self._connect() as db:
+            rows=db.execute("SELECT * FROM receipts ORDER BY seq").fetchall()
+        previous=None
+        for row in rows:
+            detail=json.loads(row["detail_json"])
+            body={"kind":row["kind"],"status":row["status"],"artifact_digest":row["artifact_digest"],
+                  "path":row["path"],"previous_receipt_digest":row["previous_receipt_digest"],
+                  "at":row["at"],"detail":detail}
+            observed=sha256_bytes(canonical_json(body))
+            if row["previous_receipt_digest"] != previous or observed != row["receipt_digest"]:
+                return {"verified":False,"failed_seq":row["seq"],"count":len(rows)}
+            previous=row["receipt_digest"]
+        return {"verified":True,"count":len(rows),"head":previous}
+
     def status(self):
         with self._connect() as db:
             vals=[db.execute(f"SELECT COUNT(*) n FROM {t}").fetchone()["n"] for t in ("artifacts","paths","lineage","receipts")]
