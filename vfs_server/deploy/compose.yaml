@@ -3,7 +3,7 @@ services:
     build:
       context: ../..
       dockerfile: vfs_server/deploy/Dockerfile
-    command: ["--root","/var/lib/keddeh-vfs","--host","0.0.0.0","--port","8787","--token-file","/run/secrets/vfs_token"]
+    command: ["--root","/var/lib/keddeh-vfs","--host","0.0.0.0","--port","8787","--carrier-id","KEDDEH_SERVICE:VFS_SERVER:COMPOSE","--token-file","/run/secrets/vfs_token"]
     ports:
       - "127.0.0.1:8787:8787"
     volumes:
