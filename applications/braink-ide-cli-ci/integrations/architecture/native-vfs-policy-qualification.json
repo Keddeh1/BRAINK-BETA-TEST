@@ -1,0 +1,22 @@
+{
+  "schema": "braink.native-vfs-policy-qualification.v1",
+  "state": "PASSED",
+  "native_http_writes": 2231,
+  "wal_bytes": 67127192,
+  "previous_guard_bytes": 67108864,
+  "subscription_cursor_readback": 1000,
+  "artifact_sha256_readback": "2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881",
+  "artifact_contract": {
+    "maximum_bytes": 67108864,
+    "oversized_rejected": true,
+    "reason": "artifact_too_large"
+  },
+  "native_source_sha256": "ca0282f1e370b7d08d566f40e4017964dc910a0b767818aee9214c14c1595695",
+  "wrapper_sha256": "654eff2ab4bfede912c41cc8eccca314bfbc3c09bb302facbcd85bb9a4c6cf05",
+  "child_limits": [
+    "Max file size             unlimited            unlimited            bytes     ",
+    "Max core file size        0                    0                    bytes     ",
+    "Max open files            256                  256                  files     "
+  ],
+  "production_store_modified": false
+}

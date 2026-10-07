@@ -1,0 +1,138 @@
+{
+  "schema": "braink.native-vfs-policy-deployment.v1",
+  "started": 1791410650.7641156,
+  "container": "keddeh-aff83d1ff9-controller",
+  "old_image": "sha256:4474575af321d192b019de6675e97312a9bceeb30a95c6e4914cfa2b3ec4bdf9",
+  "new_image": "sha256:6d185f58d32249d2889e03321cd38e1bfda2324de0f18aff4a15263c807f3730",
+  "rollback_container": "keddeh-aff83d1ff9-controller-rollback-vfs-policy-1791410740",
+  "state_reset": false,
+  "private_configuration_retained": true,
+  "state": "READBACK",
+  "finished": 1791410662.9349573,
+  "downtime_seconds": 12.170842409133911,
+  "healthy_nodes": 10,
+  "boot_status": "COMPLETED",
+  "services": {
+    "vfs-server": {
+      "pid": 7,
+      "alive": true,
+      "restarts": 0
+    },
+    "broker": {
+      "pid": 12,
+      "alive": true,
+      "restarts": 0
+    },
+    "network": {
+      "pid": 15,
+      "alive": true,
+      "restarts": 0
+    },
+    "http": {
+      "pid": 25,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19400": {
+      "pid": 34,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19401": {
+      "pid": 42,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19402": {
+      "pid": 50,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19403": {
+      "pid": 58,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19404": {
+      "pid": 66,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19405": {
+      "pid": 74,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19406": {
+      "pid": 82,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19407": {
+      "pid": 91,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19408": {
+      "pid": 116,
+      "alive": true,
+      "restarts": 0
+    },
+    "node-19409": {
+      "pid": 124,
+      "alive": true,
+      "restarts": 0
+    },
+    "estate": {
+      "pid": 132,
+      "alive": true,
+      "restarts": 0
+    },
+    "agent": {
+      "pid": 134,
+      "alive": true,
+      "restarts": 0
+    }
+  },
+  "source_digest": "74992d2436aa429dc1d66f2ae47b3efa120619b918360dfb3719596384cec778",
+  "host_pid": 2722984,
+  "unchanged_other_container_pids": {
+    "keddeh-fc1e43e314-controller": true,
+    "keddeh-6024cc365f-controller": true,
+    "keddeh-84c55a2991-controller": true,
+    "keddeh-51583f4f28-controller": true,
+    "keddeh-513b3ce2ba-controller": true,
+    "keddeh-6bb5772b80-controller": true,
+    "keddeh-8879799e51-controller": true,
+    "keddeh-250c6d8c76-controller": true,
+    "keddeh-fc1e43e314-domain-2": true,
+    "keddeh-fc1e43e314-domain-1": true,
+    "keddeh-84c55a2991-domain-2": true,
+    "keddeh-6024cc365f-domain-2": true,
+    "keddeh-51583f4f28-domain-2": true,
+    "keddeh-fc1e43e314-domain-0": true,
+    "keddeh-84c55a2991-domain-1": true,
+    "keddeh-513b3ce2ba-domain-2": true,
+    "keddeh-6024cc365f-domain-1": true,
+    "keddeh-6bb5772b80-domain-2": true,
+    "keddeh-51583f4f28-domain-1": true,
+    "keddeh-6024cc365f-domain-0": true,
+    "keddeh-84c55a2991-domain-0": true,
+    "keddeh-513b3ce2ba-domain-1": true,
+    "keddeh-8879799e51-domain-2": true,
+    "keddeh-6bb5772b80-domain-1": true,
+    "keddeh-51583f4f28-domain-0": true,
+    "keddeh-aff83d1ff9-domain-2": true,
+    "keddeh-513b3ce2ba-domain-0": true,
+    "keddeh-8879799e51-domain-1": true,
+    "keddeh-6bb5772b80-domain-0": true,
+    "keddeh-aff83d1ff9-domain-1": true,
+    "keddeh-8879799e51-domain-0": true,
+    "keddeh-aff83d1ff9-domain-0": true,
+    "keddeh-250c6d8c76-domain-2": true,
+    "keddeh-250c6d8c76-domain-1": true,
+    "keddeh-250c6d8c76-domain-0": true
+  },
+  "identity_bytes_retained": true,
+  "mounts_retained": true
+}

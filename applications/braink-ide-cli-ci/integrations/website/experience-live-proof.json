@@ -1,0 +1,43 @@
+{
+  "schema": "keddeh.experience-deployment-readback.v1",
+  "source_commit": "ecd3f87044e695e771e9e6e1e1aac0c31c9c1804",
+  "site_version": 48,
+  "deployment_status": "succeeded",
+  "website_tests_passed": 18,
+  "public_routes": [
+    {
+      "path": "/development/experience",
+      "status": 200,
+      "body_sha256": "81f6b737e9bd3f550e3436174118d6ae70330c868ba61caed874f8db1002845f",
+      "bytes": 17983
+    },
+    {
+      "path": "/apps/storage",
+      "status": 200,
+      "body_sha256": "5235930215e4118f2018bdf0755c29be437c985376223ac57a825a85d6efba4f",
+      "bytes": 2218616
+    },
+    {
+      "path": "/claimpath/workspace",
+      "status": 200,
+      "body_sha256": "5d658ff24fcf23e1e2e37b880c9cbc4d5151fdcfb653ad129c22eb19c3938a0e",
+      "bytes": 75032
+    },
+    {
+      "path": "/braink/architecture",
+      "status": 200,
+      "body_sha256": "be31230018853820a0df01279bb7e552667124b3a51ad077a51e0f6bc03261e6",
+      "bytes": 10566
+    },
+    {
+      "path": "/api/experience-sector",
+      "status": 401,
+      "body_sha256": "de409abf627027b0430048e0400a0611ea595b1576835917b3c095963b1c95c2",
+      "bytes": 35
+    }
+  ],
+  "signed_customer_submission_live_verified": false,
+  "storage_contract_tests": "real SQLite plus R2 API fixture; interrupted/concurrent writes and corruption covered",
+  "human_participant_study_completed": false,
+  "external_assessment_report_number": null
+}

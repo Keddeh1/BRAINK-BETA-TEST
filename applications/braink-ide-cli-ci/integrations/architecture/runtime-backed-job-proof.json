@@ -1,0 +1,976 @@
+{
+  "id": "d8386e04af9d40f1a25042ca88756c92",
+  "sector": "core",
+  "status": "passed",
+  "created": "2026-10-07T22:24:09.910Z",
+  "updated": "2026-10-07T22:25:17.585Z",
+  "worker_id": "braink-development-sector",
+  "detail": {
+    "id": "d8386e04af9d40f1a25042ca88756c92",
+    "sector": "core",
+    "operation": "architecture",
+    "status": "passed",
+    "stages": [],
+    "artifacts": [],
+    "outputs": {
+      "schema": "braink.automation-cycle.v1",
+      "results": [
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "bf6ff212073643cf86e541d2c76172ef",
+          "target": "evolution",
+          "created": 1791411858.617721,
+          "state": "UNCHANGED",
+          "changed_modules": [],
+          "removed_modules": [],
+          "affected_families": [],
+          "affected_variants": [],
+          "affected_colonies": [],
+          "affected_sectors": [],
+          "catalogue_sha256": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9",
+          "module_instance": "braink-6a31033fa22b786ac0455029728af9be72571d5eb87fb60bee4c6cdf1e92cd43",
+          "artifact_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:7b8785017b1c04f48ff607a5",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+            "path": "/evidence/bf6ff212073643cf86e541d2c76172ef",
+            "previous_receipt_digest": "ff0489852ef7423d8947a2e923f28feb53742d3f20cffa75be9c4325e87f4a10",
+            "receipt_digest": "7b8785017b1c04f48ff607a539308ff381715f4d68324049095f4a85bab4c686",
+            "at": 1791411858.6188228,
+            "detail": {
+              "source": "evolution",
+              "size": 462,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+              "path": "/evidence/bf6ff212073643cf86e541d2c76172ef",
+              "source": "evolution",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 462,
+              "created_at": 1791411858.6185775
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:2d491672f3172c9484561628",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+              "path": "/evidence/bf6ff212073643cf86e541d2c76172ef",
+              "previous_receipt_digest": "7b8785017b1c04f48ff607a539308ff381715f4d68324049095f4a85bab4c686",
+              "receipt_digest": "2d491672f3172c94845616282d604695ccd21c89a1606adf9cf003e291de0bf1",
+              "at": 1791411858.6208913,
+              "detail": {
+                "expected_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+                "observed_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+                "size": 462
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "3a4d43533187411aa8cffdbb53d01c5c",
+          "target": "ceremonies",
+          "created": 1791411875.3517132,
+          "state": "READBACK",
+          "catalogue_sha256": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9",
+          "instances": 793,
+          "sectors": [
+            "ci",
+            "cli",
+            "core",
+            "ide"
+          ],
+          "manifest": "instances/deployment.json",
+          "module_instance": "braink-44aa80d049dd37e8df49865e3f560648e514ffbc7c507848d993d43cdfccc90d",
+          "artifact_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:b44357e22b4a33883784bfc6",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+            "path": "/evidence/3a4d43533187411aa8cffdbb53d01c5c",
+            "previous_receipt_digest": "2d491672f3172c94845616282d604695ccd21c89a1606adf9cf003e291de0bf1",
+            "receipt_digest": "b44357e22b4a33883784bfc66d45f2533e1bce64ac69fe3ea39eef72465eeea9",
+            "at": 1791411875.3537638,
+            "detail": {
+              "source": "ceremonies",
+              "size": 421,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+              "path": "/evidence/3a4d43533187411aa8cffdbb53d01c5c",
+              "source": "ceremonies",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 421,
+              "created_at": 1791411875.3534276
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:877c44a3427f756d674089b7",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+              "path": "/evidence/3a4d43533187411aa8cffdbb53d01c5c",
+              "previous_receipt_digest": "b44357e22b4a33883784bfc66d45f2533e1bce64ac69fe3ea39eef72465eeea9",
+              "receipt_digest": "877c44a3427f756d674089b7476fcef52fc86ccb5b2fd77f6b4f30e84d248a6d",
+              "at": 1791411875.3594668,
+              "detail": {
+                "expected_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+                "observed_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+                "size": 421
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "cbaea4d681614466acd533f8d6502457",
+          "target": "reconciliation",
+          "created": 1791411877.146953,
+          "state": "ALIGNED",
+          "checked": 793,
+          "expected": 793,
+          "catalogue_sha256": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9",
+          "findings": [],
+          "retained_prior_revisions": [],
+          "module_instance": "braink-f12d919caf256994859a346aa20029c4d15ad3cb5164af868d6182be0e821111",
+          "artifact_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:4ebb0867087aac2c3086465b",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+            "path": "/evidence/cbaea4d681614466acd533f8d6502457",
+            "previous_receipt_digest": "877c44a3427f756d674089b7476fcef52fc86ccb5b2fd77f6b4f30e84d248a6d",
+            "receipt_digest": "4ebb0867087aac2c3086465bb9ff7606dc00b1431e5f6316761f19a959239c10",
+            "at": 1791411877.1482387,
+            "detail": {
+              "source": "reconciliation",
+              "size": 405,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+              "path": "/evidence/cbaea4d681614466acd533f8d6502457",
+              "source": "reconciliation",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 405,
+              "created_at": 1791411877.1479585
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:c940255d86abdf793a25d63a",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+              "path": "/evidence/cbaea4d681614466acd533f8d6502457",
+              "previous_receipt_digest": "4ebb0867087aac2c3086465bb9ff7606dc00b1431e5f6316761f19a959239c10",
+              "receipt_digest": "c940255d86abdf793a25d63a588ebf779940923175dc65a7b2d48479e178a837",
+              "at": 1791411877.1506162,
+              "detail": {
+                "expected_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+                "observed_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+                "size": 405
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "71ed1c9efc87459a97f48258928cc218",
+          "target": "continuity",
+          "created": 1791411889.24631,
+          "state": "CONTINUOUS",
+          "subscriptions_verified": 793,
+          "mirrored_artifacts": 28,
+          "errors": [],
+          "verified_event_pages": 87,
+          "continuity_window": "Each observed cursor is drained through the owner event feed until an empty verified page is read.",
+          "module_instance": "braink-745f87199a40184d64f5ef141d0abd8abd91d971fc0ed5f9b9cbeb19b7356401",
+          "artifact_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:b877f3303fbbfe30bb06bc57",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+            "path": "/evidence/71ed1c9efc87459a97f48258928cc218",
+            "previous_receipt_digest": "c940255d86abdf793a25d63a588ebf779940923175dc65a7b2d48479e178a837",
+            "receipt_digest": "b877f3303fbbfe30bb06bc575b7ee218f889aea2cef739f90521e0971fbeec5c",
+            "at": 1791411889.2481585,
+            "detail": {
+              "source": "continuity",
+              "size": 456,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+              "path": "/evidence/71ed1c9efc87459a97f48258928cc218",
+              "source": "continuity",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 456,
+              "created_at": 1791411889.2477734
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:487ee7f2cc26ecabbc29db15",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+              "path": "/evidence/71ed1c9efc87459a97f48258928cc218",
+              "previous_receipt_digest": "b877f3303fbbfe30bb06bc575b7ee218f889aea2cef739f90521e0971fbeec5c",
+              "receipt_digest": "487ee7f2cc26ecabbc29db15b4c18a475ecf5995232904ebef0adffc861c0012",
+              "at": 1791411889.251856,
+              "detail": {
+                "expected_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+                "observed_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+                "size": 456
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "ef88c38821354e04a31b45fc0ed15174",
+          "target": "diagnostics",
+          "created": 1791411892.3603492,
+          "state": "OBSERVED",
+          "services": [
+            {
+              "service": "owner-vfs",
+              "operation": "/ready",
+              "readback": true,
+              "observed": true
+            },
+            {
+              "service": "mesh-subscription",
+              "operation": "/subscription",
+              "readback": "SUBSCRIBED",
+              "observed": true
+            }
+          ],
+          "processes": [
+            {
+              "service": "architecture-automation",
+              "pid": 3000765,
+              "alive": true
+            },
+            {
+              "service": "architecture-host",
+              "pid": 3000766,
+              "alive": true
+            },
+            {
+              "service": "branch-trigger",
+              "pid": 3000763,
+              "alive": true
+            },
+            {
+              "service": "node",
+              "pid": 3000761,
+              "alive": true
+            },
+            {
+              "service": "protocol-mesh",
+              "pid": 3000764,
+              "alive": true
+            },
+            {
+              "service": "relay",
+              "pid": 3000762,
+              "alive": true
+            },
+            {
+              "service": "supervisor",
+              "pid": 3000757,
+              "alive": true
+            }
+          ],
+          "failures": [],
+          "transport_failure_observations": {
+            "owner_vfs": [
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-14bce16ca6f42cb3befdaeafdfe06e822ce17ddb0c56f173a718f846b8144ad6",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411859.5566046
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-481164733641a30bf8c43c5a2f860a04eced53f47edacb3a6e8ecfa1dc4f02a3",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411859.682617
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-65f2c5681feb1cf5b076a4d8d44f30579647692304dbef239144009506565fd6",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411859.7808402
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-d0b6f61ddb144bfa11e9ec10d9c51a932c8f1a0e819262c21b6c2648e0350cc9",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411859.83194
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-ec7b3b5527f9661d002f2f8805d203a4cd73f8d6fd75eb1f2c5560b281fba264",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411862.8884459
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-193dd974559beb0786acb8bbd028627b7b11b747f374a80caf32942d221b9c05",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411862.9379244
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-90c6f9de26782ceb635ad801a759748243633206328a88b39b5aba5f2f13d1dc",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411863.3315444
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-e50fd64ac2a9c0adc73545115bbe100e8dd174874cced29b83d5402b1c59644f",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411863.391885
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-b3d80b5059d4d17db29fba6e6d5de3e5f16c2c74811a94968a586b7b29dc01d5",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411863.449337
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-91a98e0cc377f02e23863b2f0bd6a933d543985c3f3b28f8a0dedc435c793532",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411863.5035675
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-bfb808bda11464f214eafeb56ec86eebb2656ed749c7e9ba9003458c851af847",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411863.5561273
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-8698016518ef02f85218953a41ec038d58054bea3e6ab59ff01348f7ec0f2d63",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411866.6055527
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-c8e28f6377bd582372970f730d0724ab70a52898072dc732246f54daba019576",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411866.6717887
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-335394318718cd838081642bd1beafa390c538b2a4077a4aabc7ca8f2f4cd003",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411867.0246305
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-bb8af7877ede5c834eff6115f8b689350b022465073fa4d29ccce005d15fb39f",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411867.084244
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-8ff3c1c5d6e420f3e6adcd175d47a5c659acfd07127308a374becd40aaf131f1",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411867.1353424
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-c03c0106eea331213aa68581c1384f347167771c1049f47f5c9540f37865b669",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411867.1950655
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-5fd3278fb3c40c77df68f60e53e756f2a558d3b85afd4997d6c4710b7f74d723",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411867.246932
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-18887907cf0fa4a21d53c44ed5c077e51a3bca8667729dd2ed72152297935b0f",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411870.534459
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-99f80468d636137d6fb42ecad14f971b379130c5326a31931587c708838cfcbc",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411870.5853934
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-7159ff90694eba089c4e165a0bc9a4e635b639a8baa3e2d1e4d0b5b5371fec66",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411870.964464
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-1825e04179f6decf39bc9fe63e40cd45e80ee49f50b029b5e89c832d276d30db",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411871.0187852
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-59146f4bb9c4fd8178a9b877677e5fca1583b7198974cb6fee2308df5bd8b3a4",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411871.0679228
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-564db8614a0e1078e6133271ac30cf970cf2c06bf961f361bab5ccb2abd88441",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411871.1284063
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-e6b37668f70a1f68c7032fe2fc9380167f94955cbd6db7d109e2825dfdcce412",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411871.179547
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-30cc8cd31ee93e383fc0a624ded0e322941e2241da79cfb50f7477482d8057ce",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411875.2143219
+              },
+              {
+                "endpoint": "http://127.0.0.1:17887/subscriptions/braink-e769180f8e06f1ea20f37cfa1f893d05188c14cb1a0fb6e6813581bf7a66eb9d",
+                "status": 400,
+                "body": "{\"error\":\"'unknown_subscriber'\"}",
+                "attempt": 1,
+                "at": 1791411875.2677498
+              }
+            ],
+            "mesh": []
+          },
+          "result_outbox_pending": false,
+          "root_cause": "Only recorded when supported by service evidence; HTTP status alone is not a cause.",
+          "module_instance": "braink-8238f86c2f91c19716596e493e2064ccbf2ad74e33056ee7f9c6bd9f20fbb9c2",
+          "artifact_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:5a1b7c6b5d6d211d9301fd5a",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+            "path": "/evidence/ef88c38821354e04a31b45fc0ed15174",
+            "previous_receipt_digest": "487ee7f2cc26ecabbc29db15b4c18a475ecf5995232904ebef0adffc861c0012",
+            "receipt_digest": "5a1b7c6b5d6d211d9301fd5a597e9f1d62ca052c0dfee71eeb919c18f43f574e",
+            "at": 1791411892.3617108,
+            "detail": {
+              "source": "diagnostics",
+              "size": 6934,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+              "path": "/evidence/ef88c38821354e04a31b45fc0ed15174",
+              "source": "diagnostics",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 6934,
+              "created_at": 1791411892.3614655
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:e6019703dd9fbec3b48bd7ac",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+              "path": "/evidence/ef88c38821354e04a31b45fc0ed15174",
+              "previous_receipt_digest": "5a1b7c6b5d6d211d9301fd5a597e9f1d62ca052c0dfee71eeb919c18f43f574e",
+              "receipt_digest": "e6019703dd9fbec3b48bd7ac4135f50b29efadf7a676fe6a715e4f71349c79f6",
+              "at": 1791411892.3639297,
+              "detail": {
+                "expected_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+                "observed_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+                "size": 6934
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "2693d25b6d874f2b908e9f035f232f15",
+          "target": "feedback",
+          "created": 1791411892.9497428,
+          "state": "DELIVERED",
+          "sender": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+          "recipient": "braink-4e3e7fddaf48e1b9835aa308123cd2cbe8241f709317843c6c840e9122169cd3",
+          "exchange": {
+            "state": "COMPLETED",
+            "id": "dbed766668c1b6dbf8c8de7d53c21d92",
+            "result": {
+              "actor": {
+                "artifact_digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                "at": 1791411892.9298615,
+                "detail": {
+                  "predecessor": null,
+                  "size": 1865,
+                  "source": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777"
+                },
+                "kind": "VFS_ARTIFACT_WRITE",
+                "path": "/messages/e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                "previous_receipt_digest": "f9fd28d32e05fcbcb544ad9fe02f4b8134cc4613e7498b7abb9cda06cb05806e",
+                "receipt_digest": "65a779808c6dd72f9e76ce4e0291c7789617c25ec628e60f470bf9ec2b5bcbbe",
+                "receipt_id": "VFS_ARTIFACT_WRITE:65a779808c6dd72f9e76ce4e",
+                "status": "COMMITTED"
+              },
+              "digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+              "observer": {
+                "artifact": {
+                  "created_at": 1791411892.9295273,
+                  "digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                  "media_type": "application/json",
+                  "path": "/messages/e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                  "predecessor": null,
+                  "size": 1865,
+                  "source": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777"
+                },
+                "receipt": {
+                  "artifact_digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                  "at": 1791411892.9334147,
+                  "detail": {
+                    "expected_digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                    "observed_digest": "e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                    "size": 1865
+                  },
+                  "kind": "OBSERVER_VFS_READBACK",
+                  "path": "/messages/e351ff27cfad22f89ece4bca47c51075e6a3a439d1ca61bf498ebea8b08e62f3",
+                  "previous_receipt_digest": "65a779808c6dd72f9e76ce4e0291c7789617c25ec628e60f470bf9ec2b5bcbbe",
+                  "receipt_digest": "d57012458ef2d13778a66e45819c422318588a2a57b090e09554003a18442827",
+                  "receipt_id": "OBSERVER_VFS_READBACK:d57012458ef2d13778a66e45",
+                  "status": "VISIBLE"
+                },
+                "verified": true
+              },
+              "sequence": 9
+            }
+          },
+          "owner_contract": "RELATIONAL_ANCHOR",
+          "owner_observer_calibration": {
+            "subject": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+            "state_one": "1_architecture_observed",
+            "observer": "braink-4e3e7fddaf48e1b9835aa308123cd2cbe8241f709317843c6c840e9122169cd3",
+            "observer_relation": null,
+            "zero_type": null,
+            "context": {
+              "type": "RELATIONAL_ANCHOR",
+              "source": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+              "definition": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9",
+              "relation": {
+                "operation": "architecture-maintenance-observation",
+                "evidence": [
+                  "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+                  "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+                  "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1"
+                ]
+              },
+              "uncertainty": [],
+              "contradiction": [],
+              "next_route": "module://braink_node.automation.development/run"
+            },
+            "neighbour_chain_required": true,
+            "calibration_ledger_required": true,
+            "truth_boundary": "Observer-State formalism applied as metadata; empirical domain claims require domain evidence."
+          },
+          "learning_execution": "Not inferred from message delivery; existing owner learning routes retain their own evidence.",
+          "module_instance": "braink-f6ecf22a284cc417af3dae01c442aaab9bb49824f3cb6411e0f421538affed78",
+          "artifact_digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:5325be350d4590ff70f5b098",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+            "path": "/evidence/2693d25b6d874f2b908e9f035f232f15",
+            "previous_receipt_digest": "e6019703dd9fbec3b48bd7ac4135f50b29efadf7a676fe6a715e4f71349c79f6",
+            "receipt_digest": "5325be350d4590ff70f5b09828b345bcee2adc9be62fb3ce62490ec63fa865a4",
+            "at": 1791411892.950922,
+            "detail": {
+              "source": "feedback",
+              "size": 3459,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+              "path": "/evidence/2693d25b6d874f2b908e9f035f232f15",
+              "source": "feedback",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 3459,
+              "created_at": 1791411892.950613
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:2d02d60c669a536ac454bf9a",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+              "path": "/evidence/2693d25b6d874f2b908e9f035f232f15",
+              "previous_receipt_digest": "5325be350d4590ff70f5b09828b345bcee2adc9be62fb3ce62490ec63fa865a4",
+              "receipt_digest": "2d02d60c669a536ac454bf9a5bb80e24d1582c8204679737ad1088d353c6dd6f",
+              "at": 1791411892.9543405,
+              "detail": {
+                "expected_digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+                "observed_digest": "219fc60ce513daa35f3729821a8c8567bda730dc9b815a3f3f8ef2e86bbb4a82",
+                "size": 3459
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "7c19fe94a617443cbbdf036ee3731c4e",
+          "target": "delivery",
+          "created": 1791411895.9786227,
+          "state": "QUALIFIED",
+          "source_commit": "c0d6725d45a021f2e72d230a45e4ec50825496b2",
+          "jobs": [
+            {
+              "sector": "core",
+              "job": "53656b588182c22eef69cda164b8ea37",
+              "status": "passed"
+            },
+            {
+              "sector": "cli",
+              "job": "3808e1169dae3eec075113aa2ff4af4e",
+              "status": "passed"
+            },
+            {
+              "sector": "ide",
+              "job": "36821bf6a4f42eb4ba7fc0e1ee679e6a",
+              "status": "passed"
+            },
+            {
+              "sector": "ci",
+              "job": "dc86cebef0c0d8c6377a52133ca6a2e6",
+              "status": "passed"
+            }
+          ],
+          "activation": null,
+          "module_instance": "braink-b124a89012919d9ccd9c43f10c6c1345af1be63c136fdf559e3cf4fee3df22e5",
+          "artifact_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:a46ed810c0042939e661d6ae",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+            "path": "/evidence/7c19fe94a617443cbbdf036ee3731c4e",
+            "previous_receipt_digest": "2d02d60c669a536ac454bf9a5bb80e24d1582c8204679737ad1088d353c6dd6f",
+            "receipt_digest": "a46ed810c0042939e661d6ae3d61cb295a9e10d876255dcd6989bd778857e801",
+            "at": 1791411895.979992,
+            "detail": {
+              "source": "delivery",
+              "size": 633,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+              "path": "/evidence/7c19fe94a617443cbbdf036ee3731c4e",
+              "source": "delivery",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 633,
+              "created_at": 1791411895.9797428
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:5561fff7d8b8319877213c64",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+              "path": "/evidence/7c19fe94a617443cbbdf036ee3731c4e",
+              "previous_receipt_digest": "a46ed810c0042939e661d6ae3d61cb295a9e10d876255dcd6989bd778857e801",
+              "receipt_digest": "5561fff7d8b8319877213c64d98be98d24d21631d2bd3a82949f3b7fccc15af0",
+              "at": 1791411895.9824188,
+              "detail": {
+                "expected_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+                "observed_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+                "size": 633
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "75b88443cf0b4734af941c898d3fffee",
+          "target": "placement",
+          "created": 1791411896.6560776,
+          "state": "PLACEMENT_VERIFIED",
+          "observed_capacity": {
+            "host": "a6cce3f2161d",
+            "host_id": "89b90dfc7bd062735c53cc1bb3fa0289f21a50e67b772ea114d03986d5f8dabd",
+            "cpus_available": 5,
+            "load": [
+              4.9326171875,
+              5.044921875,
+              5.7216796875
+            ],
+            "memory": {
+              "MemTotal": 18882699264,
+              "MemAvailable": 7887040512
+            },
+            "storage_available": 12698005504,
+            "catalogue_sha256": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9"
+          },
+          "observed_peers": [],
+          "assignments": [
+            {
+              "colony": "colony://braink-development/core",
+              "host": "89b90dfc7bd062735c53cc1bb3fa0289f21a50e67b772ea114d03986d5f8dabd",
+              "verified_instance_roots": 183
+            },
+            {
+              "colony": "colony://braink-development/cli",
+              "host": "89b90dfc7bd062735c53cc1bb3fa0289f21a50e67b772ea114d03986d5f8dabd",
+              "verified_instance_roots": 189
+            },
+            {
+              "colony": "colony://braink-development/ide",
+              "host": "89b90dfc7bd062735c53cc1bb3fa0289f21a50e67b772ea114d03986d5f8dabd",
+              "verified_instance_roots": 212
+            },
+            {
+              "colony": "colony://braink-development/ci",
+              "host": "89b90dfc7bd062735c53cc1bb3fa0289f21a50e67b772ea114d03986d5f8dabd",
+              "verified_instance_roots": 209
+            }
+          ],
+          "selection_measure": "Observed runnable load per available CPU, among actual source-compatible hosts",
+          "cross_host_execution_observed": false,
+          "module_instance": "braink-31eae66254bad0cd2be302ca84a19c05a41086e7fe4b4d71c8a9e979b099bffc",
+          "artifact_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:fafffb6c8f9d5f9f579e69d0",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+            "path": "/evidence/75b88443cf0b4734af941c898d3fffee",
+            "previous_receipt_digest": "5561fff7d8b8319877213c64d98be98d24d21631d2bd3a82949f3b7fccc15af0",
+            "receipt_digest": "fafffb6c8f9d5f9f579e69d096e93a81639fc01e72590d7517115ef52e3ca785",
+            "at": 1791411896.6573064,
+            "detail": {
+              "source": "placement",
+              "size": 1389,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+              "path": "/evidence/75b88443cf0b4734af941c898d3fffee",
+              "source": "placement",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 1389,
+              "created_at": 1791411896.6570501
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:10c742319e9ba426e5961d4e",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+              "path": "/evidence/75b88443cf0b4734af941c898d3fffee",
+              "previous_receipt_digest": "fafffb6c8f9d5f9f579e69d096e93a81639fc01e72590d7517115ef52e3ca785",
+              "receipt_digest": "10c742319e9ba426e5961d4e1c89e75ac52d1a18d4a782584bada5b9f5993510",
+              "at": 1791411896.6598434,
+              "detail": {
+                "expected_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+                "observed_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+                "size": 1389
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "e44dd97f972a4d1584aaca92d62ead4d",
+          "target": "recovery",
+          "created": 1791411915.7231429,
+          "state": "RECONSTRUCTION_VERIFIED",
+          "restored_network_readback": {
+            "instance": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+            "state": "SUBSCRIBED",
+            "verified_restored_subscriptions": 793
+          },
+          "checkpoint": "69ea2e3bcc7147b296a8038fbcead9cb",
+          "verified_instance_stores": 1253,
+          "files_verified": 6758,
+          "destination": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/state/automation/reconstructed/69ea2e3bcc7147b296a8038fbcead9cb",
+          "host_loss_exercised": false,
+          "host_reboot_exercised": false,
+          "observation": "Clean destination reconstruction with actual SQLite backups, content hashes and instance receipt-chain verification.",
+          "module_instance": "braink-8df2fc3c789c9a9193046175b5f2038a94f9cb68c59ca5cd92e6f26fa515eb97",
+          "artifact_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:450843122e0f7cf51a08f026",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+            "path": "/evidence/e44dd97f972a4d1584aaca92d62ead4d",
+            "previous_receipt_digest": "10c742319e9ba426e5961d4e1c89e75ac52d1a18d4a782584bada5b9f5993510",
+            "receipt_digest": "450843122e0f7cf51a08f0263d9ff0451b5798b232afbc1a942b22748156a4a8",
+            "at": 1791411915.7287235,
+            "detail": {
+              "source": "recovery",
+              "size": 864,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+              "path": "/evidence/e44dd97f972a4d1584aaca92d62ead4d",
+              "source": "recovery",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 864,
+              "created_at": 1791411915.7278128
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:9961ad7f811505fb7751850e",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+              "path": "/evidence/e44dd97f972a4d1584aaca92d62ead4d",
+              "previous_receipt_digest": "450843122e0f7cf51a08f0263d9ff0451b5798b232afbc1a942b22748156a4a8",
+              "receipt_digest": "9961ad7f811505fb7751850e1f6f83365cc67780b1ab1e56aa2dde44d520103c",
+              "at": 1791411915.732592,
+              "detail": {
+                "expected_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+                "observed_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+                "size": 864
+              }
+            }
+          }
+        },
+        {
+          "schema": "braink.automation-evidence.v1",
+          "id": "1f7fb8bcef4743deada8a55b6c161456",
+          "target": "development",
+          "created": 1791411916.592339,
+          "state": "VERIFIED",
+          "tasks": [],
+          "catalogue_sha256": "6252a95ed9a3a579fbc9f8188b226865f3213ca30528a49fa5b2f701e3fddbe9",
+          "routes": [
+            "source-evolution",
+            "clean-sector-build",
+            "instance-delivery",
+            "independent-readback",
+            "relational-feedback"
+          ],
+          "novel_source_generation": "Requires an actual owner development route; this module does not fabricate generated engineering.",
+          "module_instance": "braink-1a78243be83e550a8a197052ca176c5a2c3beb017e840fadd63633757a5b9699",
+          "artifact_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+          "actor": {
+            "receipt_id": "VFS_ARTIFACT_WRITE:69bb207ffe21a39e0e3ea908",
+            "kind": "VFS_ARTIFACT_WRITE",
+            "status": "COMMITTED",
+            "artifact_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+            "path": "/evidence/1f7fb8bcef4743deada8a55b6c161456",
+            "previous_receipt_digest": "9961ad7f811505fb7751850e1f6f83365cc67780b1ab1e56aa2dde44d520103c",
+            "receipt_digest": "69bb207ffe21a39e0e3ea9088cfcedd8656ba2fb384f03997109b95612d84893",
+            "at": 1791411916.593737,
+            "detail": {
+              "source": "development",
+              "size": 583,
+              "predecessor": null
+            }
+          },
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+              "path": "/evidence/1f7fb8bcef4743deada8a55b6c161456",
+              "source": "development",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 583,
+              "created_at": 1791411916.5934298
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:6696f95805fe20cf301d2bbc",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+              "path": "/evidence/1f7fb8bcef4743deada8a55b6c161456",
+              "previous_receipt_digest": "69bb207ffe21a39e0e3ea9088cfcedd8656ba2fb384f03997109b95612d84893",
+              "receipt_digest": "6696f95805fe20cf301d2bbc54f0420cb2a0e8ef26093935f55942de4ca4c112",
+              "at": 1791411916.5974686,
+              "detail": {
+                "expected_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+                "observed_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+                "size": 583
+              }
+            }
+          }
+        }
+      ],
+      "completed": true
+    },
+    "finished": 1791411917.2356994,
+    "receipt_sha256": "bc2003a733d8d4e1b483b70e60cf4cb8c572c309e7e8827e406b4656f7dbe690"
+  },
+  "storage_origin": "runtime"
+}

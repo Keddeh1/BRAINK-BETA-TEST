@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "braink-development-sector"
+version = "0.1.0"
+description = "BRAINK development-sector delivery manifest"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["braink-node-core==0.1.0", "braink-cli-node==0.1.0", "braink-ide-node==0.1.0", "braink-ci-node==0.1.0"]
+
+[tool.setuptools]
+packages = []

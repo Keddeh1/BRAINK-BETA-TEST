@@ -1,0 +1,79 @@
+{
+  "node_id": "braink-ide-cli-ci",
+  "node_kind": "application",
+  "sector": "BRAINK development",
+  "version": "0.1.0",
+  "entrypoint": "braink-node",
+  "interfaces": {
+    "cli": [
+      "init",
+      "align",
+      "index",
+      "ingest",
+      "check",
+      "verify-ledger",
+      "serve",
+      "ci",
+      "protocol"
+    ],
+    "http": [
+      "/health",
+      "/api/files",
+      "/api/file",
+      "/api/check",
+      "/api/index",
+      "/api/ledger"
+    ],
+    "ledger": "append(event_type, route, payload) -> event_ref",
+    "artifacts": "sha256-addressed bytes",
+    "website": [
+      "/braink/development",
+      "/braink/ide",
+      "/braink/cli",
+      "/braink/ci"
+    ]
+  },
+  "configuration": [
+    "BRAINK_WORKSPACE",
+    "BRAINK_STATE_DIR",
+    "BRAINK_NODE_TOKEN",
+    "PORT",
+    "BRAINK_CI_AGENT_TOKEN",
+    "BRAINK_CI_WEBSITE",
+    "BRAINK_CI_PYTHON"
+  ],
+  "owner_runtime_binding": "Existing Keddeh website identity, durable runtime control plane, dedicated application worker",
+  "sectors": {
+    "core": {
+      "source": "sectors/core",
+      "clean_build": true
+    },
+    "cli": {
+      "source": "sectors/cli",
+      "clean_build": true
+    },
+    "ide": {
+      "source": "sectors/ide",
+      "clean_build": true
+    },
+    "ci": {
+      "source": "sectors/ci",
+      "clean_build": true
+    }
+  },
+  "deployment_protocol": {
+    "schema": "braink.deployment-protocol.v1",
+    "hierarchy": [
+      "function-module",
+      "module-family",
+      "family-variant",
+      "variant-colony"
+    ],
+    "instance_services": [
+      "VFS",
+      "VFS_INSTANTIATION_SUBSCRIPTION",
+      "IL_LLM_NETWORK_MESH_SUBSCRIPTION"
+    ],
+    "specification": "PROTOCOL.md"
+  }
+}
