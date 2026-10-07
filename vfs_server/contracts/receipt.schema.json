@@ -1,0 +1,18 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"VFS_SERVER receipt",
+  "type":"object",
+  "required":["receipt_id","kind","status","previous_receipt_digest","receipt_digest","at","detail"],
+  "properties":{
+    "receipt_id":{"type":"string"},
+    "kind":{"enum":["VFS_ARTIFACT_WRITE","OBSERVER_VFS_READBACK"]},
+    "status":{"type":"string"},
+    "artifact_digest":{"type":["string","null"]},
+    "path":{"type":["string","null"]},
+    "previous_receipt_digest":{"type":["string","null"]},
+    "receipt_digest":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "at":{"type":"number"},
+    "detail":{"type":"object"}
+  },
+  "additionalProperties":false
+}
