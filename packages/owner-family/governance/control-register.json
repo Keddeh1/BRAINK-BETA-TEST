@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "controls": [
+    {
+      "control_id": "C-01",
+      "objective": "Controlled document integrity",
+      "owner_role": "Document custodian",
+      "status": "implemented",
+      "evidence": "scripts/check_governance.py; local execution required",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-02",
+      "objective": "Independent production assessment",
+      "owner_role": "Independent assessor",
+      "status": "partially implemented",
+      "evidence": "signatures.py verifies key separation; production assessment unavailable",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-03",
+      "objective": "Exact source admission",
+      "owner_role": "Engineering implementer",
+      "status": "partially implemented",
+      "evidence": "safe admission tested; original four archives unavailable",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-04",
+      "objective": "Production capacity and recovery",
+      "owner_role": "Operator",
+      "status": "partially implemented",
+      "evidence": "docs/research/evidence/RESIDENT_CRASH.json; same-host recovery verified, physical planes and host-loss recovery unverified",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-05",
+      "objective": "Change authorization and rollback",
+      "owner_role": "Release/change authority",
+      "status": "documented",
+      "evidence": "CHG-001; no production transaction performed",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-06",
+      "objective": "Repository protection and required review",
+      "owner_role": "Accountable owner",
+      "status": "documented",
+      "evidence": "CODEOWNERS routes review; branch protection read denied, state unknown",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-07",
+      "objective": "Access review and secret lifecycle",
+      "owner_role": "Accountable owner",
+      "status": "documented",
+      "evidence": "SEC-001; production access register incomplete",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-08",
+      "objective": "Operations/incident ownership and recovery objectives",
+      "owner_role": "Operator",
+      "status": "documented",
+      "evidence": "OPS-001; operators and RPO/RTO unassigned",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-09",
+      "objective": "Upload preservation",
+      "owner_role": "Engineering implementer",
+      "status": "verified operating",
+      "evidence": "Ten originals verified against private remote Git blobs; docs/library/2026-10-07-manifest.json",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-10",
+      "objective": "Drive and account Library copies",
+      "owner_role": "Document custodian",
+      "status": "documented",
+      "evidence": "Local library verified; cloud write capability unavailable",
+      "scope": "KEDDEH namespace delivery",
+      "review_frequency": "quarterly and after material change",
+      "last_test_result": "see evidence; not a blanket assurance"
+    },
+    {
+      "control_id": "C-11",
+      "objective": "Owned WEB4 process launch, authenticated control and observed restart/readback",
+      "owner_role": "Engineering implementer",
+      "status": "verified operating",
+      "evidence": "docs/research/evidence/RESIDENT_FAMILIES.json; docs/research/evidence/RESIDENT_CRASH.json; release 0.3.2 installed-image and live qualification",
+      "scope": "local cloud workspace, actual owner package processes; no public production promotion",
+      "review_frequency": "each runtime release and after material change",
+      "last_test_result": "local live process and real Chromium checks passed; source and packaged suites passed"
+    },
+    {
+      "control_id": "C-12",
+      "objective": "Attributed architecture and honest technology claims",
+      "owner_role": "Accountable owner",
+      "status": "documented",
+      "evidence": "ARC-001; docs/architecture; independent architecture/novelty assessment pending",
+      "scope": "owner-runtime family architecture",
+      "review_frequency": "annually and after material change",
+      "last_test_result": "document metadata/hash integrity checked; technical novelty not adjudicated"
+    },
+    {
+      "control_id": "C-13",
+      "objective": "Projection service agreement and owner-space revocation",
+      "owner_role": "Operator",
+      "status": "verified operating",
+      "evidence": "tests/test_pipeline_gate.py; private versioned agreement and installed-image suite",
+      "scope": "owner-only projection requests; not general tenant isolation or negotiated legal contracts",
+      "review_frequency": "each runtime release and service scope change",
+      "last_test_result": "acceptance, revocation, invalid-space and restart regression cases passed"
+    },
+    {
+      "control_id": "C-14",
+      "objective": "Durable family-scoped pipeline disconnect",
+      "owner_role": "Operator",
+      "status": "verified operating",
+      "evidence": "docs/research/evidence/RESIDENT_CRASH.json; tests/test_pipeline_gate.py",
+      "scope": "gateway and bilateral command admission in selected owner family; not host firewall or direct raw-actor callers",
+      "review_frequency": "each runtime release and after incident",
+      "last_test_result": "unexpected controller exit preserved fence and no actor journal bytes appended while disconnected"
+    }
+  ]
+}

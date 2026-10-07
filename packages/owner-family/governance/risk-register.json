@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "risks": [
+    {
+      "risk_id": "R-001",
+      "cause": "Incomplete production inputs and independent acceptance",
+      "event": "Unverified artifacts promoted as ready",
+      "impact": "Service or integrity failure",
+      "owner": "Keddeh1",
+      "likelihood": null,
+      "impact_score": null,
+      "inherent_score": null,
+      "residual_score": null,
+      "treatment": "Fail closed; retain open production acceptance and exact custody requirements",
+      "status": "open",
+      "review_due": "2027-01-07"
+    },
+    {
+      "risk_id": "R-002",
+      "cause": "Repository protection and independent reviewer not verified",
+      "event": "Material changes lack independent review",
+      "impact": "Defects or unauthorized changes evade review",
+      "owner": "Keddeh1",
+      "likelihood": null,
+      "impact_score": null,
+      "inherent_score": null,
+      "residual_score": null,
+      "treatment": "Verify authorized platform protection, appoint reviewers, retain traceable decisions",
+      "status": "open",
+      "review_due": "2027-01-07"
+    }
+  ]
+}

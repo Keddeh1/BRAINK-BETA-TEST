@@ -1,0 +1,55 @@
+{
+  "schema": "keddeh.customer-frontage-distribution.v1",
+  "source_commit": "dbfe60640938064fd5e28b3f838e1afaa9744d12",
+  "path": "/packages/web4/frontage/CUSTOMER_FRONTAGE.tar.gz",
+  "sha256": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+  "bytes": 267734,
+  "source_files": 31,
+  "exact_byte_readback": true,
+  "vfs_actor_receipt": {
+    "artifact_digest": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+    "at": 1791387861.2968264,
+    "detail": {
+      "predecessor": null,
+      "size": 267734,
+      "source": "Keddeh1/keddeh.com@dbfe60640938064fd5e28b3f838e1afaa9744d12"
+    },
+    "kind": "VFS_ARTIFACT_WRITE",
+    "path": "/packages/web4/frontage/CUSTOMER_FRONTAGE.tar.gz",
+    "previous_receipt_digest": "8b85901d76ef67d0748a1cfd98cf76bc30c6e478a7c7639395d31478d69d6c30",
+    "receipt_digest": "2bca8a57818a48ed981d3ec01afb6518982c291628a1d4a47d7668af7bfd4b23",
+    "receipt_id": "VFS_ARTIFACT_WRITE:2bca8a57818a48ed981d3ec0",
+    "status": "COMMITTED"
+  },
+  "vfs_observer_receipt": {
+    "artifact_digest": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+    "at": 1791387861.310518,
+    "detail": {
+      "expected_digest": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+      "observed_digest": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+      "size": 267734
+    },
+    "kind": "OBSERVER_VFS_READBACK",
+    "path": "/packages/web4/frontage/CUSTOMER_FRONTAGE.tar.gz",
+    "previous_receipt_digest": "2bca8a57818a48ed981d3ec01afb6518982c291628a1d4a47d7668af7bfd4b23",
+    "receipt_digest": "91592116e512ff360eac79a5c568a28cb384fe8e00ce2151dad42fb935a16b0c",
+    "receipt_id": "OBSERVER_VFS_READBACK:91592116e512ff360eac79a5",
+    "status": "VISIBLE"
+  },
+  "owner_runtime_actor_status": "ACTOR_COMMITTED",
+  "owner_runtime_receipt_hash": "adeb15327c2c3e05e64704d5d3acc0bb6c89bdd374d0abab060c8fb7ba7cd0b8",
+  "detached_journal_signature_verified": true,
+  "family_mirrors": [
+    "Keddeh1/BRAINK-BETA-TEST",
+    "Keddeh1/KEDDEH-SOVEREIGN-NAMESPACE-RUNTIME",
+    "Keddeh1/Keddeh-SYSTEMS-Virtual-File-Space-ZCG-ARCHITECTURE",
+    "Keddeh1/SERVERSPACE",
+    "Keddeh1/SERVERSPACE-EXTERNAL",
+    "Keddeh1/SYSTEMS-SERVICES-FOR-DEPLOYMENT-QUEUE",
+    "Keddeh1/Virtual-File-Space-ZCG-ARCHITECTURE",
+    "Keddeh1/braink-foundary-schema",
+    "Keddeh1/keddeh.com"
+  ],
+  "independent_assessment": null,
+  "scope": "actual same-host actor, observer and nine subscriber roles"
+}
