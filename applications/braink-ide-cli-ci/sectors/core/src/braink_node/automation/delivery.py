@@ -42,14 +42,8 @@ def activate(context, revision, rows):
                     filename = family['source_path'].split('/src/', 1)[1]
                     if hashlib.sha256(wheel.read(filename)).hexdigest() != family['source_sha256']:
                         raise ValueError('Installed family source differs from qualified revision')
-    subprocess.run([str(context.runtime / 'venv/bin/python'), '-m', 'pip', 'install', '--no-deps', '--force-reinstall',
-                    *[str(path) for _, path in wheels]], check=True, capture_output=True, text=True)
-    config = {**context.config, 'source': str(source), 'active_revision': revision}
-    config_path = Path(context.config['config_path'])
-    atomic_write(config_path, canonical_bytes(config))
-    config_path.chmod(0o600)
     activation = {'source_commit': revision, 'qualified_source': str(source), 'state': 'PREPARED',
-                  'wheels': [{'sector': sector, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()} for sector, path in wheels]}
+                  'wheels': [{'sector': sector, 'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()} for sector, path in wheels]}
     atomic_write(context.root / 'activation-prepared.json', canonical_bytes(activation))
     return activation
 
