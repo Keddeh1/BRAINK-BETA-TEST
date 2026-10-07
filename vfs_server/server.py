@@ -1,7 +1,7 @@
 """HTTP carrier for an allocated fleet of VFS instances and A/B admissions."""
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import urlparse
-import argparse,json,re
+import argparse,json,re,sqlite3
 from .fleet import VFSFleet
 from .auth import MutationAuthorizer
 
@@ -31,6 +31,7 @@ class Handler(BaseHTTPRequestHandler):
         if n<1 or n>MAX_REQUEST_BYTES: raise ValueError("invalid_request_size")
         raw=self.rfile.read(n)
         if len(raw)!=n: raise ValueError("incomplete_body")
+        self._raw_body=raw
         data=json.loads(raw)
         if not isinstance(data,dict): raise ValueError("object_required")
         return data
@@ -40,6 +41,8 @@ class Handler(BaseHTTPRequestHandler):
             return False
         return True
     def _error(self,error):
+        if isinstance(error,PermissionError): return self.send_json(403,{"error":str(error)})
+        if isinstance(error,sqlite3.IntegrityError): return self.send_json(409,{"error":"actuator_nonce_replayed_or_surface_exists"})
         if isinstance(error,KeyError): return self.send_json(404,{"error":str(error.args[0])})
         if isinstance(error,(ValueError,TypeError,KeyError,json.JSONDecodeError)):
             return self.send_json(400,{"error":str(error)})
@@ -61,6 +64,10 @@ class Handler(BaseHTTPRequestHandler):
             if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2]))
             return self.send_json(404,{"error":"not_found"})
         except Exception as error: return self._error(error)
+    def _actuator(self,vfs_id,command,path):
+        return self.fleet.verify_actuator(vfs_id,self.headers.get("x-vfs-surface"),command,
+            "POST",path,self._raw_body,self.headers.get("x-vfs-nonce"),
+            self.headers.get("x-vfs-time"),self.headers.get("x-vfs-signature"))
     def do_POST(self):
         p=urlparse(self.path).path
         if not self._authorized(): return
@@ -70,13 +77,21 @@ class Handler(BaseHTTPRequestHandler):
                 allocation=self.fleet.allocate(data["label"],data["source_ref"],
                                                 data.get("quota_bytes",1024*1024))
                 return self.send_json(201,{"allocation":allocation,"next":f"/vfs/{allocation['vfs_id']}/ab"})
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/surfaces",p)
+            if m:
+                data=self.body()
+                return self.send_json(201,self.fleet.register_surface(m[1],data["surface_id"],data["commands"]))
             m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab",p)
             if m:
                 data=self.body()
+                self._actuator(m[1],"ab.admit",p)
                 result=self.fleet.admit_ab(m[1],data["bits"],data["source_ref"])
                 return self.send_json(201,result)
             m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")/verify",p)
-            if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2],observe=True))
+            if m:
+                self.body()
+                self._actuator(m[1],"ab.observe",p)
+                return self.send_json(200,self.fleet.read_ab(m[1],m[2],observe=True))
             if p in ("/artifacts","/artifacts/raw","/verify"):
                 return self.send_json(410,{"error":"direct_artifact_commit_retired","next":"POST /vfs then POST /vfs/{vfs_id}/ab"})
             return self.send_json(404,{"error":"not_found"})
