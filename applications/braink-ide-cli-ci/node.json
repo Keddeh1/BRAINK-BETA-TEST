@@ -1,0 +1,15 @@
+{
+  "node_id": "braink-ide-cli-ci",
+  "node_kind": "application",
+  "sector": "BRAINK",
+  "version": "0.1.0",
+  "entrypoint": "braink-node",
+  "interfaces": {
+    "cli": ["init", "align", "index", "ingest", "check", "verify-ledger", "serve"],
+    "http": ["/health", "/api/files", "/api/file", "/api/check", "/api/index", "/api/ledger"],
+    "ledger": "append(event_type, route, payload) -> event_ref",
+    "artifacts": "sha256-addressed bytes"
+  },
+  "configuration": ["BRAINK_WORKSPACE", "BRAINK_STATE_DIR", "BRAINK_NODE_TOKEN", "PORT"],
+  "owner_runtime_binding": "explicit adapter required; no automatic engine replacement"
+}
