@@ -1,59 +1,114 @@
+"""HTTP carrier for an allocated fleet of VFS instances and A/B admissions."""
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
-from urllib.parse import urlparse,unquote
-import argparse,base64,json
-from .model import ArtifactWrite
-from .store import VFSStore\nfrom .auth import MutationAuthorizer
-from .health import readiness
-MAX_REQUEST_BYTES=70*1024*1024
+from urllib.parse import urlparse
+import argparse,json,re,sqlite3
+from .fleet import VFSFleet
+from .auth import MutationAuthorizer
+
+MAX_REQUEST_BYTES=16*1024
+VFS_ID="[0-9a-f]{64}"
+ENTRY_ID="[0-9a-f]{32}"
 
 class Handler(BaseHTTPRequestHandler):
-    store=None
+    fleet=None
+    authorizer=MutationAuthorizer()
+    service_environment={"classification":"KEDDEH_SERVICE","system":"KEDDEH_SYSTEMS",
+                         "subsystem":"VFS_SERVER","carrier_id":"VFS_SERVER:loopback","transport":"HTTP"}
     def log_message(self,*args): pass
     def send_json(self,status,obj):
+        if isinstance(obj,dict): obj={**obj,"service_environment":self.service_environment}
         b=json.dumps(obj,separators=(",",":"),sort_keys=True).encode()
-        self.send_response(status); self.send_header("content-type","application/json")
-        self.send_header("content-length",str(len(b))); self.end_headers(); self.wfile.write(b)
+        self.send_response(status)
+        self.send_header("content-type","application/json")
+        self.send_header("content-length",str(len(b)))
+        self.send_header("cache-control","no-store")
+        self.end_headers()
+        self.wfile.write(b)
     def body(self):
-        n=int(self.headers.get("content-length","0") or 0)
-        if n<1:return {}
-        if n>MAX_REQUEST_BYTES:raise ValueError("request_too_large")
-        return json.loads(self.rfile.read(n))
+        raw_length=self.headers.get("content-length")
+        if raw_length is None: raise ValueError("content_length_required")
+        n=int(raw_length)
+        if n<1 or n>MAX_REQUEST_BYTES: raise ValueError("invalid_request_size")
+        raw=self.rfile.read(n)
+        if len(raw)!=n: raise ValueError("incomplete_body")
+        self._raw_body=raw
+        data=json.loads(raw)
+        if not isinstance(data,dict): raise ValueError("object_required")
+        return data
+    def _authorized(self):
+        if not self.authorizer.allowed(self.headers.get("authorization")):
+            self.send_json(401,{"error":"unauthorized"})
+            return False
+        return True
+    def _error(self,error):
+        if isinstance(error,PermissionError): return self.send_json(403,{"error":str(error)})
+        if isinstance(error,sqlite3.IntegrityError): return self.send_json(409,{"error":"actuator_nonce_replayed_or_surface_exists"})
+        if isinstance(error,KeyError): return self.send_json(404,{"error":str(error.args[0])})
+        if isinstance(error,(ValueError,TypeError,KeyError,json.JSONDecodeError)):
+            return self.send_json(400,{"error":str(error)})
+        return self.send_json(500,{"error":"internal_error"})
     def do_GET(self):
-        p=unquote(urlparse(self.path).path)
-        try:
-            if p=="/status":return self.send_json(200,self.store.status())
-            if p=="/ready":
-                state=readiness(self.store)
-                return self.send_json(200 if state["ready"] else 503,state)
-            if not self.authorizer.allowed(self.headers.get("authorization")):
-                return self.send_json(401,{"error":"unauthorized"})
-            if p.startswith("/artifacts/"):
-                digest=p.split("/",2)[2]; rec=self.store.get_artifact(digest)
-                if not rec:return self.send_json(404,{"error":"artifact_not_found"})
-                return self.send_json(200,{"artifact":rec.as_dict(),"content_b64":base64.b64encode(self.store.read_content(digest)).decode()})
-            if p.startswith("/paths/"):
-                rec=self.store.resolve_path(p[len("/paths"):])
-                return self.send_json(200,{"artifact":rec.as_dict()}) if rec else self.send_json(404,{"error":"path_not_found"})
-            if p.startswith("/lineage/"):
-                digest=p.split("/",2)[2]; return self.send_json(200,{"digest":digest,"edges":self.store.lineage(digest)})
-            return self.send_json(404,{"error":"not_found"})
-        except (ValueError,KeyError) as e:return self.send_json(400,{"error":str(e)})
-        except Exception:return self.send_json(500,{"error":"internal_error"})
-    def do_POST(self):
         p=urlparse(self.path).path
         try:
-            data=self.body()
-            if p=="/artifacts":
-                raw=base64.b64decode(data["content_b64"],validate=True)
-                rec,receipt=self.store.write(ArtifactWrite(data["path"],raw,data["source"],data.get("predecessor"),data.get("media_type","application/octet-stream")))
-                return self.send_json(201,{"artifact":rec.as_dict(),"actor_receipt":receipt.as_dict(),"verification":"PENDING_OBSERVER_READBACK"})
-            if p=="/verify":return self.send_json(200,self.store.verify(data["digest"]))
+            if p=="/status":
+                return self.send_json(200,self.fleet.status())
+            if p=="/ready":
+                return self.send_json(200,{"ready":True,**self.fleet.status()})
+            if not self._authorized(): return
+            if p=="/vfs": return self.send_json(200,{"allocations":self.fleet.list()})
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")",p)
+            if m: return self.send_json(200,{"allocation":self.fleet.get(m[1])})
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab",p)
+            if m: return self.send_json(200,{"allocation":self.fleet.get(m[1]),"entries":self.fleet.entries(m[1])})
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")",p)
+            if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2]))
             return self.send_json(404,{"error":"not_found"})
-        except (ValueError,KeyError,TypeError,json.JSONDecodeError) as e:return self.send_json(400,{"error":str(e)})
-        except Exception:return self.send_json(500,{"error":"internal_error"})
+        except Exception as error: return self._error(error)
+    def _actuator(self,vfs_id,command,path):
+        return self.fleet.verify_actuator(vfs_id,self.headers.get("x-vfs-surface"),command,
+            "POST",path,self._raw_body,self.headers.get("x-vfs-nonce"),
+            self.headers.get("x-vfs-time"),self.headers.get("x-vfs-signature"))
+    def do_POST(self):
+        p=urlparse(self.path).path
+        if not self._authorized(): return
+        try:
+            if p=="/vfs":
+                data=self.body()
+                allocation=self.fleet.allocate(data["label"],data["source_ref"],
+                                                data.get("quota_bytes",1024*1024))
+                return self.send_json(201,{"allocation":allocation,"next":f"/vfs/{allocation['vfs_id']}/ab"})
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/surfaces",p)
+            if m:
+                data=self.body()
+                return self.send_json(201,self.fleet.register_surface(m[1],data["surface_id"],data["commands"]))
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab",p)
+            if m:
+                data=self.body()
+                self._actuator(m[1],"ab.admit",p)
+                result=self.fleet.admit_ab(m[1],data["bits"],data["source_ref"])
+                return self.send_json(201,result)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")/verify",p)
+            if m:
+                self.body()
+                self._actuator(m[1],"ab.observe",p)
+                return self.send_json(200,self.fleet.read_ab(m[1],m[2],observe=True))
+            if p in ("/artifacts","/artifacts/raw","/verify"):
+                return self.send_json(410,{"error":"direct_artifact_commit_retired","next":"POST /vfs then POST /vfs/{vfs_id}/ab"})
+            return self.send_json(404,{"error":"not_found"})
+        except Exception as error: return self._error(error)
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--root",default=".vfs-server")
-    ap.add_argument("--host",default="127.0.0.1"); ap.add_argument("--port",type=int,default=8787)
-    a=ap.parse_args(); Handler.store=VFSStore(a.root); ThreadingHTTPServer((a.host,a.port),Handler).serve_forever()
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--root",default=".vfs-server")
+    ap.add_argument("--host",default="127.0.0.1")
+    ap.add_argument("--port",type=int,default=8787)
+    ap.add_argument("--token-file")
+    ap.add_argument("--carrier-id",default="VFS_SERVER:loopback")
+    a=ap.parse_args()
+    if not a.token_file and a.host not in ("127.0.0.1","::1","localhost"):
+        ap.error("--token-file is required for non-loopback listeners")
+    Handler.authorizer=MutationAuthorizer(a.token_file)
+    Handler.service_environment={**Handler.service_environment,"carrier_id":a.carrier_id}
+    Handler.fleet=VFSFleet(a.root)
+    ThreadingHTTPServer((a.host,a.port),Handler).serve_forever()
 if __name__=="__main__":main()

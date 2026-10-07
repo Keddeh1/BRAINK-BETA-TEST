@@ -1,31 +1,18 @@
-# VFS_SERVER API
+# VFS_SERVER HTTP API
 
-All responses are JSON. `/status` and `/ready` are operational probes. Other endpoints require the configured bearer credential when authorization is enabled.
+`/status` and `/ready` expose process status. All VFS operations require the configured bearer token. JSON responses carry `service_environment.classification=KEDDEH_SERVICE`.
 
-## POST /artifacts
-Writes an artifact through `adapter://vfs/artifact-write`.
+| Method | Path | Meaning |
+| --- | --- | --- |
+| POST | `/vfs` | Allocate one isolated VFS. JSON: `label`, `source_ref`, optional `quota_bytes`. Returns `allocation.vfs_id`. |
+| GET | `/vfs` | List allocations. |
+| GET | `/vfs/{id}` | Inspect allocation and quota. |
+| POST | `/vfs/{id}/ab` | Enter A/B. JSON: `a_b64`, `b_b64`, `source_ref`. Returns entry and actor receipts, with `PENDING_OBSERVER_READBACK`. |
+| GET | `/vfs/{id}/ab` | List A/B entries in the allocated VFS. |
+| GET | `/vfs/{id}/ab/{entry}` | Reconstruct A and B; return their base64 bytes and verified digests. |
+| POST | `/vfs/{id}/ab/{entry}/verify` | Independently reread backing objects, verify compressed object SHA-256 and reconstructed A/B digests, emit observer receipts. |
+| POST | `/artifacts`, `/artifacts/raw`, `/verify` | HTTP 410. Direct artifact commit is retired. |
 
-Input: `path`, `content_b64`, `source`, optional `predecessor`, optional `media_type`.
+IDs are 32 lowercase hex characters allocated by the server. A and B each have a 32 MiB input limit. Quota is measured over the stored compressed frames of accepted entries. The content adapter may hold unreferenced frames if a write is interrupted before registry admission; maintenance must reclaim only frames not referenced by an admitted entry. A 201 response records actor evidence; verification is a separate step.
 
-Returns an actor receipt and `verification=PENDING_OBSERVER_READBACK`. It does not return PASS.
-
-## POST /verify
-Independent readback of a committed digest. Returns an `OBSERVER_VFS_READBACK` receipt.
-
-## GET /artifacts/<sha256>
-Returns artifact metadata and bytes after digest verification.
-
-## GET /paths/<vfs-path>
-Resolves a logical VFS path to the current artifact.
-
-## GET /lineage/<sha256>
-Returns predecessor lineage edges.
-
-## GET /status
-Process/storage counters and architectural identity.
-
-## GET /ready
-Checks storage writability, SQLite access and receipt-chain integrity.
-
-## Error model
-400 malformed/bounded-input error; 401 authorization failure; 404 unknown object/path; 500 internal invariant failure.
+Errors: 400 invalid input or quota; 401 unauthorized; 404 unknown allocation or entry; 410 retired raw commit; 500 internal invariant failure. A production reverse proxy should impose a request body and rate limit. `/ready` currently reports allocator initialization, not a full disk, chain, or replica health proof.

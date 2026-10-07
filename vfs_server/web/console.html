@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Keddeh Systems · VFS Mission Control</title>
+<style>
+:root{color-scheme:dark;font:16px/1.5 system-ui,sans-serif;background:#08121b;color:#eaf3f7}
+*{box-sizing:border-box}body{margin:0}a{color:#7fe5dd}button,input{font:inherit}
+header{border-bottom:1px solid #24404d;background:#0d1d28;padding:1.1rem max(1rem,calc((100vw - 1080px)/2))}
+.brand{display:flex;align-items:center;gap:.75rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase}
+.mark{width:2rem;height:2rem;border:2px solid #57d6c7;border-radius:.55rem;display:grid;place-items:center;color:#57d6c7}
+small{display:block;color:#9cb1bd;font-size:.8rem;font-weight:450;letter-spacing:0;text-transform:none}
+main{max-width:1080px;margin:auto;padding:2rem 1rem 5rem}
+h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.04em;margin:.4rem 0}
+.lead{color:#b5c8d2;max-width:68ch}h2{font-size:1.25rem;margin:0 0 .25rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1.5rem}
+.card{background:#10232e;border:1px solid #294550;border-radius:1rem;padding:1.3rem;min-width:0}
+.card.wide{grid-column:1/-1}.eyebrow{font-size:.73rem;color:#65d8c8;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.pill{display:inline-block;border:1px solid #47736e;border-radius:2rem;padding:.18rem .7rem;font-size:.8rem}
+label{display:block;font-size:.9rem;font-weight:650;margin:.9rem 0 .35rem}
+input{width:100%;padding:.7rem .85rem;border:1px solid #45616e;border-radius:.55rem;color:#eef8fa;background:#091922}
+input:focus,button:focus-visible,a:focus-visible{outline:3px solid #59d9ce;outline-offset:2px}
+button{border:0;border-radius:.6rem;background:#66dfd0;color:#072021;padding:.7rem 1rem;font-weight:750;cursor:pointer;margin-top:1rem}
+button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#244754;color:#def7f3}
+.muted{color:#abc1ca;font-size:.9rem}.mono,output{font-family:ui-monospace,SFMono-Regular,monospace;overflow-wrap:anywhere}
+pre{white-space:pre-wrap;word-break:break-word;background:#091922;border:1px solid #24404d;border-radius:.6rem;padding:.8rem;max-height:18rem;overflow:auto}
+#notice{min-height:1.6rem;color:#ffd39a}#notice[data-state=ok]{color:#79e6cc}
+ol{padding-left:1.4rem;color:#bdd0d7}li{margin:.35rem 0}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body><header><div class="brand"><span class="mark">K</span><span>Keddeh Systems<small>VFS_SERVER · mission control</small></span></div></header>
+<main>
+<div class="eyebrow">KEDDEH_SERVICE / VFS fleet</div><h1>Allocate. Compress A/B. Verify.</h1>
+<p class="lead">Each queue submission receives its own VFS. Enter a baseline A and candidate B, then inspect the reconstructed bytes and separate observer evidence. All counts and receipts below come from the live service.</p>
+<div id="notice" role="status" aria-live="polite">Connecting to VFS_SERVER…</div>
+<section class="grid">
+<div class="card"><div class="eyebrow">01 · connection</div><h2>Service status</h2><p id="service-status" class="muted">Checking…</p><div id="counts" class="mono"></div><button id="refresh" class="secondary">Refresh status</button></div>
+<div class="card"><div class="eyebrow">02 · queue handoff</div><h2>Submit for codebase consideration</h2><p class="muted">Open the workflow submission issue in the connected queue repository. Copy its issue reference into the allocation below. Review and execution are separate gates.</p><a href="https://github.com/Keddeh1/SYSTEMS-SERVICES-FOR-DEPLOYMENT-QUEUE/issues/new?template=workflow-submission.yml" target="_blank" rel="noopener noreferrer">Open workflow submission form ↗</a></div>
+<form id="allocate-form" class="card"><div class="eyebrow">03 · allocation</div><h2>Allocate a VFS</h2><p class="muted">A dedicated identity and quota are created for this queue submission.</p><label for="label">Submission name</label><input id="label" name="label" required maxlength="160" placeholder="Workflow or service name"><label for="source">Queue issue reference</label><input id="source" name="source" required maxlength="512" placeholder="Keddeh1/SYSTEMS-SERVICES-FOR-DEPLOYMENT-QUEUE#3"><button id="allocate" type="submit" disabled>Allocate VFS</button><p id="allocation-result" class="mono" aria-live="polite"></p></form>
+<form id="ab-form" class="card"><div class="eyebrow">04 · A/B entry</div><h2>Enter the compressed pair</h2><p class="muted">A is the baseline; B is the proposed version. The server selects a lossless A reference, A-relative delta, or compressed B frame.</p><label for="a-file">Baseline A</label><input id="a-file" type="file" required><label for="b-file">Candidate B</label><input id="b-file" type="file" required><button id="admit" type="submit" disabled>Admit and verify A/B</button><p class="muted">Each side: up to 32 MiB. No files are sent until you submit.</p></form>
+<div class="card wide"><div class="eyebrow">05 · evidence</div><h2>Deployment and observer record</h2><p class="muted">The entry ID, codec, byte count, digests, and actor/observer receipts appear after live readback. Allocation and VFS custody do not automatically authorize GitHub actuation or deployment.</p><pre id="evidence" aria-live="polite">No A/B entry admitted.</pre></div>
+<div class="card wide"><div class="eyebrow">Allocated fleet</div><h2>Existing VFS instances</h2><p class="muted">Live allocations on this VFS_SERVER carrier.</p><pre id="fleet">Waiting for service…</pre></div>
+</section></main><script type="module" src="/console.mjs"></script></body></html>

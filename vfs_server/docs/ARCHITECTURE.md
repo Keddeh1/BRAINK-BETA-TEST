@@ -1,31 +1,19 @@
-# VFS_SERVER architecture
+# VFS_SERVER fleet and A/B compression
 
-## Existing architectural contract
+## Topology
 
-`VFS_SERVER` is the server-room role defined by the BRAINK deployment workset. Its operation is to mirror deployed files into the VFS artifact graph and bind lineage.
+`VFS_SERVER` allocates multiple VFS instances. The queue submission is the source reference. Each allocated instance owns a separate backing `VFSStore`; its A/B entries are addressed by `vfs_id` and `entry_id`. The prior content-addressed object graph is an internal adapter rather than the public intake contract.
 
-The package implements:
+`QUEUE:submission -> VFS_SERVER:allocate -> VFS:{id} -> A/B admission -> actor receipts -> reconstructed readback -> observer receipts -> queue evidence`
 
-1. content-addressed immutable object storage;
-2. logical VFS path -> current artifact binding;
-3. predecessor lineage edges;
-4. durable SQLite metadata with WAL + FULL synchronous mode;
-5. atomic object writes;
-6. hash-chained actor receipts;
-7. separate observer readback receipts;
-8. deterministic status/readback surfaces.
+## Codec v1
 
-## Transition
+A is `zlib(A)`. If `SHA256(A)==SHA256(B)`, B is `reference:A` with no second object. Otherwise B is stored as the smaller of `zlib(B)` and `zlib(XOR(A,B))` when the sides have equal length. The second option is tagged `xor+zlib`, is reconstructed with A, and is rejected if either source digest or object digest fails. This is lossless compression of the A/B pair, not a raw VFS commit. Compression savings are measured against `len(A)+len(B)`; no savings are claimed for arbitrary input.
 
-AGENTIC_AI_SERVER:function_outputs
--> adapter://vfs/artifact-write
--> VFS_SERVER:artifact_graph
--> VFS_R12_ARTIFACT_MIRROR_RECEIPT
--> OBSERVER_SERVER:readback
--> BRAINK_SERVER:observer_memory
+The per-instance SQLite registry stores source reference, digests, codec, compressed object digests, lengths and stored byte count. The object store uses atomic writes, WAL metadata and hash-chained actor receipts. Registry admission follows readback of both compressed frames. The observer route rereads the persisted objects and reconstructs both sides, then records distinct observer receipts. An interruption before registry admission may leave unreferenced content objects; it cannot yield an admitted A/B record.
 
-## Claim boundary
+## Governance and scope
 
-COMMITTED means the VFS actor committed an artifact and metadata transaction.
-VISIBLE means an observer reread the persisted object and its digest matched.
-Neither state implies runtime registration or external deployment; those belong to their own server roles.
+The HTTP bearer gates allocation, list, read and observer operations. The server accepts generated hex IDs, never user filesystem paths, for instance lookup. Its host role and transport are reported as `KEDDEH_SERVICE / KEDDEH_SYSTEMS / VFS_SERVER / HTTP`. A Site owner route is the authority boundary for the browser; the bearer stays server-side. The queue retains its separate review and execution gate. An admitted A/B entry is evidence of VFS custody, not permission to actuate a GitHub target or evidence of deployment.
+
+This implements an explicit A/B codec v1. The archival source described structural KEX packet compression but did not establish this exact byte codec. A future codec needs a stored version and a compatibility reader before migration.
