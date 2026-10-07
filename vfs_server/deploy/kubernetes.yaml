@@ -30,7 +30,7 @@ spec:
       containers:
         - name: vfs-server
           image: REPLACE_WITH_IMMUTABLE_IMAGE_DIGEST
-          args: ["--root","/var/lib/keddeh-vfs","--host","0.0.0.0","--port","8787","--token-file","/run/secrets/vfs_token"]
+          args: ["--root","/var/lib/keddeh-vfs","--host","0.0.0.0","--port","8787","--carrier-id","KEDDEH_SERVICE:VFS_SERVER:K8","--token-file","/run/secrets/vfs_token"]
           ports: [{containerPort: 8787}]
           securityContext:
             allowPrivilegeEscalation: false
