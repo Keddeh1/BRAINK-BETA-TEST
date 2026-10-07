@@ -12,3 +12,5 @@ Files added by the bootstrap:
 - LICENSE            — MIT License
 
 See ARCHITECTURE.md for the original specification and deep-dive text.
+
+Function configuration and qualified local execution paths are documented in [docs/function-configuration/README.md](docs/function-configuration/README.md). This distinguishes tested runtime behaviour from descriptors, source references and deployment declarations.
