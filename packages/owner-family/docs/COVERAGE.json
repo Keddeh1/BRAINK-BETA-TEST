@@ -1,0 +1,22 @@
+{
+  "schema": "keddeh.package-doc-coverage.v1",
+  "actions": 16,
+  "processes": 22,
+  "configuration_groups": 13,
+  "source_functions": 138,
+  "gateway_actions": [
+    "bilateral",
+    "boot",
+    "commit",
+    "domains",
+    "estate",
+    "hci",
+    "observer",
+    "propagate",
+    "restart",
+    "stop",
+    "vfs",
+    "workbook"
+  ],
+  "undocumented_gateway_actions": []
+}

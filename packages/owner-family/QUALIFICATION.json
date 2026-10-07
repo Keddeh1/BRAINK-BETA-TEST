@@ -1,0 +1,92 @@
+{
+  "schema": "keddeh.release-qualification.v1",
+  "status": "passed",
+  "gates": [
+    {
+      "name": "governance",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "frozen-install",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "dependency-check",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "source-tests",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "wheel-build",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "isolated-venv",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "artifact-install",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "installed-tests",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "installed-dependencies",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "live-integration",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "browser-integration",
+      "exit_code": 0,
+      "status": "passed"
+    },
+    {
+      "name": "recursive-domain-integration",
+      "exit_code": 0,
+      "status": "passed"
+    }
+  ],
+  "scope": "local candidate qualification",
+  "production_approval": false,
+  "commit": "d420b5008474cb0dc1b5bf47a7a8433245097072",
+  "artifact": {
+    "name": "keddeh_sovereign_namespace_runtime-0.3.0-py3-none-any.whl",
+    "sha256": "2b69697ba06fde8502a545eefed4764e6f5ba55f7ffb3953c3cd907937ebd9ea",
+    "bytes": 68248
+  },
+  "runtime_qualification": "passed",
+  "evidence_hashes": {
+    "browser-integration.log": "6f43c60cb9cb958c39432e42d912434551a3280b9c3bbe84fbc3b14ed83ac007",
+    "dependency-check.log": "8c0b9412cdcb7b5cd8360b649b4b7db6a94e881d707db0f9ec77188a615292c2",
+    "frozen-install.log": "b5faf9db547c91f1f484558c7761b1cff63dbebb682bf478069f5fbda3d54422",
+    "isolated-venv.log": "47a59cae6d1dea0696fd70a7590fdff52e3c88c04cbea07af5afcdc65160bc8b",
+    "source-tests.log": "9a557951e9d6861d0ba555bcda9d45503ec1dc592bdf1a44c9a30cbe14487684",
+    "governance.log": "4ad9360a85dbe0591b4bd992032297447de6ef82238b94ff37dc1e464b78d95e",
+    "dependency-inventory.json": "9d478cfc265adfb9fb492d06c677bd8bcfcd1cfa6ca936cf8ba42048798e6855",
+    "installed-dependencies.log": "1f1035edb192bd40307745c2b40e361cc88b11ec71f9870241bbe5836a11fdb7",
+    "artifact-install.log": "fb70123625ceb341a46f5a6260549d97ef52f312c5c2fac0477e727a1d96f4c7",
+    "recursive-domain-integration.log": "4483b320b67b720bfb7b8e398f5826bf11146a3e62e54c52a2a3aeac31396e0f",
+    "domains.json": "4483b320b67b720bfb7b8e398f5826bf11146a3e62e54c52a2a3aeac31396e0f",
+    "wheel-build.log": "790cfc2f796d2ea56a9c9b04863a3ec245ee14b663c3446d84b15599512c8107",
+    "installed-tests.log": "df7089eaf17f6de5458ada66c4422dfe1000e05819b234722353076518a1aca6",
+    "live-integration.log": "615fb613fb2c9469ba47dbd0cf2a5f9507ef67cf10d56489ff3a64983b10b05c",
+    "integration.json": "615fb613fb2c9469ba47dbd0cf2a5f9507ef67cf10d56489ff3a64983b10b05c"
+  }
+}
