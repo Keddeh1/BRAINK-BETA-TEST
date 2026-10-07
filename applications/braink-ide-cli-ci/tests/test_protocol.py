@@ -56,6 +56,18 @@ class ProtocolTests(unittest.TestCase):
         self.thread.join()
         self.temporary.cleanup()
 
+    def test_sector_update_preserves_other_colonies(self):
+        source = self.root / 'source/sectors/core/src/example.py'
+        source.parent.mkdir(parents=True)
+        source.write_text('def work(): return 1\n')
+        first = self.manager.deploy(compile_catalogue(self.root / 'source'))
+        other = [row for row in first['instances'] if row['occurrence'][0] != 'colony://braink-development/core']
+        source.write_text('def work(): return 2\n')
+        updated = self.manager.deploy(compile_catalogue(self.root / 'source'), ('core',))
+        self.assertEqual(other, [row for row in updated['instances'] if row['occurrence'][0] != 'colony://braink-development/core'])
+        self.assertEqual(set(updated['sectors']), {'core', 'cli', 'ide', 'ci'})
+        self.assertNotEqual(updated['sector_catalogue_sha256']['core'], updated['sector_catalogue_sha256']['cli'])
+
     def test_isolation_resume_and_readback(self):
         first = self.manager.instantiate(self.definition, ['colony-one'])
         second = self.manager.instantiate(self.definition, ['colony-two'])

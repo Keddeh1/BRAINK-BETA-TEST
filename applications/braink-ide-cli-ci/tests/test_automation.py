@@ -28,6 +28,20 @@ class AutomationTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_crlf_source_identity_binds_actual_bytes(self):
+        import hashlib
+        from braink_node.protocol.binding import FunctionBindings
+        self.source.write_bytes(b'def work(x):\r\n    return x+1\r\n')
+        catalogue = self.context.catalogue()
+        module = next(iter(catalogue['modules']))
+        spec = importlib.util.spec_from_file_location('demo', self.source)
+        loaded = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(loaded)
+        bindings = FunctionBindings(catalogue)
+        bindings.bind(module, 'actual', loaded.work)
+        self.assertEqual(bindings.invoke(module, [1], context='actual'), 2)
+        self.assertEqual(catalogue['modules'][module]['implementation']['source_sha256'], hashlib.sha256(self.source.read_bytes()).hexdigest())
+
     def test_evolution_closes_over_dependent_sectors(self):
         first = evolution.run(self.context)
         self.assertEqual(set(first['affected_sectors']), {'core','cli','ide','ci'})
