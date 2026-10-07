@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vfs-server-auth
+type: Opaque
+stringData:
+  token: REPLACE_OUT_OF_BAND
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vfs-server-data
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vfs-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: vfs-server}
+  template:
+    metadata:
+      labels: {app: vfs-server}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: vfs-server
+          image: REPLACE_WITH_IMMUTABLE_IMAGE_DIGEST
+          args: ["--root","/var/lib/keddeh-vfs","--host","0.0.0.0","--port","8787","--token-file","/run/secrets/vfs_token"]
+          ports: [{containerPort: 8787}]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: ["ALL"]}
+          readinessProbe:
+            httpGet: {path: /ready, port: 8787}
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/keddeh-vfs}
+            - {name: auth, mountPath: /run/secrets, readOnly: true}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: vfs-server-data}
+        - name: auth
+          secret:
+            secretName: vfs-server-auth
+            items: [{key: token, path: vfs_token}]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vfs-server
+spec:
+  selector: {app: vfs-server}
+  ports: [{port: 8787, targetPort: 8787}]
