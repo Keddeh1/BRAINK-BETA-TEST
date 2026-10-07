@@ -90,7 +90,7 @@ class VFSFleet:
                            (vfs_id,surface_id)).fetchone()
             if row is None or command not in __import__("json").loads(row["commands_json"]):
                 raise PermissionError("unregistered_actuator_command")
-            message="\\n".join((method,path,hashlib.sha256(body).hexdigest(),str(issued),nonce,command)).encode()
+            message="|".join((method,path,surface_id,hashlib.sha256(body).hexdigest(),str(issued),nonce,command)).encode()
             expected=hmac.new(bytes.fromhex(row["secret_hex"]),message,hashlib.sha256).hexdigest()
             if not isinstance(signature,str) or not hmac.compare_digest(signature,expected):
                 raise PermissionError("invalid_actuator_signature")
