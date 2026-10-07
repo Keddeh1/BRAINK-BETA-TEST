@@ -2,6 +2,7 @@ import base64,contextlib,io,json,tempfile,threading,unittest
 from unittest.mock import patch
 from http.server import ThreadingHTTPServer
 from urllib.request import Request,urlopen
+from urllib.parse import quote
 from urllib.error import HTTPError
 from vfs_server.server import Handler,main
 from vfs_server.model import ArtifactWrite
@@ -62,6 +63,22 @@ class VFSServerTests(unittest.TestCase):
                 verified=json.load(response)
             self.assertTrue(verified["verified"])
             self.assertEqual(verified["receipt"]["kind"],"OBSERVER_VFS_READBACK")
+            self.assertEqual(verified["service_environment"]["classification"],"KEDDEH_SERVICE")
+            raw=b"real raw bytes\x00"
+            raw_req=Request(url+"/artifacts/raw",data=raw,method="POST",headers={
+                "Authorization":"Bearer test-only-secret",
+                "Content-Type":"application/octet-stream",
+                "X-VFS-Path":quote("/runtime/épreuve.bin"),
+                "X-VFS-Source":quote("KEX browser carrier")
+            })
+            with urlopen(raw_req,timeout=3) as response: raw_created=json.load(response)
+            raw_digest=raw_created["artifact"]["digest"]
+            self.assertEqual(raw_created["service_environment"]["subsystem"],"VFS_SERVER")
+            raw_read=Request(url+"/artifacts/"+raw_digest+"/raw",headers={"Authorization":"Bearer test-only-secret"})
+            with urlopen(raw_read,timeout=3) as response:
+                self.assertEqual(response.headers["x-content-sha256"],raw_digest)
+                self.assertEqual(response.headers["x-keddeh-service"],"KEDDEH_SERVICE")
+                self.assertEqual(response.read(),raw)
         finally:
             server.shutdown();server.server_close();thread.join(timeout=3)
 
