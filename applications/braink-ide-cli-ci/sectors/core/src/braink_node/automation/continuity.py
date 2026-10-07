@@ -16,26 +16,30 @@ def run(context):
             subscription = context.hub.subscribe(instance, prefix)
             if subscription['prefix'] != prefix:
                 raise RuntimeError('Subscription prefix differs')
-            after = subscription['cursor']
-            if after not in pages:
-                pages[after] = context.hub_transport.request('/events?after=' + str(after) + '&limit=1000')
-            events = pages[after]
+            cursor = subscription['cursor']
             store = VFSStore(context.state / 'instances' / instance / 'vfs')
-            for event in events.get('events', []):
-                if event.get('path', '').startswith(prefix + '/') and event.get('artifact_digest'):
-                    artifact = context.hub_transport.request('/artifacts/' + event['artifact_digest'])
-                    content = base64.b64decode(artifact['content_b64'], validate=True)
-                    if hashlib.sha256(content).hexdigest() != event['artifact_digest']:
-                        raise RuntimeError('Subscription artifact differs')
-                    path = '/subscription-mirror/' + event['artifact_digest']
-                    if store.resolve_path(path) is None:
-                        store.write(ArtifactWrite(path, content, instance))
-                        mirrored += 1
-            cursor = events.get('next_cursor', after)
+            while True:
+                if cursor not in pages:
+                    pages[cursor] = context.hub_transport.request('/events?after=' + str(cursor) + '&limit=1000')
+                events = pages[cursor]
+                for event in events.get('events', []):
+                    if event.get('path', '').startswith(prefix + '/') and event.get('artifact_digest'):
+                        artifact = context.hub_transport.request('/artifacts/' + event['artifact_digest'])
+                        content = base64.b64decode(artifact['content_b64'], validate=True)
+                        if hashlib.sha256(content).hexdigest() != event['artifact_digest']:
+                            raise RuntimeError('Subscription artifact differs')
+                        path = '/subscription-mirror/' + event['artifact_digest']
+                        if store.resolve_path(path) is None:
+                            store.write(ArtifactWrite(path, content, instance))
+                            mirrored += 1
+                next_cursor = events.get('next_cursor', cursor)
+                if next_cursor == cursor:
+                    break
+                cursor = next_cursor
             observed = context.hub_transport.request('/subscriptions', {'subscriber': instance, 'prefix': prefix, 'cursor': cursor})
             if observed['cursor'] != cursor:
                 raise RuntimeError('Cursor readback differs')
             verified += 1
         except Exception as error:
             errors.append({'instance': instance, 'exception': type(error).__name__, 'reason': str(error)})
-    return {'state': 'CONTINUOUS' if not errors else 'RETRY_REQUIRED', 'subscriptions_verified': verified, 'mirrored_artifacts': mirrored, 'errors': errors}
+    return {'state': 'CONTINUOUS' if not errors else 'RETRY_REQUIRED', 'subscriptions_verified': verified, 'mirrored_artifacts': mirrored, 'errors': errors, 'verified_event_pages': len(pages), 'continuity_window': 'Each observed cursor is drained through the owner event feed until an empty verified page is read.'}

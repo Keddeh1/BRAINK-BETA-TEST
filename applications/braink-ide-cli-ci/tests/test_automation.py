@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from braink_node.automation import evolution, reconciliation, recovery, development
+from braink_node.automation import evolution, reconciliation, recovery, development, continuity
 from braink_node.protocol.catalogue import compile_catalogue
 from braink_node.owner_vfs.store import VFSStore
 from braink_node.owner_vfs.model import ArtifactWrite
@@ -73,6 +73,34 @@ class AutomationTests(unittest.TestCase):
             self.assertIn('temporarily unavailable', transport.failures[0]['body'])
         finally:
             server.shutdown();server.server_close();thread.join()
+
+    def test_continuity_drains_native_pages_before_advancing_the_subscription(self):
+        import base64
+        from urllib.parse import urlparse, parse_qs
+        from braink_node.protocol.transport import HubSubscription
+        hub = VFSStore(self.root / 'hub')
+        prefix = '/applications/actual'
+        hub.subscribe('instance', prefix, 0)
+        for index in range(3):
+            hub.write(ArtifactWrite(prefix + '/' + str(index), str(index).encode(), 'instance'))
+        class Transport:
+            def request(self, path, payload=None):
+                if path == '/subscriptions': return hub.subscribe(payload['subscriber'], payload['prefix'], payload['cursor'])
+                if path.startswith('/subscriptions/'): return hub.subscription(path.rsplit('/', 1)[1])
+                if path.startswith('/events?'): return hub.events(int(parse_qs(urlparse(path).query)['after'][0]), 2)
+                if path.startswith('/artifacts/'): return {'content_b64':base64.b64encode(hub.read_content(path.rsplit('/', 1)[1])).decode()}
+                raise AssertionError(path)
+        directory = self.context.state / 'instances/instance'
+        directory.mkdir(parents=True)
+        (directory / 'ceremony.json').write_text(json.dumps({'steps':{'SUBSCRIBE_VFS':{'prefix':prefix}}}))
+        self.context.hub_transport = Transport()
+        self.context.hub = HubSubscription(self.context.hub_transport)
+        self.context.deployment = lambda: {'instances':[{'instance':'instance'}]}
+        result = continuity.run(self.context)
+        self.assertEqual(result['state'], 'CONTINUOUS')
+        self.assertEqual(result['mirrored_artifacts'], 3)
+        self.assertEqual(hub.subscription('instance')['cursor'], 3)
+        self.assertEqual(continuity.run(self.context)['mirrored_artifacts'], 0)
 
     def test_evolution_closes_over_dependent_sectors(self):
         first = evolution.run(self.context)
