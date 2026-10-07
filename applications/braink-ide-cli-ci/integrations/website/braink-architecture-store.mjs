@@ -8,7 +8,7 @@ export async function architectureStore(db,bucket,value){
   const bytes=new TextEncoder().encode(value.artifact_body);
   const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),x=>x.toString(16).padStart(2,'0')).join('');
   const body=JSON.parse(value.artifact_body);
-  if(hash!==row.artifact_digest||body.id!==row.id||body.target!==row.target||body.created!==row.created)return Response.json({error:'EVIDENCE_DIGEST_MISMATCH'},{status:409});
+  if(hash!==row.artifact_digest||body.id!==row.id||body.target!==row.target||body.created!==row.created||Object.entries(body).some(([key,item])=>JSON.stringify(row[key])!==JSON.stringify(item)))return Response.json({error:'EVIDENCE_DIGEST_MISMATCH'},{status:409});
   const key='braink-architecture/'+row.target+'/'+row.id+'.json';
   await bucket.put(key,bytes,{httpMetadata:{contentType:'application/json'}});
   await db.prepare('INSERT INTO braink_architecture_evidence VALUES(?,?,?,?) ON CONFLICT(target) DO UPDATE SET id=excluded.id,created=excluded.created,document=excluded.document WHERE excluded.created>=braink_architecture_evidence.created').bind(row.target,row.id,row.created,JSON.stringify(row)).run();
