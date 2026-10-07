@@ -94,15 +94,15 @@ class CiTests(NodeFixture, unittest.TestCase):
         import os
         import subprocess
         from unittest.mock import patch
-        self.file('source.txt', b'committed')
+        self.file('application/source.txt', b'committed')
         for command in (["init", "-q"], ["config", "user.name", "BRAINK test"], ["config", "user.email", "fixture@example.test"], ["add", "."], ["commit", "-qm", "fixture"]):
             subprocess.run(["git", *command], cwd=self.root, check=True)
         revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.root, text=True).strip()
-        self.file('source.txt', b'uncommitted edit')
+        self.file('application/source.txt', b'uncommitted edit')
         runner = self.runner()
         pipeline = self.pipeline(["{python}", "-c", "from pathlib import Path; print(Path('source.txt').read_text())"])
         with patch.dict(os.environ, {"BRAINK_CI_AGENT_TOKEN": "test-agent"}), patch('braink_ci.relay.sector_pipeline', return_value=pipeline):
-            relay = WebsiteRelay(runner, self.root, 'https://www.keddeh.com')
+            relay = WebsiteRelay(runner, self.root/'application', 'https://www.keddeh.com')
             receipts = []
             relay.call = lambda payload: receipts.append(payload) or {'ok':True}
             result = relay.execute({'id':'remote','sector':'core','lease_token':'lease','parameters':{'source_commit':revision}})
@@ -121,3 +121,20 @@ class CiTests(NodeFixture, unittest.TestCase):
         result = runner.interrupt(queued['id'])
         self.assertEqual(result['stages'][0]['status'], 'interrupted')
         self.assertEqual(runner.read_log(queued['id'], 'actual-process'), '')
+
+    def test_invalid_source_revision_finishes_remote_job(self):
+        import os
+        from unittest.mock import patch
+        self.file('source.txt')
+        with patch.dict(os.environ, {'BRAINK_CI_AGENT_TOKEN':'test-agent'}):
+            relay = WebsiteRelay(self.runner(), self.root, 'https://www.keddeh.com')
+        calls=[]
+        job={'id':'remote','sector':'core','lease_token':'lease','parameters':{'source_commit':'invalid'}}
+        def transport(payload):
+            calls.append(payload)
+            return {'job':job} if payload['op']=='claim' else {'ok':True}
+        relay.call=transport
+        report=relay.tick()
+        self.assertEqual(report['status'],'error')
+        self.assertEqual(calls[-1]['op'],'result')
+        self.assertFalse(relay.outbox.exists())

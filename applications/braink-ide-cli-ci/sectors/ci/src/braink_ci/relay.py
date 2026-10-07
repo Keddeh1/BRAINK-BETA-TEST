@@ -64,10 +64,11 @@ class WebsiteRelay:
                 if not re.fullmatch(r"[a-f0-9]{40}", revision):
                     raise ValueError("Invalid source commit")
                 prefix = subprocess.check_output(["git", "rev-parse", "--show-prefix"], cwd=self.source, text=True).strip().rstrip("/")
-                archive = subprocess.check_output(["git", "archive", revision + (":" + prefix if prefix else "")], cwd=self.source)
+                repository = subprocess.check_output(["git", "rev-parse", "--show-toplevel"], cwd=self.source, text=True).strip()
+                archive = subprocess.check_output(["git", "archive", revision + (":" + prefix if prefix else "")], cwd=repository)
                 source = self.runner.root / "commit-snapshots" / revision
-                if not source.exists():
-                    source.mkdir(parents=True)
+                if not source.exists() or not any(source.iterdir()):
+                    source.mkdir(parents=True, exist_ok=True)
                     with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
                         bundle.extractall(source, filter="data")
                 pipeline["source_commit"] = revision
@@ -148,10 +149,21 @@ class WebsiteRelay:
 
     def tick(self):
         self.flush()
-        if self.active.exists():
-            return self.execute(json.loads(self.active.read_text())["remote"])
-        job = self.call({"op": "claim", "worker_id": self.worker_id}).get("job")
-        return self.execute(job) if job else None
+        job = json.loads(self.active.read_text())["remote"] if self.active.exists() else self.call({"op": "claim", "worker_id": self.worker_id}).get("job")
+        if not job:
+            return None
+        try:
+            return self.execute(job)
+        except (ValueError, subprocess.CalledProcessError) as error:
+            report = {"id": job["id"], "status": "error", "reason": str(error),
+                      "stages": [], "artifacts": [], "finished": time.time()}
+            report["receipt_sha256"] = sha256_hex(canonical_bytes(report))
+            self.runner.ledger.append(event_type="braink.ci.source.error", route="braink-node/ci",
+                                      payload={"job_id": job["id"], "reason": report["reason"]})
+            atomic_write(self.outbox, json.dumps({"op": "result", "id": job["id"],
+                         "lease_token": job["lease_token"], "report": report}).encode())
+            self.flush()
+            return report
 
     def serve(self):
         import fcntl

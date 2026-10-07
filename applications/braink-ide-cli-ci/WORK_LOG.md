@@ -43,7 +43,7 @@ and baseline metadata remain available for the owner systems.
 
 ## Verification
 
-31 tests exercise actual subprocess success, failure and timeout, concurrency, recovery,
+32 tests exercise actual subprocess success, failure and timeout, concurrency, recovery,
 file operations and core behavior. Independent installed-package qualification runs the
 core, CLI, IDE and CI suites against their respective clean-build artifacts. Runtime
 queue tests execute SQL against SQLite and verify leases and receipt/artifact digests.
