@@ -2,6 +2,8 @@
 import base64
 import json
 import hashlib
+import time
+import io
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
@@ -13,14 +15,24 @@ class JSONTransport:
         self.endpoint = endpoint.rstrip('/')
         self.token = token
         self.timeout = timeout
+        self.failures = []
 
     def request(self, path, payload=None):
         headers = {'Content-Type': 'application/json', 'User-Agent': 'BRAINK-Protocol/1'}
         if self.token:
             headers['Authorization'] = 'Bearer ' + self.token
         request = Request(self.endpoint + path, data=None if payload is None else canonical_bytes(payload), headers=headers)
-        with urlopen(request, timeout=self.timeout) as response:
-            return json.load(response)
+        idempotent = payload is None or path in {'/subscriptions', '/artifacts', '/verify', '/subscribe', '/subscription', '/inbox', '/capacity', '/place'} or path == '/exchange' and payload.get('message_id')
+        for attempt in range(3 if idempotent else 1):
+            try:
+                with urlopen(request, timeout=self.timeout) as response:
+                    return json.load(response)
+            except HTTPError as error:
+                body = error.read()
+                self.failures.append({'endpoint': error.url, 'status': error.code, 'body': body.decode(errors='replace'), 'attempt': attempt + 1, 'at': time.time()})
+                if not idempotent or error.code not in (500, 502, 503, 504) or attempt == 2:
+                    raise HTTPError(error.url, error.code, error.reason, error.headers, io.BytesIO(body)) from error
+                time.sleep(0.25 * (2 ** attempt))
 
 
 class HubSubscription:

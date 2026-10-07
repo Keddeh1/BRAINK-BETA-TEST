@@ -23,4 +23,4 @@ def run(context):
             failures.append({'service': path.stem, 'kind': 'PROCESS_NOT_ALIVE', 'pid': pid})
     pending = context.runtime / 'state/ci/website-outbox.json'
     return {'state': 'OBSERVED' if not failures else 'FAILURES_OBSERVED', 'services': observations, 'processes': process_observations,
-            'failures': failures, 'result_outbox_pending': pending.exists(), 'root_cause': 'Only recorded when supported by service evidence; HTTP status alone is not a cause.'}
+            'failures': failures, 'transport_failure_observations': {'owner_vfs': context.hub_transport.failures, 'mesh': context.mesh.failures}, 'result_outbox_pending': pending.exists(), 'root_cause': 'Only recorded when supported by service evidence; HTTP status alone is not a cause.'}

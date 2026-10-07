@@ -49,6 +49,31 @@ class AutomationTests(unittest.TestCase):
         self.assertEqual(len(result['tasks']), 8)
         self.assertTrue(all(row['state'] != 'QUALIFIED' for row in result['tasks']))
 
+    def test_idempotent_subscription_retry_retains_the_failed_service_response(self):
+        from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+        from braink_node.protocol.transport import JSONTransport
+        import threading
+        attempts = []
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *args): pass
+            def do_POST(self):
+                attempts.append(json.loads(self.rfile.read(int(self.headers['Content-Length']))))
+                data = b'{"error":"temporarily unavailable"}' if len(attempts) == 1 else b'{"cursor":3}'
+                self.send_response(500 if len(attempts) == 1 else 200)
+                self.send_header('Content-Length', str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+        server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True);thread.start()
+        try:
+            transport = JSONTransport('http://127.0.0.1:' + str(server.server_port))
+            self.assertEqual(transport.request('/subscriptions', {'subscriber':'actual', 'cursor':3}), {'cursor':3})
+            self.assertEqual(attempts[0], attempts[1])
+            self.assertEqual(transport.failures[0]['status'], 500)
+            self.assertIn('temporarily unavailable', transport.failures[0]['body'])
+        finally:
+            server.shutdown();server.server_close();thread.join()
+
     def test_evolution_closes_over_dependent_sectors(self):
         first = evolution.run(self.context)
         self.assertEqual(set(first['affected_sectors']), {'core','cli','ide','ci'})
