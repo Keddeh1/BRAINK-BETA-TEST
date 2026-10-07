@@ -1,4 +1,5 @@
-const ident = value => /^[0-9a-f]{32}$/.test(value);
+const vfsIdent = value => /^[0-9a-f]{64}$/.test(value);
+const entryIdent = value => /^[0-9a-f]{32}$/.test(value);
 const validBits = bits => typeof bits === "string" && /^[01]{1,9}$/.test(bits);
 const hex = bytes => [...new Uint8Array(bytes)].map(value => value.toString(16).padStart(2,"0")).join("");
 const digest = async bytes => hex(await crypto.subtle.digest("SHA-256",bytes));
@@ -19,11 +20,11 @@ function assertGraph(graph,bits) {
   });
 }
 export class KeddehVFSClient {
-  constructor({ endpoint, bearer, carrierId, transport = fetch }) {
+  constructor({ endpoint, bearer, carrierId, actuator, transport = fetch }) {
     const url = new URL(endpoint);
     if (url.protocol !== "https:" && !(url.protocol === "http:" && ["127.0.0.1","localhost","[::1]"].includes(url.hostname)))
       throw new Error("VFS_TRANSPORT_NOT_ALLOWED");
-    this.endpoint=url.origin;this.bearer=bearer;this.carrierId=carrierId;this.transport=transport;
+    this.endpoint=url.origin;this.bearer=bearer;this.carrierId=carrierId;this.actuator=actuator;this.transport=transport;
   }
   assertService(value) {
     const env=value?.service_environment;
@@ -32,12 +33,15 @@ export class KeddehVFSClient {
       throw new Error("KEDDEH_SERVICE_IDENTITY_MISMATCH");
     return env;
   }
-  async request(path,{method="GET",body}={}) {
+  async request(path,{method="GET",body,command}={}) {
     const token=typeof this.bearer==="function"?await this.bearer():this.bearer;
+    const wire=body===undefined?undefined:JSON.stringify(body);
+    if (command && !this.actuator) throw new Error("VFS_ACTUATOR_CONNECTION_REQUIRED");
+    const proof=command?await this.actuator.headers({method,path,body:wire,command}):{};
     const response=await this.transport(this.endpoint+path,{method,
       headers:{...(token?{Authorization:"Bearer "+token}:{}),
-        ...(body===undefined?{}:{"content-type":"application/json"})},
-      ...(body===undefined?{}:{body:JSON.stringify(body)})});
+        ...(wire===undefined?{}:{"content-type":"application/json"}),...proof},
+      ...(wire===undefined?{}:{body:wire})});
     if (!response.ok) throw new Error("VFS_HTTP_"+response.status);
     const data=await response.json();this.assertService(data);return data;
   }
@@ -47,16 +51,16 @@ export class KeddehVFSClient {
     if (!label||!sourceRef) throw new Error("VFS_ALLOCATION_INPUT_INVALID");
     const data=await this.request("/vfs",{method:"POST",body:{label,source_ref:sourceRef,
       ...(quotaBytes===undefined?{}:{quota_bytes:quotaBytes})}});
-    if (!ident(data.allocation?.vfs_id)||data.allocation.source_ref!==sourceRef)
+    if (!vfsIdent(data.allocation?.vfs_id)||data.allocation.source_ref!==sourceRef)
       throw new Error("VFS_ALLOCATION_MISMATCH");
     return data.allocation;
   }
   async admitAB({vfsId,bits,sourceRef}) {
-    if (!ident(vfsId)||!validBits(bits)||!sourceRef) throw new Error("VFS_AB_INPUT_INVALID");
+    if (!vfsIdent(vfsId)||!validBits(bits)||!sourceRef) throw new Error("VFS_AB_INPUT_INVALID");
     const expected=await digest(pack(bits));
-    const created=await this.request("/vfs/"+vfsId+"/ab",{method:"POST",body:{bits,source_ref:sourceRef}});
+    const created=await this.request("/vfs/"+vfsId+"/ab",{method:"POST",body:{bits,source_ref:sourceRef},command:"ab.admit"});
     const entry=created.entry;
-    if (entry?.vfs_id!==vfsId || !ident(entry.entry_id) ||
+    if (entry?.vfs_id!==vfsId || !entryIdent(entry.entry_id) ||
         entry.codec!=="KEDDEH_AB_BINARY_V1" || entry.bits_count!==bits.length ||
         entry.object_digest!==expected || !created.actor_receipt ||
         created.verification!=="PENDING_OBSERVER_READBACK")
@@ -68,7 +72,7 @@ export class KeddehVFSClient {
         read.proof?.sha256!==expected || read.verified!==true)
       throw new Error("VFS_AB_REVERSE_MISMATCH");
     assertGraph(read.graph,bits);
-    const observed=await this.request(path+"/verify",{method:"POST",body:{}});
+    const observed=await this.request(path+"/verify",{method:"POST",body:{},command:"ab.observe"});
     if (observed.verified!==true || observed.entry?.entry_id!==entry.entry_id ||
         observed.proof?.bits!==bits || observed.proof?.sha256!==expected ||
         observed.observer_receipt?.kind!=="OBSERVER_VFS_READBACK")
