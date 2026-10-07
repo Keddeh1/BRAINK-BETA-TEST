@@ -9,6 +9,11 @@ def run(context):
     diagnostics = context.latest('diagnostics')
     delivery = context.latest('delivery')
     tasks = []
+    for target in ('ceremonies', 'reconciliation', 'continuity', 'feedback', 'delivery', 'diagnostics', 'placement', 'recovery'):
+        observation = context.latest(target)
+        if observation is None or observation.get('state') in {'EXECUTION_ERROR', 'RETRY_REQUIRED', 'DISCREPANCIES', 'FAILURES_OBSERVED', 'AWAITING_BUILD_RESULTS'}:
+            tasks.append({'id': digest({'target': target, 'evidence': (observation or {}).get('artifact_digest')}), 'source': (observation or {}).get('artifact_digest'),
+                          'implementation_route': 'module://braink_node.automation.' + target + '/run', 'state': 'OPEN' if target != 'delivery' else 'AWAITING_QUALIFICATION'})
     for finding in (reconciliation or {}).get('findings', []):
         kind = finding['kind']
         route = 'module://braink_node.automation.ceremonies/run' if kind in {'REVISION_NOT_DEPLOYED', 'CEREMONY_INTERRUPTED'} else 'module://braink_node.automation.diagnostics/run'

@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from braink_node.automation import evolution, reconciliation, recovery
+from braink_node.automation import evolution, reconciliation, recovery, development
 from braink_node.protocol.catalogue import compile_catalogue
 from braink_node.owner_vfs.store import VFSStore
 from braink_node.owner_vfs.model import ArtifactWrite
@@ -41,6 +41,13 @@ class AutomationTests(unittest.TestCase):
         bindings.bind(module, 'actual', loaded.work)
         self.assertEqual(bindings.invoke(module, [1], context='actual'), 2)
         self.assertEqual(catalogue['modules'][module]['implementation']['source_sha256'], hashlib.sha256(self.source.read_bytes()).hexdigest())
+
+    def test_failed_observations_remain_open_development_work(self):
+        self.context.latest = lambda target: {'state': 'EXECUTION_ERROR', 'artifact_digest': target}
+        result = development.run(self.context)
+        self.assertEqual(result['state'], 'WORK_DERIVED')
+        self.assertEqual(len(result['tasks']), 8)
+        self.assertTrue(all(row['state'] != 'QUALIFIED' for row in result['tasks']))
 
     def test_evolution_closes_over_dependent_sectors(self):
         first = evolution.run(self.context)
