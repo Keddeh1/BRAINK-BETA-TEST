@@ -27,3 +27,11 @@ The server is a real host adapter: POST /artifacts writes content-addressed byte
 For local development, the default loopback listener may run without a token. A non-loopback listener requires --token-file at startup. Docker Compose and Kubernetes manifests bind the token as a secret; provision it out of band before applying Kubernetes resources. The data volume must be writable by UID/GID 10001. The write receipt is not observer verification: inspect the /verify response and persisted receipt chain separately.
 
 The source uses a synchronous HTTP server and SQLite WAL. Do not claim distributed coordination or exactly-once writes across multiple replicas. The Kubernetes manifest intentionally has one replica and a ReadWriteOnce volume.
+
+## KEDDEH_SERVICE environment and raw carrier
+
+When this host adapter takes over artifact execution it reports the full logical service environment as `KEDDEH_SERVICE`, with `KEDDEH_SYSTEMS`, subsystem `VFS_SERVER`, transport `HTTP`, and the configured carrier ID. Status, readiness, actor writes, and observer verification include that identity; binary readback includes it in headers. The carrier ID is configured at service startup and appears in the receipt context. This classifies the managed execution environment while leaving the underlying physical host explicit in deployment evidence.
+
+`POST /artifacts/raw` accepts bytes directly, with URL-encoded `x-vfs-path` and `x-vfs-source` headers and optional predecessor; `GET /artifacts/{sha256}/raw` returns independently checked bytes. Both require the bearer gate. `vfs_server/web/vfs-client.mjs` is an HTML-compatible client: it checks service identity, posts bytes, verifies SHA-256 on raw readback, invokes the observer, and returns both receipts. Serve it through the same-origin owner-authenticated Site route or on the local host. Keep the bearer in the host secret boundary; do not embed it in published HTML.
+
+Run `node --test vfs_server/web/*.test.mjs` for the carrier HTTP contract. The Python HTTP test exercises the actual VFS handler. The raw route avoids base64 expansion for large artifacts while the JSON route remains for compatibility.
