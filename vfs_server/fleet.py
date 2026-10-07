@@ -1,6 +1,6 @@
 """VFS_SERVER allocator with per-instance reversible A/B binary graph entries."""
 from __future__ import annotations
-import re,sqlite3,time,uuid
+import re,secrets,sqlite3,time,uuid
 from pathlib import Path
 from .model import ArtifactWrite
 from .store import VFSStore
@@ -40,7 +40,7 @@ class VFSFleet:
         if not isinstance(label,str) or not label.strip() or len(label)>160: raise ValueError("invalid_label")
         if not isinstance(source_ref,str) or not source_ref.strip() or len(source_ref)>512: raise ValueError("invalid_source_ref")
         if type(quota_bytes) is not int or not 1<=quota_bytes<=1024*1024*1024: raise ValueError("invalid_quota")
-        vfs_id=uuid.uuid4().hex
+        vfs_id=secrets.token_hex(32)
         with self._connect() as db:
             db.execute("INSERT INTO allocations VALUES(?,?,?,?,?,?)",
                        (vfs_id,label.strip(),source_ref.strip(),quota_bytes,"ALLOCATED",time.time()))
@@ -89,7 +89,7 @@ class VFSFleet:
                 "graph":graph(packed,len(bits)),"verification":"PENDING_OBSERVER_READBACK"}
     def entry(self,vfs_id,entry_id):
         self.get(vfs_id)
-        _id(entry_id)
+        if not isinstance(entry_id,str) or not ENTRY_PATTERN.fullmatch(entry_id): raise ValueError("invalid_ab_entry_id")
         with self._connect() as db:
             row=db.execute("SELECT * FROM ab_entries WHERE vfs_id=? AND entry_id=?",(vfs_id,entry_id)).fetchone()
         if row is None: raise KeyError("ab_entry_not_found")
