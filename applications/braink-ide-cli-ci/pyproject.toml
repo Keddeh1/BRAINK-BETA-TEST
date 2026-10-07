@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "braink-application-node"
+version = "0.1.0"
+description = "Independent BRAINK IDE, CLI and CI application node"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+braink-node = "braink_node.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+braink_node = ["static/*.html"]
