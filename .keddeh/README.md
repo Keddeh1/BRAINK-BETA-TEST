@@ -7,3 +7,5 @@ This family subscribes to the owner's VFS_SERVER package prefix `/packages/web4`
 The deployed engine is pinned to `d420b5008474cb0dc1b5bf47a7a8433245097072`. Full process, action, configuration and field-use guidance is included in `packages/owner-family/docs/` and the canonical engine's `docs/package/`. Public repositories carry the wheel and reference manifests; private VFS repositories also retain the exact owner-source bundle. Package caches never auto-execute an unqualified update.
 
 Read `.keddeh/deployment-evidence.json` for actual deployment readbacks after qualification. Git commits, local deployment and public-site publication are distinct statuses.
+
+The launcher verifies executable source and wheel bytes against EXECUTABLE_MANIFEST.json before starting. Documentation-only revisions can progress independently; changed engine code must be qualified and explicitly promoted. The guard rejects altered or unadmitted source modules.
