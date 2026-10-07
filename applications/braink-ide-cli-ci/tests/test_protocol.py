@@ -108,6 +108,13 @@ class ProtocolTests(unittest.TestCase):
         bindings.bind(closure, 'second', module.factory(20))
         self.assertEqual(bindings.invoke(closure, [2], context='first'), 12)
         self.assertEqual(bindings.invoke(closure, [2], context='second'), 22)
+        declared = self.manager.instantiate(catalogue['modules'][closure], ['closure-instance'])
+        self.assertEqual(self.manager.invoke(declared['instance'], bindings, [5], context='second'), 25)
+        instance_vfs = VFSStore(Path(declared['steps']['INSTANTIATE_VFS']['root']))
+        self.assertTrue(instance_vfs.verify_receipt_chain()['verified'])
+        with self.assertRaises(TypeError):
+            self.manager.invoke(declared['instance'], bindings, [], context='second')
+        self.assertTrue(instance_vfs.verify_receipt_chain()['verified'])
         method = 'function://braink-development/live/C.method'
         bindings.bind(method, 'receiver', module.C(30).method)
         self.assertEqual(bindings.invoke(method, [3], context='receiver'), 33)

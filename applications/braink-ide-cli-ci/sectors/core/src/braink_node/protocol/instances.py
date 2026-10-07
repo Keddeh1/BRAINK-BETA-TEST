@@ -62,6 +62,37 @@ class InstanceManager:
         checkpoint('READBACK', evidence)
         return state
 
+    def invoke(self, instance, bindings, args=(), kwargs=None, context=None):
+        """Execute a real callable and retain invocation evidence in its instance VFS."""
+        from uuid import uuid4
+        directory = self.root / instance
+        state = json.loads((directory / 'ceremony.json').read_text())
+        module_id = state['definition_id']
+        definition = bindings.catalogue['modules'][module_id]
+        if definition['definition_sha256'] != state['definition_sha256']:
+            raise ValueError('Invocation definition differs from instantiated source')
+        vfs = VFSStore(directory / 'vfs')
+        invocation = '/invocations/' + uuid4().hex
+        request = {'instance': instance, 'module': module_id, 'args': list(args), 'kwargs': kwargs or {}, 'context': context}
+        record, actor = vfs.write(ArtifactWrite(invocation + '/request.json', canonical_bytes(request), instance, media_type='application/json'))
+        vfs.verify(record.digest)
+        try:
+            result = bindings.invoke(module_id, args, kwargs, context)
+        except Exception as error:
+            failure = {'state': 'RAISED', 'type': type(error).__name__, 'message': str(error), 'request_digest': record.digest}
+            failed, _ = vfs.write(ArtifactWrite(invocation + '/result.json', canonical_bytes(failure), instance, media_type='application/json'))
+            vfs.verify(failed.digest)
+            raise
+        try:
+            payload = canonical_bytes({'state': 'RETURNED', 'value': result, 'request_digest': record.digest})
+        except (TypeError, ValueError):
+            # Preserve the live return value; do not fabricate serialization of an opaque object.
+            payload = canonical_bytes({'state': 'RETURNED', 'value_type': type(result).__module__ + '.' + type(result).__qualname__,
+                                       'value_capture': 'LIVE_CONTEXT', 'request_digest': record.digest})
+        returned, _ = vfs.write(ArtifactWrite(invocation + '/result.json', payload, instance, media_type='application/json'))
+        vfs.verify(returned.digest)
+        return result
+
     def deploy(self, catalogue, sectors=('core', 'cli', 'ide', 'ci')):
         definitions = {**catalogue['modules']}
         for kind in ('families', 'variants', 'colonies'):

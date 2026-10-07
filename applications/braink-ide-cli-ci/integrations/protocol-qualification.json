@@ -1,0 +1,94 @@
+{
+  "schema": "braink.protocol-qualification.v1",
+  "observed_at_utc": "2026-10-07T20:21:30Z",
+  "source_commit": "c347090f6bbc051771b2061f118dc91c40a4cbd3",
+  "catalogue_sha256": "3a515f47ac81bba6ef760deaa8a1d946a0e7c383060382d8f49f79c6a8e47975",
+  "deployment_scope": "Existing connected Keddeh cloud runtime; independent instance namespaces and subscriptions",
+  "instances": 563,
+  "distinct_vfs_roots": 563,
+  "ceremony_states": {
+    "READBACK": 563
+  },
+  "every_instance_verified": {
+    "local_vfs_content": true,
+    "local_receipt_chain": true,
+    "owner_hub_subscription": true,
+    "network_mesh_subscription": true
+  },
+  "ceremony_manifest_sha256": "fb7a198ebb0d6e5f797568cc0d60ca01836206c46af36ef020cf5c15ee2e6642",
+  "network_exchange": {
+    "sender": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+    "recipient": "braink-4e3e7fddaf48e1b9835aa308123cd2cbe8241f709317843c6c840e9122169cd3",
+    "sequence": 1,
+    "digest": "5ef64537812e92201422b043e6127d60a8e8940bc31509b28dcf4c90b7daf81b",
+    "observer_verified": true,
+    "inbox_readback_matches": true
+  },
+  "clean_build": {
+    "schema": "braink.sector-build.v1",
+    "requested_sector": "all",
+    "builds": [
+      {
+        "sector": "core",
+        "wheel": "core/braink_node_core-0.1.0-py3-none-any.whl",
+        "sha256": "91058b11ee5760ebb0cc344fe54cfd588a1f7be41bd0edc68d0fa093a237e4ee",
+        "dependencies": []
+      },
+      {
+        "sector": "cli",
+        "wheel": "cli/braink_cli_node-0.1.0-py3-none-any.whl",
+        "sha256": "0c2f46aaeeca34ac84277cef9ee18e3f3a00f47903c5a56c5bd7aee2b086f09e",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      },
+      {
+        "sector": "ide",
+        "wheel": "ide/braink_ide_node-0.1.0-py3-none-any.whl",
+        "sha256": "f12c262b2f60a16f6b6985ed19e7655ea47b14e5a884766c73169a0ff94f2fa5",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      },
+      {
+        "sector": "ci",
+        "wheel": "ci/braink_ci_node-0.1.0-py3-none-any.whl",
+        "sha256": "c646e3831caf00344eb2890949ad545fc47c9234d63b722411b9155cb4f7d97f",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      }
+    ],
+    "protocol": {
+      "catalogue_sha256": "3a515f47ac81bba6ef760deaa8a1d946a0e7c383060382d8f49f79c6a8e47975",
+      "modules": 153,
+      "families": 30,
+      "variants": 4,
+      "colonies": 4,
+      "supporting_functions": 91,
+      "archive": "protocol-colonies.tar.gz",
+      "archive_sha256": "2a53c2163f571f5001f2cc277fc84b1db9c5fbf5283fd988ef94a2aa60e727ec"
+    }
+  },
+  "tests": {
+    "total": 38,
+    "protocol": 6,
+    "installed_wheels": true,
+    "status": "passed"
+  },
+  "owner_il_llm": {
+    "source_sha256": "488d3fb58aa4499a1b59ba4f109a14e48ed31ffd8689a5680188ba40c81f7c16",
+    "state_sha256": "fa98d9546aec56ecba390e81119113cf030861cce98735016ef5f3ee71e05995"
+  },
+  "limits_of_evidence": [
+    "Host-destruction recovery and permanent server bootstrap have not been exercised.",
+    "Canonical state binding and relational exchange do not constitute requalification of every wider IL-LLM capability."
+  ],
+  "website_execution": {
+    "job_id": "c3470900000000000000000000000001",
+    "status": "passed",
+    "instances": 563,
+    "returncode": 0,
+    "catalogue_sha256": "3a515f47ac81bba6ef760deaa8a1d946a0e7c383060382d8f49f79c6a8e47975"
+  }
+}
