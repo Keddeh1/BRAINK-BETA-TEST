@@ -55,7 +55,7 @@ class Handler(BaseHTTPRequestHandler):
             if p=="/vfs": return self.send_json(200,{"allocations":self.fleet.list()})
             m=re.fullmatch(r"/vfs/("+VFS_ID+r")",p)
             if m: return self.send_json(200,{"allocation":self.fleet.get(m[1])})
-            m=re.fullmatch(r"/vfs/("+ID+r")/ab",p)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab",p)
             if m: return self.send_json(200,{"allocation":self.fleet.get(m[1]),"entries":self.fleet.entries(m[1])})
             m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")",p)
             if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2]))
@@ -70,12 +70,12 @@ class Handler(BaseHTTPRequestHandler):
                 allocation=self.fleet.allocate(data["label"],data["source_ref"],
                                                 data.get("quota_bytes",1024*1024))
                 return self.send_json(201,{"allocation":allocation,"next":f"/vfs/{allocation['vfs_id']}/ab"})
-            m=re.fullmatch(r"/vfs/("+ID+r")/ab",p)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab",p)
             if m:
                 data=self.body()
                 result=self.fleet.admit_ab(m[1],data["bits"],data["source_ref"])
                 return self.send_json(201,result)
-            m=re.fullmatch(r"/vfs/("+ID+r")/ab/("+ID+r")/verify",p)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")/verify",p)
             if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2],observe=True))
             if p in ("/artifacts","/artifacts/raw","/verify"):
                 return self.send_json(410,{"error":"direct_artifact_commit_retired","next":"POST /vfs then POST /vfs/{vfs_id}/ab"})
