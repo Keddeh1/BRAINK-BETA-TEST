@@ -2,12 +2,14 @@ from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import urlparse,unquote
 import argparse,base64,json
 from .model import ArtifactWrite
-from .store import VFSStore\nfrom .auth import MutationAuthorizer
+from .store import VFSStore
+from .auth import MutationAuthorizer
 from .health import readiness
 MAX_REQUEST_BYTES=70*1024*1024
 
 class Handler(BaseHTTPRequestHandler):
     store=None
+    authorizer=MutationAuthorizer()
     def log_message(self,*args): pass
     def send_json(self,status,obj):
         b=json.dumps(obj,separators=(",",":"),sort_keys=True).encode()
@@ -41,6 +43,8 @@ class Handler(BaseHTTPRequestHandler):
         except Exception:return self.send_json(500,{"error":"internal_error"})
     def do_POST(self):
         p=urlparse(self.path).path
+        if not self.authorizer.allowed(self.headers.get("authorization")):
+            return self.send_json(401,{"error":"unauthorized"})
         try:
             data=self.body()
             if p=="/artifacts":
@@ -55,5 +59,11 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default=".vfs-server")
     ap.add_argument("--host",default="127.0.0.1"); ap.add_argument("--port",type=int,default=8787)
-    a=ap.parse_args(); Handler.store=VFSStore(a.root); ThreadingHTTPServer((a.host,a.port),Handler).serve_forever()
+    ap.add_argument("--token-file")
+    a=ap.parse_args()
+    if not a.token_file and a.host not in ("127.0.0.1","::1","localhost"):
+        ap.error("--token-file is required for non-loopback listeners")
+    Handler.authorizer=MutationAuthorizer(a.token_file)
+    Handler.store=VFSStore(a.root)
+    ThreadingHTTPServer((a.host,a.port),Handler).serve_forever()
 if __name__=="__main__":main()
