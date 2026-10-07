@@ -13,3 +13,6 @@
 - [vfs-subscription-state](vfs-subscription-state/README.md)
 - [process-envelope](process-envelope/README.md)
 - [ci-and-build](ci-and-build/README.md)
+- [pipeline-gate](pipeline-gate/README.md)
+- [projection-agreement](projection-agreement/README.md)
+- [resident-image](resident-image/README.md)

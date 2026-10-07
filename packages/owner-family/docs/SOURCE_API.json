@@ -72,21 +72,25 @@
       "float",
       "hasattr",
       "hashlib.sha256",
+      "hashlib.sha256(json.dumps(pending, sort_keys=True, separators=(',', ':')).encode()).hexdigest",
       "hashlib.sha256(material).digest",
       "healer.resolve_drift",
       "http_json",
       "int.from_bytes",
       "json.dumps",
+      "json.dumps(pending, sort_keys=True, separators=(',', ':')).encode",
       "json.dumps({'left': left, 'right': peer, 'domain_feedback': domain_feedback, 'returned': returned, 'owner_phase': self.data['phase']['theta'][i], 'owner_healing': healer.resolve_drift([float(not left['ok']), float(not peer['ok'])])}, sort_keys=True).encode",
       "len",
       "np.array",
       "observed['services'].values",
+      "operation",
       "pending['actors'].append",
       "pll.omega.tolist",
       "pll.step",
       "pll.theta.tolist",
       "range",
       "self.controller.domains.control",
+      "self.controller.pipeline.dispatch",
       "self.controller.receipt",
       "self.controller.status",
       "self.data.get",
@@ -499,6 +503,7 @@
       "code.write_bytes",
       "hashlib.sha256",
       "hashlib.sha256(desired).hexdigest",
+      "info['Config'].get",
       "info['Config']['Labels'].get",
       "json.loads",
       "self.container",
@@ -512,7 +517,7 @@
     "module": "domain_mesh",
     "function": "DomainMesh.reanchor",
     "signature": "self, ident, parent",
-    "line": 107,
+    "line": 112,
     "purpose": "Owned recursive dual-network domains carrying owner workstation execution.",
     "visibility": "source-api",
     "calls": [
@@ -528,7 +533,7 @@
     "module": "domain_mesh",
     "function": "DomainMesh.control",
     "signature": "self, body",
-    "line": 121,
+    "line": 126,
     "purpose": "Owned recursive dual-network domains carrying owner workstation execution.",
     "visibility": "source-api",
     "calls": [
@@ -1478,6 +1483,139 @@
     ]
   },
   {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.__init__",
+    "signature": "self, state",
+    "line": 7,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "ValueError",
+      "json.loads",
+      "self.agreement_path.exists",
+      "self.agreement_path.read_text",
+      "self.data.get",
+      "self.path.exists",
+      "self.path.read_text",
+      "threading.RLock",
+      "type"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.status",
+    "signature": "self",
+    "line": 19,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "dict"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.configure",
+    "signature": "self, connected, reason",
+    "line": 23,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "ValueError",
+      "dict",
+      "len",
+      "type",
+      "write_json"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.admission",
+    "signature": "self, generation=None",
+    "line": 36,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "RuntimeError",
+      "ValueError",
+      "type"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.dispatch",
+    "signature": "self, operation, generation=None",
+    "line": 46,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "operation",
+      "self.admission"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.terms",
+    "signature": "self",
+    "line": 50,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": []
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.agreement_status",
+    "signature": "self",
+    "line": 63,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "dict",
+      "self.terms"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.accept",
+    "signature": "self, version, accepted",
+    "line": 67,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "ValueError",
+      "datetime.now",
+      "datetime.now(timezone.utc).isoformat",
+      "self.agreement_status",
+      "self.terms",
+      "type",
+      "write_json"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.require_agreement",
+    "signature": "self, context",
+    "line": 79,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "ValueError",
+      "self.terms",
+      "type"
+    ]
+  },
+  {
+    "module": "pipeline_gate",
+    "function": "PipelineGate.projection",
+    "signature": "self",
+    "line": 85,
+    "purpose": "Durable owner command fence shared by HTML KEX projections and multiplexers.",
+    "visibility": "source-api",
+    "calls": [
+      "self.agreement_status",
+      "self.status"
+    ]
+  },
+  {
     "module": "propagation_runtime",
     "function": "archive_registry",
     "signature": "registry, archive_root",
@@ -2413,7 +2551,7 @@
   {
     "module": "web4_runtime",
     "function": "http_json",
-    "signature": "port, path, body=None, token=None",
+    "signature": "port, path, body=None, token=None, timeout=8",
     "line": 192,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
@@ -2474,6 +2612,7 @@
       "Ed25519PrivateKey.from_private_bytes",
       "KCloudNode",
       "Path",
+      "PipelineGate",
       "Registry",
       "VFSSubscription",
       "base.rglob",
@@ -2501,7 +2640,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.env",
     "signature": "self",
-    "line": 243,
+    "line": 245,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2515,7 +2654,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.spawn",
     "signature": "self, name, argv, cwd, extra=None, stdio=False",
-    "line": 248,
+    "line": 250,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2539,7 +2678,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.wait_health",
     "signature": "self, name, port, path, timeout=8",
-    "line": 263,
+    "line": 265,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2554,7 +2693,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.estate_rpc",
     "signature": "self, method, params=None",
-    "line": 271,
+    "line": 273,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2574,7 +2713,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.start",
     "signature": "self",
-    "line": 283,
+    "line": 285,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2601,7 +2740,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.pair_agent",
     "signature": "self",
-    "line": 320,
+    "line": 322,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2617,7 +2756,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.status",
     "signature": "self",
-    "line": 328,
+    "line": 330,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2638,30 +2777,36 @@
   {
     "module": "web4_runtime",
     "function": "LaunchController.receipt",
-    "signature": "self, event, readback",
-    "line": 340,
+    "signature": "self, event, readback, request_id=None",
+    "line": 342,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
+      "ValueError",
       "content_root",
       "datetime.now",
       "datetime.now(timezone.utc).isoformat",
       "datetime.now(timezone.utc).isoformat(timespec='microseconds').replace",
+      "db.execute",
+      "db.execute('SELECT result FROM requests WHERE request_id=?', (request_id,)).fetchone",
       "dict",
       "encode_readback",
       "envelope_digest",
       "json.loads",
       "secrets.token_hex",
       "self.registry.commit",
+      "self.registry.replay",
+      "self.registry.vfs.connect",
       "self.registry.vfs.read",
+      "self.registry.vfs.read_object",
       "sign_observation"
     ]
   },
   {
     "module": "web4_runtime",
     "function": "LaunchController.queue_boot",
-    "signature": "self",
-    "line": 354,
+    "signature": "self, resume=False",
+    "line": 369,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2678,7 +2823,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.restart",
     "signature": "self, name",
-    "line": 364,
+    "line": 383,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2695,7 +2840,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.terminate",
     "signature": "proc",
-    "line": 376,
+    "line": 395,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2708,7 +2853,7 @@
     "module": "web4_runtime",
     "function": "LaunchController.close",
     "signature": "self",
-    "line": 389,
+    "line": 408,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2723,9 +2868,23 @@
     "module": "web4_runtime",
     "function": "LaunchController.control",
     "signature": "self, body",
-    "line": 393,
+    "line": 412,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
+    "calls": [
+      "body.get",
+      "self._control",
+      "self.pipeline.dispatch",
+      "self.pipeline.require_agreement"
+    ]
+  },
+  {
+    "module": "web4_runtime",
+    "function": "LaunchController._control",
+    "signature": "self, body",
+    "line": 425,
+    "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
+    "visibility": "internal",
     "calls": [
       "KEDDEHHCIContract",
       "KEDDEHHCIContract('KEDDEH').render",
@@ -2754,6 +2913,11 @@
       "self.domains.control",
       "self.estate_rpc",
       "self.owner_kernel.process_request",
+      "self.pipeline.accept",
+      "self.pipeline.agreement_status",
+      "self.pipeline.configure",
+      "self.pipeline.projection",
+      "self.pipeline.status",
       "self.queue_boot",
       "self.receipt",
       "self.restart",
@@ -2763,14 +2927,14 @@
       "type",
       "urlencode",
       "write_json",
-      "{'boot': 1, 'restart': -2, 'stop': -3, 'commit': 2, 'propagate': 2, 'bilateral': 2, 'domains': 3, 'vfs': 3, 'hci': 3, 'workbook': 3, 'observer': 3, 'estate': 3}.get"
+      "{'boot': 1, 'restart': -2, 'stop': -3, 'commit': 2, 'propagate': 2, 'bilateral': 2, 'domains': 3, 'vfs': 3, 'hci': 3, 'workbook': 3, 'observer': 3, 'estate': 3, 'pipeline': 3, 'projection': 3, 'agreement': 3}.get"
     ]
   },
   {
     "module": "web4_runtime",
     "function": "serve",
     "signature": "root",
-    "line": 456,
+    "line": 496,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [
@@ -2845,7 +3009,7 @@
     "module": "web4_runtime",
     "function": "main",
     "signature": "",
-    "line": 529,
+    "line": 569,
     "purpose": "Launch owner-supplied WEB4 packages with pinned custody and real readbacks.",
     "visibility": "source-api",
     "calls": [

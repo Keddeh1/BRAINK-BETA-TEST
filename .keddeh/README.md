@@ -9,3 +9,8 @@ The deployed engine is pinned to `d420b5008474cb0dc1b5bf47a7a8433245097072`. Ful
 Read `.keddeh/deployment-evidence.json` for actual deployment readbacks after qualification. Git commits, local deployment and public-site publication are distinct statuses.
 
 The launcher verifies executable source and wheel bytes against EXECUTABLE_MANIFEST.json before starting. Documentation-only revisions can progress independently; changed engine code must be qualified and explicitly promoted. The guard rejects altered or unadmitted source modules.
+
+
+## Current resident release 0.3.2
+
+Run `bash .keddeh/launch-family.sh` to verify the qualified source and wheel, then launch the persistent owner controller and admitted domains. The Docker image has read-only code, private retained state and trusted Docker-socket authority; it is not a customer sandbox. Review `packages/owner-family/RESIDENT_CONTROLLER.md` and `CRASH_BOUNDARY_PACKAGES.md`. HTML service agreement, revocation and family-scoped disconnect controls are available through the preserved owner panel. Other families require their own authenticated disconnect. Off-site observation remains unconfigured.

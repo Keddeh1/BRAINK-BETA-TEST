@@ -1,12 +1,12 @@
-# process-envelope
+# pipeline-gate
 
 ## Configuration fields
 
-`RLIMIT_CORE/NOFILE/FSIZE, restart backoff, Docker memory/cpus/pids-limit/cap-drop/read-only`
+`connected, generation, reason`
 
 ## Function and architectural application
 
-Host children disable core dumps and bound descriptors/output. Domain containers additionally use 256MiB memory,0.5 CPU,64 processes,32MiB Node heaps,16MiB probe heap,read-only code,no added Linux capabilities and explicit state mounts.
+Private durable state; successful disconnect acknowledges a saved command fence. Already admitted work may finish. This family only; direct trusted local R36 callers and physical links are outside the software fence.
 
 ## Guidelines, fit and field use
 

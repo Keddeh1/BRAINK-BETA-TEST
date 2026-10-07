@@ -1,12 +1,12 @@
-# process-envelope
+# resident-image
 
 ## Configuration fields
 
-`RLIMIT_CORE/NOFILE/FSIZE, restart backoff, Docker memory/cpus/pids-limit/cap-drop/read-only`
+`image_id, qualified_commit, qualified_wheel_sha256, docker_cli_sha256, python_base, node_base`
 
 ## Function and architectural application
 
-Host children disable core dumps and bound descriptors/output. Domain containers additionally use 256MiB memory,0.5 CPU,64 processes,32MiB Node heaps,16MiB probe heap,read-only code,no added Linux capabilities and explicit state mounts.
+Content-addressed local image and verified wheel/dependency hashes; 1GiB/one CPU/256 PIDs per trusted owner controller. Named UID 1000 account, no HOME reassignment. Build and qualify on a new host before claiming restoration.
 
 ## Guidelines, fit and field use
 

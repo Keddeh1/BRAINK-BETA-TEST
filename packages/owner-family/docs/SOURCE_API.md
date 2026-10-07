@@ -40,7 +40,7 @@ Source: `src/keddeh_namespace/bilateral_runtime.py:23`. Calls: `ValueError`, `di
 
 Durable bidirectional workstation-to-R36 execution loop.
 
-Source: `src/keddeh_namespace/bilateral_runtime.py:31`. Calls: `DynamicHealingAgent`, `RuntimeError`, `StochasticKuramotoPLL`, `actor.get`, `all`, `any`, `commands.append`, `d['live'].get`, `enumerate`, `float`, `hasattr`, `hashlib.sha256`, `hashlib.sha256(material).digest`, `healer.resolve_drift`, `http_json`, `int.from_bytes`, `json.dumps`, `json.dumps({'left': left, 'right': peer, 'domain_feedback': domain_feedback, 'returned': returned, 'owner_phase': self.data['phase']['theta'][i], 'owner_healing': healer.resolve_drift([float(not left['ok']), float(not peer['ok'])])}, sort_keys=True).encode`, `len`, `np.array`, `observed['services'].values`, `pending['actors'].append`, `pll.omega.tolist`, `pll.step`, `pll.theta.tolist`, `range`, `self.controller.domains.control`, `self.controller.receipt`, `self.controller.status`, `self.data.get`, `self.data.update`, `self.save`, `str`, `time.monotonic`, `type`, `urlencode`.
+Source: `src/keddeh_namespace/bilateral_runtime.py:31`. Calls: `DynamicHealingAgent`, `RuntimeError`, `StochasticKuramotoPLL`, `actor.get`, `all`, `any`, `commands.append`, `d['live'].get`, `enumerate`, `float`, `hasattr`, `hashlib.sha256`, `hashlib.sha256(json.dumps(pending, sort_keys=True, separators=(',', ':')).encode()).hexdigest`, `hashlib.sha256(material).digest`, `healer.resolve_drift`, `http_json`, `int.from_bytes`, `json.dumps`, `json.dumps(pending, sort_keys=True, separators=(',', ':')).encode`, `json.dumps({'left': left, 'right': peer, 'domain_feedback': domain_feedback, 'returned': returned, 'owner_phase': self.data['phase']['theta'][i], 'owner_healing': healer.resolve_drift([float(not left['ok']), float(not peer['ok'])])}, sort_keys=True).encode`, `len`, `np.array`, `observed['services'].values`, `operation`, `pending['actors'].append`, `pll.omega.tolist`, `pll.step`, `pll.theta.tolist`, `range`, `self.controller.domains.control`, `self.controller.pipeline.dispatch`, `self.controller.receipt`, `self.controller.status`, `self.data.get`, `self.data.update`, `self.save`, `str`, `time.monotonic`, `type`, `urlencode`.
 
 ## bootstrap.read_private_artifact
 
@@ -194,7 +194,7 @@ Source: `src/keddeh_namespace/domain_mesh.py:87`. Calls: `ValueError`, `json.loa
 
 Owned recursive dual-network domains carrying owner workstation execution.
 
-Source: `src/keddeh_namespace/domain_mesh.py:91`. Calls: `Path`, `Path(__file__).with_name`, `Path(__file__).with_name('web4_domain.mjs').read_bytes`, `ValueError`, `code.read_bytes`, `code.write_bytes`, `hashlib.sha256`, `hashlib.sha256(desired).hexdigest`, `info['Config']['Labels'].get`, `json.loads`, `self.container`, `self.create_domain`, `self.run`, `self.save`, `str`.
+Source: `src/keddeh_namespace/domain_mesh.py:91`. Calls: `Path`, `Path(__file__).with_name`, `Path(__file__).with_name('web4_domain.mjs').read_bytes`, `ValueError`, `code.read_bytes`, `code.write_bytes`, `hashlib.sha256`, `hashlib.sha256(desired).hexdigest`, `info['Config'].get`, `info['Config']['Labels'].get`, `json.loads`, `self.container`, `self.create_domain`, `self.run`, `self.save`, `str`.
 
 ## domain_mesh.DomainMesh.reanchor
 
@@ -202,7 +202,7 @@ Source: `src/keddeh_namespace/domain_mesh.py:91`. Calls: `Path`, `Path(__file__)
 
 Owned recursive dual-network domains carrying owner workstation execution.
 
-Source: `src/keddeh_namespace/domain_mesh.py:107`. Calls: `ValueError`, `row.update`, `self.container`, `self.run`, `self.save`, `write_json`.
+Source: `src/keddeh_namespace/domain_mesh.py:112`. Calls: `ValueError`, `row.update`, `self.container`, `self.run`, `self.save`, `write_json`.
 
 ## domain_mesh.DomainMesh.control
 
@@ -210,7 +210,7 @@ Source: `src/keddeh_namespace/domain_mesh.py:107`. Calls: `ValueError`, `row.upd
 
 Owned recursive dual-network domains carrying owner workstation execution.
 
-Source: `src/keddeh_namespace/domain_mesh.py:121`. Calls: `ValueError`, `body.get`, `result.append`, `self.read`, `self.reanchor`, `self.spawn`.
+Source: `src/keddeh_namespace/domain_mesh.py:126`. Calls: `ValueError`, `body.get`, `result.append`, `self.read`, `self.reanchor`, `self.spawn`.
 
 ## envelope.canonical_bytes
 
@@ -682,6 +682,86 @@ Integrates one step of the SDE using Euler-Maruyama
 
 Source: `src/keddeh_namespace/owner_kernel.py:123`. Calls: `max`, `np.abs`, `np.angle`, `np.exp`, `np.mean`, `np.random.normal`, `np.sin`, `np.sqrt`, `np.zeros`, `range`.
 
+## pipeline_gate.PipelineGate.__init__
+
+`(self, state)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:7`. Calls: `ValueError`, `json.loads`, `self.agreement_path.exists`, `self.agreement_path.read_text`, `self.data.get`, `self.path.exists`, `self.path.read_text`, `threading.RLock`, `type`.
+
+## pipeline_gate.PipelineGate.status
+
+`(self)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:19`. Calls: `dict`.
+
+## pipeline_gate.PipelineGate.configure
+
+`(self, connected, reason)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:23`. Calls: `ValueError`, `dict`, `len`, `type`, `write_json`.
+
+## pipeline_gate.PipelineGate.admission
+
+`(self, generation=None)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:36`. Calls: `RuntimeError`, `ValueError`, `type`.
+
+## pipeline_gate.PipelineGate.dispatch
+
+`(self, operation, generation=None)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:46`. Calls: `operation`, `self.admission`.
+
+## pipeline_gate.PipelineGate.terms
+
+`(self)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:50`. Calls: .
+
+## pipeline_gate.PipelineGate.agreement_status
+
+`(self)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:63`. Calls: `dict`, `self.terms`.
+
+## pipeline_gate.PipelineGate.accept
+
+`(self, version, accepted)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:67`. Calls: `ValueError`, `datetime.now`, `datetime.now(timezone.utc).isoformat`, `self.agreement_status`, `self.terms`, `type`, `write_json`.
+
+## pipeline_gate.PipelineGate.require_agreement
+
+`(self, context)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:79`. Calls: `ValueError`, `self.terms`, `type`.
+
+## pipeline_gate.PipelineGate.projection
+
+`(self)`
+
+Durable owner command fence shared by HTML KEX projections and multiplexers.
+
+Source: `src/keddeh_namespace/pipeline_gate.py:85`. Calls: `self.agreement_status`, `self.status`.
+
 ## propagation_runtime.archive_registry
 
 `(registry, archive_root)`
@@ -1044,7 +1124,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:183`. Calls: `(root / 'launch.json
 
 ## web4_runtime.http_json
 
-`(port, path, body=None, token=None)`
+`(port, path, body=None, token=None, timeout=8)`
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
@@ -1072,7 +1152,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:212`. Calls: `importlib.util.modul
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:217`. Calls: `(self.state / 'generator.key').read_bytes`, `(self.state / 'token').read_text`, `(self.state / 'trust.json').read_text`, `BilateralRuntime`, `DomainMesh`, `Ed25519PrivateKey.from_private_bytes`, `KCloudNode`, `Path`, `Registry`, `VFSSubscription`, `base.rglob`, `canonical_bytes`, `code.iterdir`, `digest`, `hashlib.sha256`, `hashlib.sha256(canonical_bytes(self.source_manifest)).hexdigest`, `json.loads`, `p.is_file`, `p.relative_to`, `queue.Queue`, `self.config.get`, `sorted`, `str`, `threading.Event`, `threading.Lock`, `threading.RLock`, `verify_launch`, `version`, `write_json`.
+Source: `src/keddeh_namespace/web4_runtime.py:217`. Calls: `(self.state / 'generator.key').read_bytes`, `(self.state / 'token').read_text`, `(self.state / 'trust.json').read_text`, `BilateralRuntime`, `DomainMesh`, `Ed25519PrivateKey.from_private_bytes`, `KCloudNode`, `Path`, `PipelineGate`, `Registry`, `VFSSubscription`, `base.rglob`, `canonical_bytes`, `code.iterdir`, `digest`, `hashlib.sha256`, `hashlib.sha256(canonical_bytes(self.source_manifest)).hexdigest`, `json.loads`, `p.is_file`, `p.relative_to`, `queue.Queue`, `self.config.get`, `sorted`, `str`, `threading.Event`, `threading.Lock`, `threading.RLock`, `verify_launch`, `version`, `write_json`.
 
 ## web4_runtime.LaunchController.env
 
@@ -1080,7 +1160,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:217`. Calls: `(self.state / 'gener
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:243`. Calls: `(self.state / 'pairing-code').read_text`, `os.environ.items`, `str`, `values.update`.
+Source: `src/keddeh_namespace/web4_runtime.py:245`. Calls: `(self.state / 'pairing-code').read_text`, `os.environ.items`, `str`, `values.update`.
 
 ## web4_runtime.LaunchController.spawn
 
@@ -1088,7 +1168,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:243`. Calls: `(self.state / 'pairi
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:248`. Calls: `(logs / (name + '.log')).open`, `Path`, `Path(__file__).with_name`, `env.update`, `iter`, `json.loads`, `logs.mkdir`, `proc.stdout.readline`, `self.env`, `self.rpc_responses.put`, `str`, `subprocess.Popen`, `threading.Thread`, `threading.Thread(target=reader, daemon=True).start`.
+Source: `src/keddeh_namespace/web4_runtime.py:250`. Calls: `(logs / (name + '.log')).open`, `Path`, `Path(__file__).with_name`, `env.update`, `iter`, `json.loads`, `logs.mkdir`, `proc.stdout.readline`, `self.env`, `self.rpc_responses.put`, `str`, `subprocess.Popen`, `threading.Thread`, `threading.Thread(target=reader, daemon=True).start`.
 
 ## web4_runtime.LaunchController.wait_health
 
@@ -1096,7 +1176,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:248`. Calls: `(logs / (name + '.lo
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:263`. Calls: `RuntimeError`, `http_json`, `self.processes[name].poll`, `self.stop_event.wait`, `time.monotonic`.
+Source: `src/keddeh_namespace/web4_runtime.py:265`. Calls: `RuntimeError`, `http_json`, `self.processes[name].poll`, `self.stop_event.wait`, `time.monotonic`.
 
 ## web4_runtime.LaunchController.estate_rpc
 
@@ -1104,7 +1184,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:263`. Calls: `RuntimeError`, `http
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:271`. Calls: `(json.dumps({'jsonrpc': '2.0', 'id': ident, 'method': method, 'params': params or {}}) + '\n').encode`, `RuntimeError`, `json.dumps`, `max`, `proc.stdin.flush`, `proc.stdin.write`, `reply.get`, `self.rpc_responses.get`, `str`, `time.monotonic`.
+Source: `src/keddeh_namespace/web4_runtime.py:273`. Calls: `(json.dumps({'jsonrpc': '2.0', 'id': ident, 'method': method, 'params': params or {}}) + '\n').encode`, `RuntimeError`, `json.dumps`, `max`, `proc.stdin.flush`, `proc.stdin.write`, `reply.get`, `self.rpc_responses.get`, `str`, `time.monotonic`.
 
 ## web4_runtime.LaunchController.start
 
@@ -1112,7 +1192,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:271`. Calls: `(json.dumps({'jsonrp
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:283`. Calls: `(self.estate / 'mesh/nodes' / candidate).is_file`, `(self.estate / 'mesh/registry.json').read_text`, `Path`, `RuntimeError`, `ValueError`, `health.get`, `json.loads`, `next`, `self.config.get`, `self.estate_rpc`, `self.pair_agent`, `self.spawn`, `self.wait_health`, `sock.bind`, `sock.setsockopt`, `socket.socket`, `str`.
+Source: `src/keddeh_namespace/web4_runtime.py:285`. Calls: `(self.estate / 'mesh/nodes' / candidate).is_file`, `(self.estate / 'mesh/registry.json').read_text`, `Path`, `RuntimeError`, `ValueError`, `health.get`, `json.loads`, `next`, `self.config.get`, `self.estate_rpc`, `self.pair_agent`, `self.spawn`, `self.wait_health`, `sock.bind`, `sock.setsockopt`, `socket.socket`, `str`.
 
 ## web4_runtime.LaunchController.pair_agent
 
@@ -1120,7 +1200,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:283`. Calls: `(self.estate / 'mesh
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:320`. Calls: `(self.state / 'pairing-code').read_text`, `agent.pair`, `contextlib.redirect_stdout`, `io.StringIO`, `load_module`, `statefile.exists`.
+Source: `src/keddeh_namespace/web4_runtime.py:322`. Calls: `(self.state / 'pairing-code').read_text`, `agent.pair`, `contextlib.redirect_stdout`, `io.StringIO`, `load_module`, `statefile.exists`.
 
 ## web4_runtime.LaunchController.status
 
@@ -1128,23 +1208,23 @@ Source: `src/keddeh_namespace/web4_runtime.py:320`. Calls: `(self.state / 'pairi
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:328`. Calls: `broker.get`, `command.get`, `health.get`, `http_json`, `nodes.append`, `proc.poll`, `self.config.get`, `self.processes.items`, `self.restarts.get`, `sum`, `telemetry.get`, `type`.
+Source: `src/keddeh_namespace/web4_runtime.py:330`. Calls: `broker.get`, `command.get`, `health.get`, `http_json`, `nodes.append`, `proc.poll`, `self.config.get`, `self.processes.items`, `self.restarts.get`, `sum`, `telemetry.get`, `type`.
 
 ## web4_runtime.LaunchController.receipt
 
-`(self, event, readback)`
+`(self, event, readback, request_id=None)`
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:340`. Calls: `content_root`, `datetime.now`, `datetime.now(timezone.utc).isoformat`, `datetime.now(timezone.utc).isoformat(timespec='microseconds').replace`, `dict`, `encode_readback`, `envelope_digest`, `json.loads`, `secrets.token_hex`, `self.registry.commit`, `self.registry.vfs.read`, `sign_observation`.
+Source: `src/keddeh_namespace/web4_runtime.py:342`. Calls: `ValueError`, `content_root`, `datetime.now`, `datetime.now(timezone.utc).isoformat`, `datetime.now(timezone.utc).isoformat(timespec='microseconds').replace`, `db.execute`, `db.execute('SELECT result FROM requests WHERE request_id=?', (request_id,)).fetchone`, `dict`, `encode_readback`, `envelope_digest`, `json.loads`, `secrets.token_hex`, `self.registry.commit`, `self.registry.replay`, `self.registry.vfs.connect`, `self.registry.vfs.read`, `self.registry.vfs.read_object`, `sign_observation`.
 
 ## web4_runtime.LaunchController.queue_boot
 
-`(self)`
+`(self, resume=False)`
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:354`. Calls: `ValueError`, `broker.queue_command`, `existing.get`, `http_json`, `http_json(self.ports['broker'], '/api/self-host/status').get`, `load_module`, `secrets.token_hex`.
+Source: `src/keddeh_namespace/web4_runtime.py:369`. Calls: `ValueError`, `broker.queue_command`, `existing.get`, `http_json`, `http_json(self.ports['broker'], '/api/self-host/status').get`, `load_module`, `secrets.token_hex`.
 
 ## web4_runtime.LaunchController.restart
 
@@ -1152,7 +1232,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:354`. Calls: `ValueError`, `broker
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:364`. Calls: `ValueError`, `self.estate_rpc`, `self.restarts.get`, `self.rpc_responses.empty`, `self.rpc_responses.get_nowait`, `self.spawn`, `self.terminate`.
+Source: `src/keddeh_namespace/web4_runtime.py:383`. Calls: `ValueError`, `self.estate_rpc`, `self.restarts.get`, `self.rpc_responses.empty`, `self.rpc_responses.get_nowait`, `self.spawn`, `self.terminate`.
 
 ## web4_runtime.LaunchController.terminate
 
@@ -1160,7 +1240,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:364`. Calls: `ValueError`, `self.e
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:376`. Calls: `os.killpg`, `proc.poll`, `proc.wait`.
+Source: `src/keddeh_namespace/web4_runtime.py:395`. Calls: `os.killpg`, `proc.poll`, `proc.wait`.
 
 ## web4_runtime.LaunchController.close
 
@@ -1168,7 +1248,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:376`. Calls: `os.killpg`, `proc.po
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:389`. Calls: `list`, `reversed`, `self.processes.values`, `self.stop_event.set`, `self.terminate`.
+Source: `src/keddeh_namespace/web4_runtime.py:408`. Calls: `list`, `reversed`, `self.processes.values`, `self.stop_event.set`, `self.terminate`.
 
 ## web4_runtime.LaunchController.control
 
@@ -1176,7 +1256,15 @@ Source: `src/keddeh_namespace/web4_runtime.py:389`. Calls: `list`, `reversed`, `
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:393`. Calls: `KEDDEHHCIContract`, `KEDDEHHCIContract('KEDDEH').render`, `PropagationRuntime`, `RuntimeError`, `Topology.adjacency`, `ValueError`, `body.get`, `dict`, `enumerate`, `http_json`, `json.dumps`, `len`, `load_module`, `max`, `min`, `module.diagnostic_run`, `module.make_node`, `output.update`, `range`, `receipts.append`, `record.get`, `round`, `rt.tick`, `self.bilateral.configure`, `self.domains.control`, `self.estate_rpc`, `self.owner_kernel.process_request`, `self.queue_boot`, `self.receipt`, `self.restart`, `self.status`, `self.stop_event.set`, `str`, `type`, `urlencode`, `write_json`, `{'boot': 1, 'restart': -2, 'stop': -3, 'commit': 2, 'propagate': 2, 'bilateral': 2, 'domains': 3, 'vfs': 3, 'hci': 3, 'workbook': 3, 'observer': 3, 'estate': 3}.get`.
+Source: `src/keddeh_namespace/web4_runtime.py:412`. Calls: `body.get`, `self._control`, `self.pipeline.dispatch`, `self.pipeline.require_agreement`.
+
+## web4_runtime.LaunchController._control
+
+`(self, body)`
+
+Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
+
+Source: `src/keddeh_namespace/web4_runtime.py:425`. Calls: `KEDDEHHCIContract`, `KEDDEHHCIContract('KEDDEH').render`, `PropagationRuntime`, `RuntimeError`, `Topology.adjacency`, `ValueError`, `body.get`, `dict`, `enumerate`, `http_json`, `json.dumps`, `len`, `load_module`, `max`, `min`, `module.diagnostic_run`, `module.make_node`, `output.update`, `range`, `receipts.append`, `record.get`, `round`, `rt.tick`, `self.bilateral.configure`, `self.domains.control`, `self.estate_rpc`, `self.owner_kernel.process_request`, `self.pipeline.accept`, `self.pipeline.agreement_status`, `self.pipeline.configure`, `self.pipeline.projection`, `self.pipeline.status`, `self.queue_boot`, `self.receipt`, `self.restart`, `self.status`, `self.stop_event.set`, `str`, `type`, `urlencode`, `write_json`, `{'boot': 1, 'restart': -2, 'stop': -3, 'commit': 2, 'propagate': 2, 'bilateral': 2, 'domains': 3, 'vfs': 3, 'hci': 3, 'workbook': 3, 'observer': 3, 'estate': 3, 'pipeline': 3, 'projection': 3, 'agreement': 3}.get`.
 
 ## web4_runtime.serve
 
@@ -1184,7 +1272,7 @@ Source: `src/keddeh_namespace/web4_runtime.py:393`. Calls: `KEDDEHHCIContract`, 
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:456`. Calls: `('Bearer ' + controller.token).encode`, `(Path(__file__).parent / assets[path]).read_bytes`, `(root / '.controller.lock').open`, `(root / 'controller.json').unlink`, `LaunchController`, `Path`, `ThreadingHTTPServer`, `ValueError`, `controller.bilateral.tick`, `controller.close`, `controller.control`, `controller.domains.resume`, `controller.processes.items`, `controller.queue_boot`, `controller.receipt`, `controller.recovery_errors.pop`, `controller.registry.replay`, `controller.registry.vfs.read`, `controller.restart`, `controller.restarts.get`, `controller.retry_after.get`, `controller.start`, `controller.status`, `controller.stop_event.set`, `controller.stop_event.wait`, `controller.vfs.tick`, `directory.rglob`, `fcntl.flock`, `files[0].read_bytes`, `int`, `isinstance`, `json.dumps`, `json.dumps(value).encode`, `json.loads`, `len`, `list`, `lock.close`, `min`, `os.getpid`, `print`, `proc.poll`, `raw.replace`, `secrets.compare_digest`, `self.auth`, `self.connection.settimeout`, `self.end_headers`, `self.headers.get`, `self.rfile.read`, `self.send`, `self.send_header`, `self.send_response`, `self.wfile.write`, `server.server_close`, `server.shutdown`, `signal.signal`, `str`, `super`, `super().setup`, `threading.Thread`, `threading.Thread(target=server.serve_forever, daemon=True).start`, `time.monotonic`, `type`, `urlsplit`, `value.encode`, `write_json`.
+Source: `src/keddeh_namespace/web4_runtime.py:496`. Calls: `('Bearer ' + controller.token).encode`, `(Path(__file__).parent / assets[path]).read_bytes`, `(root / '.controller.lock').open`, `(root / 'controller.json').unlink`, `LaunchController`, `Path`, `ThreadingHTTPServer`, `ValueError`, `controller.bilateral.tick`, `controller.close`, `controller.control`, `controller.domains.resume`, `controller.processes.items`, `controller.queue_boot`, `controller.receipt`, `controller.recovery_errors.pop`, `controller.registry.replay`, `controller.registry.vfs.read`, `controller.restart`, `controller.restarts.get`, `controller.retry_after.get`, `controller.start`, `controller.status`, `controller.stop_event.set`, `controller.stop_event.wait`, `controller.vfs.tick`, `directory.rglob`, `fcntl.flock`, `files[0].read_bytes`, `int`, `isinstance`, `json.dumps`, `json.dumps(value).encode`, `json.loads`, `len`, `list`, `lock.close`, `min`, `os.getpid`, `print`, `proc.poll`, `raw.replace`, `secrets.compare_digest`, `self.auth`, `self.connection.settimeout`, `self.end_headers`, `self.headers.get`, `self.rfile.read`, `self.send`, `self.send_header`, `self.send_response`, `self.wfile.write`, `server.server_close`, `server.shutdown`, `signal.signal`, `str`, `super`, `super().setup`, `threading.Thread`, `threading.Thread(target=server.serve_forever, daemon=True).start`, `time.monotonic`, `type`, `urlsplit`, `value.encode`, `write_json`.
 
 ## web4_runtime.main
 
@@ -1192,5 +1280,5 @@ Source: `src/keddeh_namespace/web4_runtime.py:456`. Calls: `('Bearer ' + control
 
 Launch owner-supplied WEB4 packages with pinned custody and real readbacks.
 
-Source: `src/keddeh_namespace/web4_runtime.py:529`. Calls: `(root / '.controller.lock').open`, `(root / 'controller.log').open`, `(root / 'launch.json').read_text`, `(root / 'state/token').read_text`, `LaunchController.terminate`, `Path`, `RuntimeError`, `argparse.ArgumentParser`, `fcntl.flock`, `http_json`, `json.dumps`, `json.loads`, `parser.add_argument`, `parser.parse_args`, `prepare`, `print`, `proc.poll`, `serve`, `str`, `subprocess.Popen`, `time.monotonic`, `time.sleep`, `verify_launch`.
+Source: `src/keddeh_namespace/web4_runtime.py:569`. Calls: `(root / '.controller.lock').open`, `(root / 'controller.log').open`, `(root / 'launch.json').read_text`, `(root / 'state/token').read_text`, `LaunchController.terminate`, `Path`, `RuntimeError`, `argparse.ArgumentParser`, `fcntl.flock`, `http_json`, `json.dumps`, `json.loads`, `parser.add_argument`, `parser.parse_args`, `prepare`, `print`, `proc.poll`, `serve`, `str`, `subprocess.Popen`, `time.monotonic`, `time.sleep`, `verify_launch`.
 

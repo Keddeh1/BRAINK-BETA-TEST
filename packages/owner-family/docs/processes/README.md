@@ -22,3 +22,4 @@
 - [workstation-08](workstation-08/README.md)
 - [workstation-09](workstation-09/README.md)
 - [workstation-10](workstation-10/README.md)
+- [resident-controller](resident-controller/README.md)

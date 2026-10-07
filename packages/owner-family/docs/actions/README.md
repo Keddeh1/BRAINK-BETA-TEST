@@ -16,3 +16,6 @@
 - [observer](observer/README.md)
 - [workbook](workbook/README.md)
 - [estate](estate/README.md)
+- [pipeline](pipeline/README.md)
+- [projection](projection/README.md)
+- [agreement](agreement/README.md)

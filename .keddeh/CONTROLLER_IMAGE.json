@@ -1,0 +1,9 @@
+{
+  "schema": "keddeh.resident-controller-image.v1",
+  "image_id": "sha256:4474575af321d192b019de6675e97312a9bceeb30a95c6e4914cfa2b3ec4bdf9",
+  "qualified_commit": "9ab5fd83c4e3e87e592885f00e912f2d8fe19233",
+  "qualified_wheel_sha256": "5bbaad7c3d4c2dee231255eb183343674e48a6411f7ee007118c78b3dfffe71d",
+  "docker_cli_sha256": "27f239f97492c434e091a70b41b8796c698f0aa2b6052c6f9c28da4ee7ae888b",
+  "python_base": "python@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258",
+  "node_base": "node@sha256:d6aa754f16b3197301076f047b5def2f02ea1dbbc2ca920407d46d7ec7f87b20"
+}

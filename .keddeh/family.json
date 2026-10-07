@@ -3,7 +3,7 @@
   "repository": "Keddeh1/BRAINK-BETA-TEST",
   "family_id": "braink-beta-test",
   "engine_repository": "Keddeh1/KEDDEH-SOVEREIGN-NAMESPACE-RUNTIME",
-  "engine_ref": "d420b5008474cb0dc1b5bf47a7a8433245097072",
+  "engine_ref": "9ab5fd83c4e3e87e592885f00e912f2d8fe19233",
   "runtime_root": "/workspace/braink-setup/families/BRAINK-BETA-TEST",
   "port_offset": 100,
   "library_manifest": "/workspace/library-files/KEDDEH/2026-10-07/manifest.json",

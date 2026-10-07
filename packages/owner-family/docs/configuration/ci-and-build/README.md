@@ -6,7 +6,7 @@
 
 ## Function and architectural application
 
-Frozen runtime dependencies and pinned build tool/action versions. Candidate evidence must be outside source; dirty checkouts fail. No hosted CI pass is claimed while billing prevents jobs from starting.
+Frozen runtime dependencies and pinned build tool/action versions. Candidate evidence must be outside source; dirty checkouts fail. No hosted CI pass is claimed when jobs do not start; retain the actual provider error and do not infer its cause.
 
 ## Guidelines, fit and field use
 
