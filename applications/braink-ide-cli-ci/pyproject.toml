@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "braink-application-node"
 version = "0.1.0"
 description = "Independent BRAINK IDE, CLI and CI application node"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
 

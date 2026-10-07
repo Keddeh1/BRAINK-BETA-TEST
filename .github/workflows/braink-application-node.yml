@@ -1,0 +1,37 @@
+name: BRAINK application node
+on:
+  push:
+    paths: ['applications/braink-ide-cli-ci/**', '.github/workflows/braink-application-node.yml']
+  pull_request:
+    paths: ['applications/braink-ide-cli-ci/**', '.github/workflows/braink-application-node.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.10', '3.12', '3.14']
+    defaults:
+      run:
+        working-directory: applications/braink-ide-cli-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '${{ matrix.python }}'
+      - run: python -m pip install build coverage
+      - run: python -m build
+      - run: python -m pip install dist/*.whl
+      - run: coverage run --source=braink_node -m unittest discover -s tests -v
+      - run: coverage report --fail-under=80
+      - name: Exercise installed CLI and CI gate
+        run: |
+          braink-node --workspace /tmp/braink-workspace --state-dir /tmp/braink-state init
+          braink-node --workspace /tmp/braink-workspace --state-dir /tmp/braink-state check --fail-on warn
+          braink-node --workspace /tmp/braink-workspace --state-dir /tmp/braink-state verify-ledger
+      - uses: actions/upload-artifact@v4
+        with:
+          name: braink-node-wheel-py${{ matrix.python }}
+          path: applications/braink-ide-cli-ci/dist/*.whl
