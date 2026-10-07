@@ -1,0 +1,21 @@
+name: VFS_SERVER qualification
+on:
+  push:
+    paths:
+      - 'vfs_server/**'
+      - '.github/workflows/vfs-server.yml'
+  pull_request:
+    paths:
+      - 'vfs_server/**'
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile
+        run: python -m compileall -q vfs_server
+      - name: Unit qualification
+        run: python -m unittest discover -s vfs_server/tests -v
