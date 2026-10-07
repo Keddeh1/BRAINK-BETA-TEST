@@ -1,0 +1,31 @@
+{
+  "schema": "keddeh.delivery-tracking.v1",
+  "pull_request": "https://github.com/Keddeh1/BRAINK-BETA-TEST/pull/3",
+  "milestone_number": 1,
+  "labels": [
+    "runtime:family",
+    "vfs:subscribed",
+    "evidence:required"
+  ],
+  "github_projects_status": "not provisioned: integration permission denied",
+  "proposed_views": [
+    {
+      "name": "Delivery",
+      "layout": "board",
+      "group_by": "Status"
+    },
+    {
+      "name": "Evidence gaps",
+      "layout": "table",
+      "filter": "label:evidence:required"
+    },
+    {
+      "name": "Release scope",
+      "layout": "table",
+      "group_by": "Milestone"
+    }
+  ],
+  "hosted_actions_status": "account billing prevents job startup",
+  "local_qualification": "packages/owner-family/QUALIFICATION.json",
+  "independent_production_assessment": null
+}
