@@ -10,7 +10,7 @@ A function module has a stable URI, complete signature, lexical scope, source id
 
 A module family retains the complete source compilation unit. Function fragments are reference artifacts; decorators, receivers, imports and lexical closures remain in the original family implementation. A family variant records its family/module membership and explicit core dependency edges. A variant colony records its variant membership. Each of the core, CLI, IDE and CI sectors has an independently built wheel and its own colony artifact package. Shared core code retains its original identity while each occurrence receives its own instance.
 
-`FunctionBindings` invokes original Python callables. Bound methods retain their actual receiver; closures retain actual lexical captures. Distinct captures require distinct binding contexts. Source changes or mismatched lambda positions produce an explicit binding error. Browser functions retain their browser realm and event/DOM context; Python invocation does not substitute for a browser execution context.
+`FunctionBindings` invokes original Python callables. Bound methods retain their actual receiver; closures retain actual lexical captures. Distinct captures require distinct binding contexts. Source changes or mismatched lambda positions produce an explicit binding error. `InstanceManager.invoke` connects execution to the instantiated definition and records request, return or raised-exception evidence in that instance’s VFS. Opaque results remain live objects; their metadata does not pretend to be a serialized object capture. Browser functions retain their browser realm and event/DOM context; Python invocation does not substitute for a browser execution context.
 
 ## Instance lifecycle and ceremony
 

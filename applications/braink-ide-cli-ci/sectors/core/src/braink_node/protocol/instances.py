@@ -74,7 +74,13 @@ class InstanceManager:
         vfs = VFSStore(directory / 'vfs')
         invocation = '/invocations/' + uuid4().hex
         request = {'instance': instance, 'module': module_id, 'args': list(args), 'kwargs': kwargs or {}, 'context': context}
-        record, actor = vfs.write(ArtifactWrite(invocation + '/request.json', canonical_bytes(request), instance, media_type='application/json'))
+        try:
+            request_bytes = canonical_bytes(request)
+        except (TypeError, ValueError):
+            request_bytes = canonical_bytes({'instance': instance, 'module': module_id, 'context': context,
+                'argument_capture': 'LIVE_CONTEXT', 'argument_types': [type(value).__module__ + '.' + type(value).__qualname__ for value in args],
+                'keyword_types': {key: type(value).__module__ + '.' + type(value).__qualname__ for key, value in (kwargs or {}).items()}})
+        record, actor = vfs.write(ArtifactWrite(invocation + '/request.json', request_bytes, instance, media_type='application/json'))
         vfs.verify(record.digest)
         try:
             result = bindings.invoke(module_id, args, kwargs, context)
