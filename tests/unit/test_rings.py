@@ -62,3 +62,10 @@ class TestRing:
         assert ring_1.can_access(RingLevel.RING_3)
         # But not Ring 0
         assert not ring_1.can_access(RingLevel.RING_0)
+
+
+@pytest.mark.parametrize("source", list(RingLevel))
+@pytest.mark.parametrize("target", list(RingLevel))
+def test_complete_privilege_matrix(source, target):
+    ring = Ring(source, memory_base=0, memory_size=4096)
+    assert ring.can_access(target) is (source.value <= target.value)

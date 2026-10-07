@@ -118,7 +118,7 @@ class Ring:
             return True
 
         # Higher numbered rings (lower privilege) cannot access lower rings
-        return self.level >= target_ring
+        return self.level <= target_ring
 
     def __repr__(self) -> str:
         """String representation of ring."""
