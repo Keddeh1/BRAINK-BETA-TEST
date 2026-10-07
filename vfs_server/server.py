@@ -6,7 +6,8 @@ from .fleet import VFSFleet
 from .auth import MutationAuthorizer
 
 MAX_REQUEST_BYTES=16*1024
-ID="[0-9a-f]{32}"
+VFS_ID="[0-9a-f]{64}"
+ENTRY_ID="[0-9a-f]{32}"
 
 class Handler(BaseHTTPRequestHandler):
     fleet=None
@@ -52,11 +53,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json(200,{"ready":True,**self.fleet.status()})
             if not self._authorized(): return
             if p=="/vfs": return self.send_json(200,{"allocations":self.fleet.list()})
-            m=re.fullmatch(r"/vfs/("+ID+r")",p)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")",p)
             if m: return self.send_json(200,{"allocation":self.fleet.get(m[1])})
             m=re.fullmatch(r"/vfs/("+ID+r")/ab",p)
             if m: return self.send_json(200,{"allocation":self.fleet.get(m[1]),"entries":self.fleet.entries(m[1])})
-            m=re.fullmatch(r"/vfs/("+ID+r")/ab/("+ID+r")",p)
+            m=re.fullmatch(r"/vfs/("+VFS_ID+r")/ab/("+ENTRY_ID+r")",p)
             if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2]))
             return self.send_json(404,{"error":"not_found"})
         except Exception as error: return self._error(error)
