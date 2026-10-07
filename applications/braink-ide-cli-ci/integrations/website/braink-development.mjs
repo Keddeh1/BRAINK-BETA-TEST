@@ -1,3 +1,5 @@
+import {architectureStore} from './braink-architecture-store.mjs';
+import {architecturePage} from './braink-architecture.mjs';
 import {ownerCI,workerCI} from './braink-ci-store.mjs';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'private,no-store'}});
 export async function developmentAPI(request,env){
@@ -6,6 +8,7 @@ export async function developmentAPI(request,env){
   if(request.method!=='POST')return json({error:'METHOD_NOT_ALLOWED'},405);
   if(!env.BRAINK_CI_AGENT_TOKEN||request.headers.get('Authorization')!=='Bearer '+env.BRAINK_CI_AGENT_TOKEN)return json({error:'UNAUTHORIZED'},401);
   const value=await request.clone().json();
+  if(['architecture-observation','architecture-status'].includes(value.op))return architectureStore(env.DB,env.CLAIMPATH_RECEIPTS,value);
   if(['submit','list','artifact'].includes(value.op)){
    const url=new URL(request.url);url.pathname='/api/braink-development';
    if(value.op==='artifact'){url.searchParams.set('job',value.id);url.searchParams.set('artifact',value.path)}
@@ -14,7 +17,7 @@ export async function developmentAPI(request,env){
   }
   return workerCI(request,env.DB,env.CLAIMPATH_RECEIPTS);
  }
- if(!['/api/braink-development','/api/braink-development/artifact'].includes(path))return null;
+ if(!['/api/braink-development','/api/braink-development/artifact','/api/braink-architecture'].includes(path))return null;
  const id=request.headers.get('oai-authenticated-user-id'),email=request.headers.get('oai-authenticated-user-email');
  if(!id||!email)return json({error:'AUTHENTICATION_REQUIRED'},401);
  if(!env.BRAINK_OWNER_EMAIL||email.trim().toLowerCase()!==env.BRAINK_OWNER_EMAIL.trim().toLowerCase())return json({error:'ACCESS_DENIED'},403);
@@ -23,14 +26,16 @@ export async function developmentAPI(request,env){
   const origin=request.headers.get('Origin');
   if(request.headers.get('Sec-Fetch-Site')==='cross-site'||origin&&origin!==new URL(request.url).origin)return json({error:'ACCESS_DENIED'},403);
  }
+ if(path==='/api/braink-architecture'){if(request.method!=='GET')return json({error:'METHOD_NOT_ALLOWED'},405);return architectureStore(env.DB,env.CLAIMPATH_RECEIPTS,{op:'architecture-status'})}
  return ownerCI(request,env.DB,env.CLAIMPATH_RECEIPTS);
 }
 export function developmentPage(path){
+ if(path==='/braink/architecture')return architecturePage();
  if(!['/braink/development','/braink/ci','/braink/ide','/braink/cli'].includes(path))return null;
  const mode=path.split('/').pop();
  return `<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BRAINK ${mode.toUpperCase()} · Keddeh Systems</title>
  <style>*{box-sizing:border-box}body{margin:0;background:#07111f;color:#e8f1ff;font:16px/1.6 system-ui}a{color:#b5d8ff}header{padding:24px 5vw;border-bottom:1px solid #324860;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}main{padding:28px 5vw;max-width:1500px;margin:auto}h1{font-size:30px;margin:0 0 18px}nav{display:flex;gap:20px;flex-wrap:wrap}button,input,select,textarea{font:inherit;color:inherit;background:#12253c;border:1px solid #597089;border-radius:5px;padding:10px}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #98e9d8;outline-offset:3px}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:24px}.grid{display:grid;grid-template-columns:240px 1fr;gap:20px}textarea{width:100%;height:45vh;font:14px/1.6 monospace}.files button{display:block;width:100%;text-align:left;overflow-wrap:anywhere;margin:8px 0}table{border-collapse:collapse;width:100%}td,th{padding:12px;text-align:left;border-bottom:1px solid #324860}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0c1b2e;padding:18px;max-height:70vh;overflow:auto}.muted{color:#afc0d5}@media(max-width:700px){.grid{grid-template-columns:1fr}table{display:block;overflow:auto}}</style>
- <header><a href="/braink">KEDDEH SYSTEMS / BRAINK</a><nav aria-label="Development sector"><a href="/braink/development">Delivery</a><a href="/braink/ide">IDE</a><a href="/braink/cli">CLI</a><a href="/braink/ci">CI</a></nav></header>
+ <header><a href="/braink">KEDDEH SYSTEMS / BRAINK</a><nav aria-label="Development sector"><a href="/braink/architecture">Architecture</a><a href="/braink/development">Delivery</a><a href="/braink/ide">IDE</a><a href="/braink/cli">CLI</a><a href="/braink/ci">CI</a></nav></header>
  <main><h1>BRAINK ${mode==='development'?'development sector':mode.toUpperCase()}</h1><div id="auth"><a href="/signin-with-chatgpt?return_to=${encodeURIComponent(path)}" target="_top">Sign in with your owner account</a></div>
  ${mode==='ide'?'<div class="toolbar"><button id="files-button">Load workspace</button><input id="file-path" aria-label="Workspace file path" placeholder="projects/BRAINK/main.py"><button id="new-file">New file</button><button id="save-file">Save file</button></div><div class="grid"><aside id="file-list" class="files"></aside><section><label for="editor">File contents</label><textarea id="editor" spellcheck="false"></textarea></section></div>':''}
  ${mode==='cli'?'<form id="cli-form" class="toolbar"><label for="command">braink-node</label><input id="command" value="check" aria-label="BRAINK command arguments"><button>Execute</button></form>':''}

@@ -36,6 +36,7 @@ class MeshStore:
         self.lock = threading.RLock()
         with self.connect() as db:
             db.execute('CREATE TABLE IF NOT EXISTS subscriptions(instance TEXT PRIMARY KEY, definition TEXT NOT NULL, document TEXT NOT NULL)')
+            db.execute('CREATE TABLE IF NOT EXISTS message_ids(id TEXT PRIMARY KEY,sequence INTEGER NOT NULL,digest TEXT NOT NULL)')
             db.execute('CREATE TABLE IF NOT EXISTS messages(sequence INTEGER PRIMARY KEY AUTOINCREMENT, sender TEXT NOT NULL, recipient TEXT NOT NULL, digest TEXT NOT NULL)')
 
     def connect(self):
@@ -71,7 +72,7 @@ class MeshStore:
         self.vfs.read_content(document['artifact_digest'])
         return document
 
-    def exchange(self, sender, recipient, row):
+    def exchange(self, sender, recipient, row, message_id=None):
         self.subscription(sender)
         self.subscription(recipient)
         if row.get('type') != 'RELATIONAL_ANCHOR':
@@ -81,11 +82,19 @@ class MeshStore:
             raise ValueError('Missing relational anchor fields')
         payload = {'sender': sender, 'recipient': recipient, 'row': row}
         with self.lock, self.connect() as db:
+            digest = hashlib.sha256(canonical_bytes(payload)).hexdigest()
+            old = db.execute('SELECT sequence,digest FROM message_ids WHERE id=?', (message_id,)).fetchone() if message_id else None
+            if old:
+                if old['digest'] != digest:
+                    raise ValueError('Message identity replay differs')
+                return {'sequence': old['sequence'], 'digest': digest, 'replayed': True, 'observer': self.vfs.verify(digest)}
             record, actor = self.vfs.write(ArtifactWrite('/messages/' + hashlib.sha256(canonical_bytes(payload)).hexdigest(),
                                                         canonical_bytes(payload), sender, media_type='application/json'))
             observer = self.vfs.verify(record.digest)
             cursor = db.execute('INSERT INTO messages(sender,recipient,digest) VALUES(?,?,?)', (sender, recipient, record.digest))
             sequence = cursor.lastrowid
+            if message_id:
+                db.execute('INSERT INTO message_ids VALUES(?,?,?)', (message_id, sequence, record.digest))
         return {'sequence': sequence, 'digest': record.digest, 'actor': actor.as_dict(), 'observer': observer}
 
     def inbox(self, instance, after=0):
@@ -119,7 +128,7 @@ def mesh_server(store, host, port, token):
                 elif self.path == '/subscription':
                     result = store.subscription(document['instance'])
                 elif self.path == '/exchange':
-                    result = store.exchange(document['sender'], document['recipient'], document['row'])
+                    result = store.exchange(document['sender'], document['recipient'], document['row'], document.get('message_id'))
                 elif self.path == '/inbox':
                     result = store.inbox(document['instance'], document.get('after', 0))
                 else:
@@ -129,4 +138,10 @@ def mesh_server(store, host, port, token):
                 self.send(404, {'error': str(error)})
             except (ValueError, TypeError) as error:
                 self.send(409, {'error': str(error)})
+            except Exception as error:
+                from uuid import uuid4
+                request_id = uuid4().hex
+                print(json.dumps({'event': 'mesh-service-error', 'request_id': request_id, 'operation': self.path,
+                                  'exception': type(error).__name__, 'reason': str(error)}), flush=True)
+                self.send(500, {'error': type(error).__name__, 'request_id': request_id})
     return ThreadingHTTPServer((host, port), Handler)

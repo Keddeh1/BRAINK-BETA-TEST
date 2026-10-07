@@ -91,7 +91,7 @@ def compile_catalogue(root):
             if components[-1] == '__init__':
                 components.pop()
             name = '.'.join(components)
-            source = path.read_text()
+            source = path.read_bytes().decode('utf-8')
             visitor = FunctionVisitor(source, name, path.relative_to(root).as_posix(), sector)
             visitor.visit(ast.parse(source))
             modules.update({f['id']: f for f in visitor.functions})

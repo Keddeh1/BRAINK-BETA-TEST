@@ -39,7 +39,7 @@ export async function ownerCI(request,db,bucket){
   if(old)return old.sector===value.sector?json({job:old},200):json({error:'JOB_ID_CONFLICT'},409);
   const now=new Date().toISOString();
   const operation=value.operation||'qualify';
-  if(typeof operation!=='string'||!['qualify','file-list','file-read','file-save','cli'].includes(operation)||!value.parameters||typeof value.parameters!=='object')return json({error:'INVALID_OPERATION'},400);
+  if(typeof operation!=='string'||!['qualify','file-list','file-read','file-save','cli','architecture'].includes(operation)||!value.parameters||typeof value.parameters!=='object')return json({error:'INVALID_OPERATION'},400);
   const detail={request:{operation,parameters:value.parameters}};
   await db.prepare('INSERT INTO braink_sector_jobs VALUES(?,?,?,?,?,?,?,?)').bind(value.id,value.sector,'queued',now,now,null,null,JSON.stringify(detail)).run();
   await event(db,value.id,'queued',{sector:value.sector,operation});

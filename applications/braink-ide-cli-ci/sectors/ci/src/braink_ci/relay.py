@@ -112,7 +112,14 @@ class WebsiteRelay:
         report = {"id": job["id"], "sector": job["sector"], "operation": operation,
                   "status": "running", "stages": [], "artifacts": []}
         try:
-            if operation == "cli":
+            if operation == "architecture":
+                from braink_node.automation import AutomationEngine
+                config = json.loads(Path(os.environ['BRAINK_AUTOMATION_CONFIG']).read_text())
+                engine = AutomationEngine(config)
+                target = request.get("target", "status")
+                outputs = engine.status() if target == "status" else engine.run(target)
+                report.update(status="passed" if outputs.get("completed", True) else "failed", outputs=outputs)
+            elif operation == "cli":
                 runtime = self.runner.root.parent.parent
                 workspace = Path(os.getenv("BRAINK_WORKSPACE", str(runtime / "workspace")))
                 state = self.runner.root.parent

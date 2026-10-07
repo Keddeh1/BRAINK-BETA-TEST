@@ -113,6 +113,11 @@ class InstanceManager:
         return result
 
     def deploy(self, catalogue, sectors=('core', 'cli', 'ide', 'ci')):
+        with (self.root / 'deployment.lock').open('a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            return self._deploy(catalogue, sectors)
+
+    def _deploy(self, catalogue, sectors=('core', 'cli', 'ide', 'ci')):
         definitions = {**catalogue['modules']}
         for kind in ('families', 'variants', 'colonies'):
             definitions.update({row['id']: row for row in catalogue[kind]})
@@ -129,8 +134,14 @@ class InstanceManager:
                     instances.append(self.instantiate(family, [colony['id'], variant_id, family_id]))
                 instances.append(self.instantiate(variant, [colony['id'], variant_id]))
             instances.append(self.instantiate(colony, [colony['id']]))
+        prior_path = self.root / 'deployment.json'
+        prior = json.loads(prior_path.read_text()) if prior_path.exists() else {'instances': [], 'sectors': [], 'sector_catalogue_sha256': {}}
+        updated_colonies = {'colony://braink-development/' + sector for sector in sectors}
+        retained = [row for row in prior['instances'] if row['occurrence'][0] not in updated_colonies]
         manifest = {'schema': 'braink.colony-deployment.v1', 'catalogue_sha256': catalogue['definition_sha256'],
-                    'sectors': list(sectors), 'instances': [{'instance': row['instance'], 'definition_id': row['definition_id'],
+                    'sectors': sorted(set(sectors) | set(prior['sectors'])),
+                    'sector_catalogue_sha256': {**prior.get('sector_catalogue_sha256', {}), **{sector: catalogue['definition_sha256'] for sector in sectors}},
+                    'instances': retained + [{'instance': row['instance'], 'definition_id': row['definition_id'],
                                                          'state': row['state'], 'occurrence': row['occurrence']} for row in instances]}
         atomic_write(self.root / 'deployment.json', canonical_bytes(manifest))
         return manifest

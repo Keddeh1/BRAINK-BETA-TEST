@@ -56,6 +56,12 @@ def main(argv=None) -> int:
     protocol.add_argument("--mesh-token-file", type=Path)
     protocol.add_argument("--owner-export", type=Path)
     protocol.add_argument("--port", type=int, default=8766)
+    automate = subs.add_parser("automate")
+    automate.add_argument("action", choices=("run", "status", "serve", "host-server"))
+    automate.add_argument("--port", type=int, default=8767)
+    automate.add_argument("--host", default="127.0.0.1")
+    automate.add_argument("--target", default="all")
+    automate.add_argument("--config", type=Path, default=os.getenv("BRAINK_AUTOMATION_CONFIG"))
     ci = subs.add_parser("ci")
     ci.add_argument("action", choices=("run", "submit", "list", "show", "worker", "relay"))
     ci.add_argument("--source", type=Path)
@@ -121,6 +127,23 @@ def main(argv=None) -> int:
                 mesh = JSONTransport(args.mesh_url, args.mesh_token_file.read_text().strip())
                 result = InstanceManager(args.state_dir / "instances", hub, mesh).deploy(
                     catalogue, ("core", "cli", "ide", "ci") if args.sector == "all" else (args.sector,))
+        elif args.command == "automate":
+            from braink_node.automation import AutomationEngine
+            if args.config is None:
+                raise ValueError("Automation requires the existing owner runtime configuration")
+            engine = AutomationEngine(json.loads(Path(args.config).read_text()))
+            if args.action == "host-server":
+                from braink_node.automation.hosts import server
+                server(engine.context.config, args.host, args.port).serve_forever()
+                return 0
+            if args.action == "serve":
+                stop = threading.Event()
+                import signal
+                signal.signal(signal.SIGTERM, lambda *unused: stop.set())
+                signal.signal(signal.SIGINT, lambda *unused: stop.set())
+                engine.serve(stop)
+                return 0
+            result = engine.status() if args.action == "status" else engine.run(args.target)
         elif args.command == "ci":
             from braink_ci.runner import CIRunner, sector_pipeline
             runner = CIRunner(args.state_dir / "ci", store)

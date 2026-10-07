@@ -30,7 +30,7 @@ class ScriptSources(HTMLParser):
 def browser_definitions(root):
     modules, families = {}, []
     for path in sorted((root / 'sectors/ide/src').rglob('*.html')):
-        source = path.read_text()
+        source = path.read_bytes().decode('utf-8')
         parser = ScriptSources()
         parser.feed(source)
         name = 'braink_ide.browser.' + path.stem
