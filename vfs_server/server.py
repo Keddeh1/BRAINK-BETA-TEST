@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import urlparse,unquote
 import argparse,base64,json
 from .model import ArtifactWrite
-from .store import VFSStore
+from .store import VFSStore\nfrom .auth import MutationAuthorizer
 MAX_REQUEST_BYTES=70*1024*1024
 
 class Handler(BaseHTTPRequestHandler):
