@@ -19,7 +19,8 @@ def run(context):
     spec = importlib.util.spec_from_file_location('braink_owner_feedback_calibration', lexical)
     owner = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(owner)
-    calibration = owner.observer_calibrate(sender, 'architecture_observed', recipient, context=anchor)
+    import json
+    calibration = owner.observer_calibrate(sender, 'architecture_observed', recipient, context=json.loads(json.dumps(anchor)))
     anchor['relation']['calibration'] = calibration
     anchor['relation']['calibration_source_sha256'] = hashlib.sha256(lexical.read_bytes()).hexdigest()
     identity = {'sender': sender, 'recipient': recipient, 'anchor': anchor}

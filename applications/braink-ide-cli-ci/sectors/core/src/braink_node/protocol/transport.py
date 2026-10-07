@@ -47,6 +47,10 @@ class HubSubscription:
             if error.code not in (400, 404) or 'unknown_subscriber' not in detail.get('error', ''):
                 raise
             old = {'cursor': 0}
+        else:
+            if old['prefix'] != prefix:
+                raise RuntimeError('VFS subscription prefix differs')
+            return old
         row = self.transport.request('/subscriptions', {'subscriber': instance, 'prefix': prefix, 'cursor': old['cursor']})
         observed = self.transport.request('/subscriptions/' + instance)
         if observed['prefix'] != prefix or observed['cursor'] != row['cursor']:

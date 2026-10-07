@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from types import SimpleNamespace
 
-from braink_node.automation import evolution, reconciliation, recovery, development, continuity
+from braink_node.automation import evolution, reconciliation, recovery, development, continuity, feedback
 from braink_node.protocol.catalogue import compile_catalogue
 from braink_node.owner_vfs.store import VFSStore
 from braink_node.owner_vfs.model import ArtifactWrite
@@ -101,6 +101,28 @@ class AutomationTests(unittest.TestCase):
         self.assertEqual(result['mirrored_artifacts'], 3)
         self.assertEqual(hub.subscription('instance')['cursor'], 3)
         self.assertEqual(continuity.run(self.context)['mirrored_artifacts'], 0)
+
+    def test_feedback_calibration_is_serializable_and_reaches_the_mesh_inbox(self):
+        from braink_node.protocol.catalogue import digest
+        lexical = self.root / 'owner/lexical_compiler.py'
+        lexical.parent.mkdir()
+        lexical.write_text('def observer_calibrate(subject, state, observer, context=None): return {"subject":subject,"context":context}\n')
+        store = MeshStore(self.root / 'feedback-mesh', {'state':{'schema':'braink.il-llm.canonical-state.v1','rows':[]}})
+        for identity in ('a', 'b'): store.subscribe({'instance':identity,'definition_sha256':identity})
+        class Transport:
+            def request(self, path, payload):
+                if path == '/exchange':return store.exchange(payload['sender'], payload['recipient'], payload['row'], payload['message_id'])
+                return store.inbox(payload['instance'], payload['after'])
+        self.context.config = {'owner_export':str(lexical.parent / 'capability_broker.py')}
+        self.context.deployment = lambda:{'instances':[{'instance':'a'},{'instance':'b'}]}
+        self.context.latest = lambda target:{'target':target,'state':'OBSERVED','artifact_digest':target}
+        self.context.mesh = Transport()
+        self.context.action = lambda kind, identity, execute:{'result':execute(digest(identity))}
+        result = feedback.run(self.context)
+        canonical_bytes(result)
+        self.assertEqual(result['state'], 'DELIVERED')
+        self.assertEqual(len(store.inbox('b')), 1)
+        self.assertEqual(store.inbox('b')[0]['document']['row']['relation']['calibration']['subject'], 'a')
 
     def test_evolution_closes_over_dependent_sectors(self):
         first = evolution.run(self.context)
