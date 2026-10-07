@@ -1,6 +1,6 @@
 """VFS_SERVER allocator with per-instance reversible A/B binary graph entries."""
 from __future__ import annotations
-import re,secrets,sqlite3,time,uuid
+import hashlib,hmac,re,secrets,sqlite3,time,uuid
 from pathlib import Path
 from .model import ArtifactWrite
 from .store import VFSStore
@@ -29,6 +29,13 @@ class VFSFleet:
                 packed_bytes INTEGER NOT NULL,created_at REAL NOT NULL,
                 FOREIGN KEY(vfs_id) REFERENCES allocations(vfs_id));
             CREATE INDEX IF NOT EXISTS ab_by_vfs ON ab_entries(vfs_id,created_at);
+            CREATE TABLE IF NOT EXISTS actuator_surfaces(
+                vfs_id TEXT NOT NULL,surface_id TEXT NOT NULL,commands_json TEXT NOT NULL,
+                secret_hex TEXT NOT NULL,registered_at REAL NOT NULL,
+                PRIMARY KEY(vfs_id,surface_id),FOREIGN KEY(vfs_id) REFERENCES allocations(vfs_id));
+            CREATE TABLE IF NOT EXISTS actuator_nonces(
+                vfs_id TEXT NOT NULL,surface_id TEXT NOT NULL,nonce TEXT NOT NULL,at REAL NOT NULL,
+                PRIMARY KEY(vfs_id,surface_id,nonce));
             """)
     def _connect(self):
         db=sqlite3.connect(self.db_path,timeout=30,isolation_level=None)
@@ -59,6 +66,36 @@ class VFSFleet:
     def store(self,vfs_id):
         self.get(vfs_id)
         return VFSStore(self.root/"instances"/vfs_id)
+    def register_surface(self,vfs_id,surface_id,commands):
+        self.get(vfs_id)
+        if not isinstance(surface_id,str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.:-]{2,127}",surface_id):
+            raise ValueError("invalid_surface_id")
+        if not isinstance(commands,list) or not commands or set(commands)-{"ab.admit","ab.observe"}:
+            raise ValueError("invalid_actuator_commands")
+        secret=secrets.token_hex(32)
+        with self._connect() as db:
+            db.execute("INSERT INTO actuator_surfaces VALUES(?,?,?,?,?)",
+                       (vfs_id,surface_id,__import__("json").dumps(sorted(set(commands))),secret,time.time()))
+        return {"vfs_id":vfs_id,"surface_id":surface_id,"commands":sorted(set(commands)),
+                "actuator_secret":secret}
+    def verify_actuator(self,vfs_id,surface_id,command,method,path,body,nonce,timestamp,signature):
+        self.get(vfs_id)
+        if not isinstance(surface_id,str) or not isinstance(nonce,str) or not re.fullmatch(r"[0-9a-f]{32}",nonce):
+            raise PermissionError("actuator_proof_required")
+        try: issued=int(timestamp)
+        except (TypeError,ValueError): raise PermissionError("actuator_proof_required")
+        if abs(time.time()-issued)>60: raise PermissionError("stale_actuator_proof")
+        with self._connect() as db:
+            row=db.execute("SELECT commands_json,secret_hex FROM actuator_surfaces WHERE vfs_id=? AND surface_id=?",
+                           (vfs_id,surface_id)).fetchone()
+            if row is None or command not in __import__("json").loads(row["commands_json"]):
+                raise PermissionError("unregistered_actuator_command")
+            message="\\n".join((method,path,hashlib.sha256(body).hexdigest(),str(issued),nonce,command)).encode()
+            expected=hmac.new(bytes.fromhex(row["secret_hex"]),message,hashlib.sha256).hexdigest()
+            if not isinstance(signature,str) or not hmac.compare_digest(signature,expected):
+                raise PermissionError("invalid_actuator_signature")
+            db.execute("INSERT INTO actuator_nonces VALUES(?,?,?,?)",(vfs_id,surface_id,nonce,time.time()))
+        return {"vfs_id":vfs_id,"surface_id":surface_id,"command":command,"nonce":nonce}
     def entries(self,vfs_id):
         self.get(vfs_id)
         with self._connect() as db:
