@@ -37,7 +37,7 @@ class WebsiteRelay:
         with urllib.request.urlopen(request, timeout=20) as response:
             result = json.load(response)
         if result.get("error"):
-            raise ValueError("Owner runtime rejected the CI operation")
+            raise RuntimeError("Owner runtime rejected the CI operation: " + str(result["error"]))
         return result
 
     def flush(self):
