@@ -1,5 +1,6 @@
 name: VFS_SERVER qualification
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'vfs_server/**'
@@ -7,12 +8,21 @@ on:
   pull_request:
     paths:
       - 'vfs_server/**'
+      - '.github/workflows/vfs-server.yml'
+permissions:
+  contents: read
+concurrency:
+  group: vfs-qualification-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   qualify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
       - name: Compile
