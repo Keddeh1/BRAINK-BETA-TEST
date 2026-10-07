@@ -52,7 +52,7 @@ class AutomationEngine:
                 except Exception as error:
                     result = {'state': 'EXECUTION_ERROR', 'exception': type(error).__name__, 'reason': str(error)}
                     if isinstance(error, HTTPError):
-                        result['service_response'] = {'status': error.code, 'body': error.read().decode(errors='replace')}
+                        result['service_response'] = {'status': error.code, 'endpoint': error.url, 'body': error.read().decode(errors='replace')}
                 results.append(self.context.record(name, result))
             from braink_node.storage import atomic_write
             from braink_node.canonical import canonical_bytes
