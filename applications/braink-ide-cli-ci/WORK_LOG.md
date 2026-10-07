@@ -56,3 +56,9 @@ which sectors changed, and submits persistent job IDs to the website queue. Exac
 commit exports feed the clean builds, preserving source identity even when later commits
 arrive. A test executes a committed source export while retaining different local edits.
 The process supervisor restarts IDE, relay and branch-trigger services independently.
+
+## Function-module deployment protocol
+
+Implemented addressable Python/browser functions, preserved compilation families, revision-pinned family variants and colonies, independent per-occurrence owner VFS stores and durable subscription ceremonies. Original lexical contexts remain executable; requests, returned values and exceptions receive instance VFS evidence. Completed ceremonies perform readback rather than republishing, and interrupted ceremonies resume their committed stages. Removed the CLI wrapper’s fixed overall deadline. Published and qualified the four sector packages through the existing owner website. A failed live VFS publication and a successfully verified replay remain in the evidence; its service-side error cause was not isolated. Actual mesh process restart preserved subscription and inbox state.
+
+Final observed graph: 155 runtime function definitions, 30 source families, four variants, four colonies and 571 independently verified instance VFS stores. All 38 installed-wheel tests passed; all four website CI sector builds passed; 15 downloaded artifacts matched their hashes. A deployed SHA-256 function executed with request/return evidence in its own VFS.

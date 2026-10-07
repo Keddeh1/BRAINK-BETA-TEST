@@ -251,5 +251,39 @@
   "github_status_reporting": {
     "status": "Existing GitHub integration does not grant commit-status write access (HTTP 403)",
     "authoritative_results": "Own website CI queue and receipts in this file"
+  },
+  "deployment_protocol": {
+    "schema": "braink.deployment-protocol.v1",
+    "source_commit": "a0ea2edf05481b71e88af73a2e6ef86001a3b379",
+    "function_modules": 155,
+    "module_families": 30,
+    "family_variants": 4,
+    "variant_colonies": 4,
+    "instance_count": 571,
+    "readback_complete": true,
+    "evidence": "integrations/protocol-qualification.json",
+    "specification": "PROTOCOL.md",
+    "mesh_port": 8766,
+    "installed_wheel_tests": {
+      "total": 38,
+      "protocol": 6,
+      "installed_wheels": true,
+      "status": "passed"
+    },
+    "website_execution": {
+      "job_id": "b6ada826a49e89c4589049359eb059a0",
+      "status": "passed",
+      "instances": 571,
+      "returncode": 0,
+      "catalogue_sha256": "3c8b63f74e5740214521986453c8739e870777077a3be92eba4f224dab9d9a2d"
+    },
+    "mesh_restart": {
+      "old_pid": 1720148,
+      "new_pid": 1721833,
+      "supervisor_restarted": true,
+      "subscription_preserved": true,
+      "inbox_preserved": true,
+      "preserved_messages": 1
+    }
   }
 }

@@ -12,6 +12,22 @@ A module family retains the complete source compilation unit. Function fragments
 
 `FunctionBindings` invokes original Python callables. Bound methods retain their actual receiver; closures retain actual lexical captures. Distinct captures require distinct binding contexts. Source changes or mismatched lambda positions produce an explicit binding error. `InstanceManager.invoke` connects execution to the instantiated definition and records request, return or raised-exception evidence in that instance’s VFS. Opaque results remain live objects; their metadata does not pretend to be a serialized object capture. Browser functions retain their browser realm and event/DOM context; Python invocation does not substitute for a browser execution context.
 
+```mermaid
+flowchart TD
+  Source[Preserved source and function definitions] --> Family[Module families with lexical context]
+  Family --> Variant[Family variants with member definition hashes]
+  Variant --> Colony[Variant colonies with variant definition hashes]
+  Colony --> Instance[Independent occurrence instances]
+  Instance --> VFS[Per-instance owner VFS implementation]
+  VFS --> Hub[Existing owner VFS hub subscription and readback]
+  Instance --> Mesh[IL-LLM network mesh subscription]
+  Export[Existing owner canonical state export] --> Mesh
+  Mesh --> Exchange[Relational anchor exchange and durable inbox]
+  Website[Owner website and authentication] --> Queue[Owner CI queue]
+  Queue --> Build[Separate clean sector builds and qualification]
+  Build --> Colony
+```
+
 ## Instance lifecycle and ceremony
 
 The instance ID is derived from its definition hash and occurrence path through colony, variant, family and module. An instance directory contains its own VFS objects, SQLite state, receipt chain, ceremony journal and lock. A common parent directory is storage placement, not shared VFS state.
