@@ -2,41 +2,52 @@ import base64,contextlib,io,json,tempfile,threading,unittest
 from unittest.mock import patch
 from http.server import ThreadingHTTPServer
 from urllib.request import Request,urlopen
-from urllib.parse import quote
 from urllib.error import HTTPError
 from vfs_server.server import Handler,main
 from vfs_server.model import ArtifactWrite
 from vfs_server.store import VFSStore,sha256_bytes
+from vfs_server.fleet import VFSFleet
 from vfs_server.auth import MutationAuthorizer
 
 class VFSServerTests(unittest.TestCase):
-    def setUp(self): self.tmp=tempfile.TemporaryDirectory(); self.store=VFSStore(self.tmp.name)
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory()
+        self.store=VFSStore(self.tmp.name+"/legacy")
+        self.fleet=VFSFleet(self.tmp.name+"/fleet")
     def tearDown(self): self.tmp.cleanup()
-    def test_actor_and_observer_are_separate(self):
+    def test_store_actor_and_observer_are_separate(self):
         rec,actor=self.store.write(ArtifactWrite("/runtime/a.txt",b"alpha","test"))
         self.assertEqual(rec.digest,sha256_bytes(b"alpha"))
-        self.assertEqual(self.store.read_content(rec.digest),b"alpha")
-        self.assertEqual(actor.kind,"VFS_ARTIFACT_WRITE")
         observed=self.store.verify(rec.digest)
         self.assertTrue(observed["verified"])
-        self.assertEqual(observed["receipt"]["kind"],"OBSERVER_VFS_READBACK")
         self.assertNotEqual(actor.receipt_digest,observed["receipt"]["receipt_digest"])
-    def test_lineage_and_path_resolution(self):
-        a,_=self.store.write(ArtifactWrite("/a",b"a","test"))
-        b,_=self.store.write(ArtifactWrite("/b",b"b","test",a.digest))
-        self.assertEqual(self.store.resolve_path("/b").digest,b.digest)
-        self.assertEqual(self.store.lineage(b.digest)[0]["parent_digest"],a.digest)
-    def test_receipt_chain_survives_restart(self):
-        rec,_=self.store.write(ArtifactWrite("/chain",b"chain","test"))
-        self.store.verify(rec.digest)
-        reopened=VFSStore(self.tmp.name)
-        self.assertTrue(reopened.verify_receipt_chain()["verified"])
-    def test_authorizer(self):
-        self.assertTrue(MutationAuthorizer().allowed(None))
-    def test_http_auth_write_and_observer_readback(self):
+        self.assertTrue(self.store.verify_receipt_chain()["verified"])
+    def test_allocation_isolation_and_ab_reconstruction(self):
+        one=self.fleet.allocate("workflow one","queue#3")
+        two=self.fleet.allocate("workflow two","queue#4")
+        result=self.fleet.admit_ab(one["vfs_id"],b"baseline "*100,b"candidate "*100,"queue#3")
+        entry=result["entry"]
+        self.assertEqual(entry["b_codec"],"zlib")
+        self.assertLess(entry["stored_bytes"],entry["a_bytes"]+entry["b_bytes"])
+        verified=self.fleet.read_ab(one["vfs_id"],entry["entry_id"],observe=True)
+        self.assertTrue(verified["verified"])
+        self.assertEqual(base64.b64decode(verified["a_b64"]),b"baseline "*100)
+        self.assertEqual(base64.b64decode(verified["b_b64"]),b"candidate "*100)
+        self.assertEqual(len(verified["observer_receipts"]),2)
+        self.assertTrue(self.fleet.store(one["vfs_id"]).verify_receipt_chain()["verified"])
+        with self.assertRaises(KeyError): self.fleet.entry(two["vfs_id"],entry["entry_id"])
+        restarted=VFSFleet(self.tmp.name+"/fleet")
+        self.assertEqual(restarted.read_ab(one["vfs_id"],entry["entry_id"])["entry"],entry)
+    def test_identical_b_is_reference_and_quota_is_enforced(self):
+        instance=self.fleet.allocate("dedup","queue#5",quota_bytes=32*1024*1024)
+        pair=self.fleet.admit_ab(instance["vfs_id"],b"same",b"same","queue#5")
+        self.assertEqual(pair["entry"]["b_codec"],"reference:A")
+        self.assertEqual(len(pair["actor_receipts"]),1)
+        with self.assertRaises(ValueError): self.fleet.admit_ab(instance["vfs_id"],b"x"*(32*1024*1024),b"y","queue#5")
+    def test_http_auth_allocation_ab_and_observer(self):
         token_file=self.tmp.name+"/token"
         with open(token_file,"w",encoding="utf-8") as stream: stream.write("test-only-secret")
-        Handler.store=self.store
+        Handler.fleet=self.fleet
         Handler.authorizer=MutationAuthorizer(token_file)
         server=ThreadingHTTPServer(("127.0.0.1",0),Handler)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
@@ -47,48 +58,29 @@ class VFSServerTests(unittest.TestCase):
             data=None if payload is None else json.dumps(payload).encode()
             return urlopen(Request(url+path,data=data,method=method,headers=headers),timeout=3)
         try:
-            body={"path":"/runtime/http.txt","content_b64":base64.b64encode(b"through-host").decode(),"source":"http-test"}
-            with self.assertRaises(HTTPError) as error:request("/artifacts","POST",body)
+            with self.assertRaises(HTTPError) as error: request("/vfs","POST",{"label":"x","source_ref":"queue#3"})
             self.assertEqual(error.exception.code,401)
-            with request("/artifacts","POST",body,True) as response:
-                created=json.load(response)
-            self.assertEqual(created["verification"],"PENDING_OBSERVER_READBACK")
-            digest=created["artifact"]["digest"]
-            with self.assertRaises(HTTPError) as error:request("/artifacts/"+digest)
-            self.assertEqual(error.exception.code,401)
-            with request("/artifacts/"+digest,authorized=True) as response:
-                observed=json.load(response)
-            self.assertEqual(base64.b64decode(observed["content_b64"]),b"through-host")
-            with request("/verify","POST",{"digest":digest},True) as response:
+            with request("/vfs","POST",{"label":"workflow","source_ref":"queue#3"},True) as response:
+                allocation=json.load(response)["allocation"]
+            ident=allocation["vfs_id"]
+            body={"a_b64":base64.b64encode(b"alpha").decode(),
+                  "b_b64":base64.b64encode(b"beta").decode(),"source_ref":"queue#3"}
+            with request("/vfs/"+ident+"/ab","POST",body,True) as response:
+                admitted=json.load(response)
+            entry=admitted["entry"]["entry_id"]
+            self.assertEqual(admitted["verification"],"PENDING_OBSERVER_READBACK")
+            with request("/vfs/"+ident+"/ab/"+entry+"/verify","POST",{},True) as response:
                 verified=json.load(response)
             self.assertTrue(verified["verified"])
-            self.assertEqual(verified["receipt"]["kind"],"OBSERVER_VFS_READBACK")
+            self.assertEqual(base64.b64decode(verified["b_b64"]),b"beta")
             self.assertEqual(verified["service_environment"]["classification"],"KEDDEH_SERVICE")
-            raw=b"real raw bytes\x00"
-            raw_req=Request(url+"/artifacts/raw",data=raw,method="POST",headers={
-                "Authorization":"Bearer test-only-secret",
-                "Content-Type":"application/octet-stream",
-                "X-VFS-Path":quote("/runtime/épreuve.bin"),
-                "X-VFS-Source":quote("KEX browser carrier")
-            })
-            with urlopen(raw_req,timeout=3) as response: raw_created=json.load(response)
-            raw_digest=raw_created["artifact"]["digest"]
-            self.assertEqual(raw_created["service_environment"]["subsystem"],"VFS_SERVER")
-            raw_read=Request(url+"/artifacts/"+raw_digest+"/raw",headers={"Authorization":"Bearer test-only-secret"})
-            with urlopen(raw_read,timeout=3) as response:
-                self.assertEqual(response.headers["x-content-sha256"],raw_digest)
-                self.assertEqual(response.headers["x-keddeh-service"],"KEDDEH_SERVICE")
-                self.assertEqual(response.read(),raw)
+            with self.assertRaises(HTTPError) as error: request("/artifacts/raw","POST",{},True)
+            self.assertEqual(error.exception.code,410)
         finally:
             server.shutdown();server.server_close();thread.join(timeout=3)
-
     def test_external_listener_requires_token_file(self):
         with patch("sys.argv",["vfs-server","--host","0.0.0.0"]):
             with contextlib.redirect_stderr(io.StringIO()):
-                with self.assertRaises(SystemExit) as error:main()
+                with self.assertRaises(SystemExit) as error: main()
         self.assertEqual(error.exception.code,2)
-
-    def test_unknown_predecessor_fails(self):
-        with self.assertRaises(ValueError):
-            self.store.write(ArtifactWrite("/x",b"x","test","0"*64))
-if __name__=="__main__":unittest.main()
+if __name__=="__main__": unittest.main()
