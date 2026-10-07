@@ -87,6 +87,9 @@ class VFSFleet:
         a_frame=zlib.compress(a,level=9)
         b_codec="reference:A" if a_digest==b_digest else "zlib"
         b_frame=b"" if b_codec=="reference:A" else zlib.compress(b,level=9)
+        if b_codec=="zlib" and len(a)==len(b):
+            delta=zlib.compress(bytes(x ^ y for x,y in zip(a,b)),level=9)
+            if len(delta)<len(b_frame): b_codec,b_frame="xor+zlib",delta
         stored_bytes=len(a_frame)+len(b_frame)
         with self._connect() as db:
             db.execute("BEGIN IMMEDIATE")
@@ -102,7 +105,10 @@ class VFSFleet:
                     b_rec,b_receipt=store.write(ArtifactWrite(f"/ab/{entry_id}/B.zlib",b_frame,source_ref,media_type="application/zlib"))
                 # Verify both frames before the allocation registry exposes the admission.
                 if self._unpack(store.read_content(a_rec.digest),len(a))!=a: raise RuntimeError("a_readback_mismatch")
-                if b_codec=="zlib" and self._unpack(store.read_content(b_rec.digest),len(b))!=b: raise RuntimeError("b_readback_mismatch")
+                if b_codec!="reference:A":
+                    decoded=self._unpack(store.read_content(b_rec.digest),len(b))
+                    recovered=bytes(x ^ y for x,y in zip(a,decoded)) if b_codec=="xor+zlib" else decoded
+                    if recovered!=b: raise RuntimeError("b_readback_mismatch")
                 at=time.time()
                 db.execute("INSERT INTO ab_entries VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
                            (entry_id,vfs_id,source_ref,a_digest,b_digest,a_rec.digest,b_rec.digest,b_codec,len(a),len(b),stored_bytes,at))
@@ -123,7 +129,10 @@ class VFSFleet:
         entry=self.entry(vfs_id,entry_id)
         store=self.store(vfs_id)
         a=self._unpack(store.read_content(entry["a_object_digest"]),entry["a_bytes"])
-        b=a if entry["b_codec"]=="reference:A" else self._unpack(store.read_content(entry["b_object_digest"]),entry["b_bytes"])
+        if entry["b_codec"]=="reference:A": b=a
+        else:
+            decoded=self._unpack(store.read_content(entry["b_object_digest"]),entry["b_bytes"])
+            b=bytes(x ^ y for x,y in zip(a,decoded)) if entry["b_codec"]=="xor+zlib" else decoded
         if digest(a)!=entry["a_digest"] or digest(b)!=entry["b_digest"]: raise RuntimeError("ab_digest_mismatch")
         result={"entry":entry,"a_b64":__import__("base64").b64encode(a).decode(),"b_b64":__import__("base64").b64encode(b).decode(),
                 "verified":True,"compression":{"source_bytes":len(a)+len(b),"stored_bytes":entry["stored_bytes"],"b_codec":entry["b_codec"]}}
