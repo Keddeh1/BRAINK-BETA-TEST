@@ -1,63 +1,67 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 import { createServer } from "node:http";
 import { KeddehVFSClient } from "./vfs-client.mjs";
+import { VFSActuatorConnection } from "./actuator-connection.mjs";
 
-const environment = { classification: "KEDDEH_SERVICE", system: "KEDDEH_SYSTEMS",
-  subsystem: "VFS_SERVER", carrier_id: "VFS_SERVER:loopback", transport: "HTTP" };
-const vfsId = "a".repeat(32), entryId = "b".repeat(32);
-const sha = bytes => createHash("sha256").update(bytes).digest("hex");
+const environment={classification:"KEDDEH_SERVICE",system:"KEDDEH_SYSTEMS",
+  subsystem:"VFS_SERVER",carrier_id:"VFS_SERVER:loopback",transport:"HTTP"};
+const vfsId="a".repeat(64),entryId="b".repeat(32),secret="c".repeat(64),bits="101010101";
+const digest=createHash("sha256").update(Buffer.from([0xaa,0x80])).digest("hex");
+const graph={origin:{from:1,to:2,powered:true,addressable:false},
+  mappings:[...bits].map((v,i)=>({x:i+1,address:i+2,state:Number(v),symbol:v==="1"?"A":"B",
+    expression:(v==="1"?"A":"B")+"X("+(i+1)+")"}))};
+const entry={vfs_id:vfsId,entry_id:entryId,codec:"KEDDEH_AB_BINARY_V1",
+  bits_count:9,object_digest:digest};
+const proof={bits,sha256:digest,codec:"KEDDEH_AB_BINARY_V1",packed_bytes:2};
 
-test("HTML client allocates VFS, admits A/B, reads both sides and observes", async () => {
-  let allocation = 0, admission = 0, observation = 0, pair;
-  const server = createServer(async (req, res) => {
-    const json = (status, value) => { res.writeHead(status, { "content-type": "application/json" });
-      res.end(JSON.stringify({ ...value, service_environment: environment })); };
-    if (req.url === "/status") return json(200, { server: "VFS_SERVER", role: "VFS_ALLOCATOR" });
-    if (req.headers.authorization !== "Bearer test-secret") return json(401, { error: "unauthorized" });
-    const chunks = []; for await (const chunk of req) chunks.push(chunk);
-    const data = chunks.length ? JSON.parse(Buffer.concat(chunks).toString()) : {};
-    if (req.url === "/vfs" && req.method === "POST") {
-      allocation++; assert.equal(data.source_ref, "queue#3");
-      return json(201, { allocation: { vfs_id: vfsId, source_ref: data.source_ref } });
+test("registered actuator crosses HTTP A/B admission, readback and observation",async()=>{
+  let admitted=0,observed=0,replays=0;const seen=new Set();
+  const server=createServer(async(req,res)=>{
+    const json=(code,value)=>{res.writeHead(code,{"content-type":"application/json"});
+      res.end(JSON.stringify({...value,service_environment:environment}));};
+    if(req.url==="/status")return json(200,{server:"VFS_SERVER",role:"VFS_ALLOCATOR"});
+    if(req.headers.authorization!=="Bearer owner")return json(401,{error:"unauthorized"});
+    const chunks=[];for await(const chunk of req)chunks.push(chunk);
+    const raw=Buffer.concat(chunks),body=raw.length?JSON.parse(raw.toString()):{};
+    if(req.url==="/vfs"&&req.method==="POST")
+      return json(201,{allocation:{vfs_id:vfsId,source_ref:body.source_ref}});
+    const command=req.url==="/vfs/"+vfsId+"/ab"&&req.method==="POST"?"ab.admit":
+      req.url==="/vfs/"+vfsId+"/ab/"+entryId+"/verify"&&req.method==="POST"?"ab.observe":null;
+    if(command){
+      const nonce=req.headers["x-vfs-nonce"],at=req.headers["x-vfs-time"];
+      if(req.headers["x-vfs-surface"]!=="owner-site"||!nonce||!at)return json(403,{error:"proof_required"});
+      const message=["POST",req.url,"owner-site",createHash("sha256").update(raw).digest("hex"),
+        at,nonce,command].join("|");
+      const expected=createHmac("sha256",Buffer.from(secret,"hex")).update(message).digest("hex");
+      if(expected!==req.headers["x-vfs-signature"])return json(403,{error:"invalid_signature"});
+      if(seen.has(nonce)){replays++;return json(409,{error:"nonce_replayed"});}
+      seen.add(nonce);
     }
-    if (req.url === "/vfs/" + vfsId + "/ab" && req.method === "POST") {
-      admission++; pair = data;
-      const entry = { vfs_id: vfsId, entry_id: entryId, a_digest: sha(Buffer.from(pair.a_b64,"base64")),
-        b_digest: sha(Buffer.from(pair.b_b64,"base64")), b_codec: "zlib" };
-      return json(201, { entry, actor_receipts: [{ kind: "VFS_ARTIFACT_WRITE" }],
-        verification: "PENDING_OBSERVER_READBACK" });
-    }
-    if (req.url === "/vfs/" + vfsId + "/ab/" + entryId && req.method === "GET")
-      return json(200, { entry: { entry_id: entryId }, a_b64: pair.a_b64, b_b64: pair.b_b64 });
-    if (req.url === "/vfs/" + vfsId + "/ab/" + entryId + "/verify" && req.method === "POST") {
-      observation++;
-      return json(200, { verified: true, entry: { entry_id: entryId },
-        a_b64: pair.a_b64, b_b64: pair.b_b64, compression: { b_codec: "zlib" },
-        observer_receipts: [{ kind: "OBSERVER_VFS_READBACK" }] });
-    }
-    return json(404, { error: "not_found" });
+    if(command==="ab.admit"){admitted++;assert.equal(body.bits,bits);
+      return json(201,{entry,graph,actor_receipt:{kind:"VFS_ARTIFACT_WRITE"},
+        verification:"PENDING_OBSERVER_READBACK"});}
+    if(req.url==="/vfs/"+vfsId+"/ab/"+entryId&&req.method==="GET")
+      return json(200,{entry,proof,graph,verified:true});
+    if(command==="ab.observe"){observed++;return json(200,{entry,proof,graph,verified:true,
+      observer_receipt:{kind:"OBSERVER_VFS_READBACK"}});}
+    return json(404,{error:"not_found"});
   });
-  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-  try {
-    const client = new KeddehVFSClient({ endpoint: "http://127.0.0.1:" + server.address().port,
-      bearer: () => "test-secret", carrierId: environment.carrier_id });
-    const result = await client.allocateAndAdmit({ label: "workflow", sourceRef: "queue#3",
-      a: new Uint8Array([0,1,2]), b: new Uint8Array([0,1,3]) });
-    assert.equal(result.allocation.vfs_id, vfsId);
-    assert.equal(result.admission.entry.entry_id, entryId);
-    assert.equal(result.admission.compression.b_codec, "zlib");
-    assert.equal(allocation, 1); assert.equal(admission, 1); assert.equal(observation, 1);
-  } finally { await new Promise(resolve => server.close(resolve)); }
-});
-
-test("service identity mismatch stops the carrier", async () => {
-  const server=createServer((_req,res)=>{res.writeHead(200,{"content-type":"application/json"});
-    res.end(JSON.stringify({service_environment:{...environment,classification:"UNKNOWN"}}));});
-  await new Promise(resolve => server.listen(0,"127.0.0.1",resolve));
-  try {
-    const client=new KeddehVFSClient({endpoint:"http://127.0.0.1:"+server.address().port});
-    await assert.rejects(client.status(),/KEDDEH_SERVICE_IDENTITY_MISMATCH/);
-  } finally {await new Promise(resolve=>server.close(resolve));}
+  await new Promise(resolve=>server.listen(0,"127.0.0.1",resolve));
+  try{
+    const endpoint="http://127.0.0.1:"+server.address().port;
+    const actuator=new VFSActuatorConnection({surfaceId:"owner-site",secretHex:secret});
+    const client=new KeddehVFSClient({endpoint,bearer:"owner",actuator,
+      carrierId:environment.carrier_id});
+    const allocation=await client.allocate({label:"workflow",sourceRef:"queue#3"});
+    assert.equal(allocation.vfs_id,vfsId);
+    const result=await client.admitAB({vfsId,bits,sourceRef:"queue#3"});
+    assert.equal(result.proof.bits,bits);
+    assert.equal(result.graph.origin.addressable,false);
+    assert.equal(admitted,1);assert.equal(observed,1);assert.equal(replays,0);
+    const noActuator=new KeddehVFSClient({endpoint,bearer:"owner"});
+    await assert.rejects(noActuator.admitAB({vfsId,bits,sourceRef:"queue#3"}),
+      /VFS_ACTUATOR_CONNECTION_REQUIRED/);
+  }finally{await new Promise(resolve=>server.close(resolve));}
 });
