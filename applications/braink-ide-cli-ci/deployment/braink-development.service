@@ -1,0 +1,15 @@
+[Unit]
+Description=BRAINK development application node
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/braink-development/runtime.env
+ExecStart=/usr/bin/python3 ${BRAINK_NODE_SOURCE}/scripts/supervise_node.py --runtime-root ${BRAINK_RUNTIME_ROOT} --source ${BRAINK_NODE_SOURCE}
+Restart=on-failure
+RestartSec=3
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

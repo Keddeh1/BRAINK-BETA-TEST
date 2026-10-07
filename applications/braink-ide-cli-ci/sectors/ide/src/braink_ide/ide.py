@@ -8,12 +8,13 @@ from importlib.resources import files
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 
-from .canonical import sha256_hex
-from .indexer import ledger_index
-from .ingest import iter_files, _read_bytes, store_artifact_bytes
-from .pass_runner import run_dekstop_pass
-from .plan import PlanningPacket
-from .storage import atomic_write
+from braink_node.canonical import sha256_hex
+from braink_node.indexer import ledger_index
+from braink_node.ingest import iter_files, _read_bytes, store_artifact_bytes
+from braink_node.pass_runner import run_dekstop_pass
+from braink_node.plan import PlanningPacket
+from braink_node.storage import atomic_write
+
 
 
 MAX_EDIT_BYTES = 1_000_000
@@ -40,10 +41,15 @@ def workspace_file(root: Path, relative: str, excluded_roots=()) -> Path:
 
 def make_server(*, paths, store, artifacts_dir, host="127.0.0.1", port=8765, token=None):
     token = token if token is not None else os.getenv("BRAINK_NODE_TOKEN", "")
-    if host not in {"127.0.0.1", "localhost", "::1"} and len(token) < 32:
-        raise ValueError("Remote IDE binding requires BRAINK_NODE_TOKEN with at least 32 characters")
+    if host not in {"127.0.0.1", "localhost", "::1"} and not token:
+        raise ValueError("Remote IDE binding requires BRAINK_NODE_TOKEN with a configured runtime credential")
     lock = threading.Lock()
     exclusions = (artifacts_dir, store.path, Path(str(store.path) + "-journal"))
+    try:
+        from braink_ci.runner import CIRunner
+        ci = CIRunner(store.path.parent / "ci", store)
+    except ImportError:
+        ci = None
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, format, *args):
@@ -73,7 +79,7 @@ def make_server(*, paths, store, artifacts_dir, host="127.0.0.1", port=8765, tok
             if url.path == "/health":
                 return self.reply(200, {"ok": True, "node": "braink-ide-cli-ci", "version": "0.1.0"})
             if url.path == "/":
-                return self.reply(200, files("braink_node").joinpath("static/index.html").read_bytes(), "text/html; charset=utf-8")
+                return self.reply(200, files("braink_ide").joinpath("static/index.html").read_bytes(), "text/html; charset=utf-8")
             if not self.authorize():
                 return self.reply(401, {"error": "Authorization required"})
             try:
@@ -89,6 +95,10 @@ def make_server(*, paths, store, artifacts_dir, host="127.0.0.1", port=8765, tok
                                              "revision": sha256_hex(data)})
                 if url.path == "/api/ledger":
                     return self.reply(200, store.verify())
+                if url.path == "/api/ci/jobs" and ci is not None:
+                    return self.reply(200, {"jobs": ci.list()})
+                if url.path == "/api/ci/job" and ci is not None:
+                    return self.reply(200, ci.get(parse_qs(url.query).get("id", [""])[0]))
                 return self.reply(404, {"error": "Unknown route"})
             except (ValueError, OSError, UnicodeError) as error:
                 return self.reply(400, {"error": str(error)})
@@ -141,6 +151,11 @@ def make_server(*, paths, store, artifacts_dir, host="127.0.0.1", port=8765, tok
                     if route == "/api/index":
                         return self.reply(200, ledger_index(store=store, dekstop_root=paths.root,
                                            artifacts_dir=artifacts_dir, route="braink-node/ide/index"))
+                    if route == "/api/ci/jobs" and ci is not None:
+                        source = os.getenv("BRAINK_CI_SOURCE")
+                        if not source:
+                            return self.reply(503, {"error": "Configure the owner CI source on this runtime"})
+                        return self.reply(202, ci.submit(Path(source)))
                     return self.reply(404, {"error": "Unknown route"})
             except (ValueError, OSError, UnicodeError, TypeError) as error:
                 return self.reply(400, {"error": str(error)})

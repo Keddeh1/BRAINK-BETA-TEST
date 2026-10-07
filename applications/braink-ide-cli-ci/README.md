@@ -1,87 +1,81 @@
-# BRAINK IDE / CLI / CI application node
+# BRAINK development application node
 
-An added application node in the BRAINK sector. It has its own package, process,
-workspace, state and event ledger. `node.json` describes the node interfaces.
-The uploaded originals remain in `baselines/`; executable implementations live
-in `src/braink_node/`. No owner-family engine is replaced.
+The BRAINK development sector adds its own IDE, CLI and CI to the node architecture.
+It is delivered on `feat/braink-application-node` in `Keddeh1/BRAINK-BETA-TEST`.
+Uploaded source baselines remain in `baselines/`; function mapping is in `WORK_LOG.md`.
 
-## Install and operate
+Each delivery has a separate package and clean build:
 
-```bash
-python -m venv .venv
-.venv/bin/python -m pip install .
-.venv/bin/braink-node --workspace ./workspace --state-dir ./.braink-node init
-.venv/bin/braink-node --workspace ./workspace --state-dir ./.braink-node serve
-```
+| Sector | Distribution | Implementation |
+| --- | --- | --- |
+| Core | braink-node-core | Registry, alignment, ingestion, indexing, checks, packets and ledger |
+| CLI | braink-cli-node | `braink-node` commands and runtime operations |
+| IDE | braink-ide-node | Workspace editing, revision checks, provenance and browser API |
+| CI | braink-ci-node | Durable queue, source snapshots, stage processes, logs, artifacts and receipts |
 
-Open `http://127.0.0.1:8765` on the same host. The browser workspace loads and
-edits UTF-8 files, creates files, refreshes the index, checks the workspace and
-verifies the ledger. Saves retain before-and-after artifacts and reject a stale
-revision. Files are limited to 1 MB for editing. This first IDE version does not
-provide a terminal, language server, debugger or remote collaboration.
+## Website and runtime
 
-Register and ingest a project with the same service functions:
+Use your existing website at `/braink/development`, `/braink/ide`, `/braink/cli`,
+and `/braink/ci`. Its native owner identity connects to the Keddeh runtime
+application control plane, stored on the owner website server. The dedicated application worker executes sector builds on the owner
+host, stores logs and receipts, and returns verified artifacts to the runtime.
+The website displays actual queued, running and terminal results.
 
-```bash
-braink-node --workspace ./workspace align ./workspace/projects/demo --name demo
-braink-node --workspace ./workspace index
-braink-node --workspace ./workspace ingest ./workspace/projects/demo
-braink-node --workspace ./workspace check --fail-on warn
-braink-node --workspace ./workspace verify-ledger
-```
+The IDE loads, creates and saves workspace files. Saves compare revisions and retain
+before/after artifacts. The CLI executes the same installed commands on the owner host.
+The CI snapshots source before execution; each sector is built in a fresh staging tree,
+then installed into a fresh environment for its own tests. Core is an explicit dependency
+of the CLI, IDE and CI distributions. Every receipt records source and artifact hashes.
+Interrupted jobs receive terminal receipts; pending receipt uploads retry before new jobs.
 
-Set `BRAINK_WORKSPACE` and `BRAINK_STATE_DIR` or use the global options before the
-command. State must be isolated from the source workspace; a hidden state directory
-or a directory outside the workspace is recommended. Ingestion skips hidden paths,
-cache directories and symbolic links; visible artifacts and the ledger are excluded
-when they reside inside a source root. Traversal is sorted at each directory before
-applying limits. Oversized artifacts are rejected, never silently truncated.
-
-CLI exits: `0` successful operation or passing check; `1` findings reach the check
-threshold; `2` input or filesystem error. `check` checks node workspace metadata
-and project registration, not arbitrary project test suites. GitHub CI separately
-tests and builds this application on Python 3.10, 3.12 and 3.14.
-
-## Deploy the independent process
+## Build and install
 
 ```bash
-python -m pip install build
-python -m build
-python scripts/deploy_node.py --wheel dist/braink_application_node-0.1.0-py3-none-any.whl \
-  --runtime-root /path/outside/git/braink-ide-cli-ci --port 8765
+python -m venv /path/to/build-tools
+/path/to/build-tools/bin/python -m pip install setuptools wheel
+/path/to/build-tools/bin/python scripts/build_sector.py --sector all \
+  --run /path/to/new-build-run --artifacts /path/to/new-build-run/artifacts
+/path/to/build-tools/bin/python scripts/qualify_installed.py \
+  /path/to/new-build-run/artifacts /path/to/new-build-run all
+python scripts/deploy_node.py --artifacts-dir /path/to/new-build-run/artifacts \
+  --runtime-root /path/to/runtime --port 8765
 ```
 
-The deployer installs the wheel into a private venv, initializes the workspace and
-starts a detached loopback process. Runtime logs, PID and deployment evidence live
-under the runtime root. It does not install a reboot supervisor or public ingress.
-For remote binding, `serve --host 0.0.0.0` requires `BRAINK_NODE_TOKEN` of at least
-32 characters; API calls use `Authorization: Bearer ...`. Configure TLS ingress on
-the target host before exposing remote access. The token stays out of Git and is
-entered in the browser access field; it is not persisted by the UI.
+The runtime workspace, ledger, queue and logs persist outside the source checkout.
+`BRAINK_WORKSPACE`, `BRAINK_STATE_DIR`, `BRAINK_CI_AGENT_TOKEN`, `BRAINK_CI_WEBSITE`
+and `BRAINK_CI_PYTHON` configure the worker. Website and worker credentials stay in
+runtime secret storage. The existing owner authentication governs website operations.
 
-## Integration contract
-
-The local SQLite ledger supplies `append(event_type, route, payload) -> event_ref`.
-This explicitly replaces the unavailable baseline dependency inside this node only.
-It retains baseline event names and packet fields for adapters. The hash chain
-detects modified event bodies during verification; it is not externally anchored
-and cannot detect complete historical replacement or tail deletion. Registry writes
-are atomic, and alignment updates share a process lock. Registry writes and ledger
-events are separate transactions; a crash may require replaying alignment.
-
-The original `dekstop` API spelling and metadata comments are retained for mapping.
-No formal KEX invariants are asserted by this implementation. Owner runtime binding
-requires an explicit integration adapter; launching this process does not admit or
-promote it into the owner's qualified execution manifest.
-
-## Verify
+## Commands
 
 ```bash
-python -m pip install build coverage
-python -m build
-python -m pip install dist/*.whl
-coverage run --source=braink_node -m unittest discover -s tests -v
-coverage report --fail-under=80
+braink-node --workspace ./workspace --state-dir ./state init
+braink-node --workspace ./workspace --state-dir ./state align ./workspace/projects/demo --name demo
+braink-node --workspace ./workspace --state-dir ./state index
+braink-node --workspace ./workspace --state-dir ./state ingest ./workspace/projects/demo
+braink-node --workspace ./workspace --state-dir ./state check
+braink-node --workspace ./workspace --state-dir ./state verify-ledger
+braink-node --workspace ./workspace --state-dir ./state ci run --source /path/to/node --sector ide
+braink-node --workspace ./workspace --state-dir ./state ci relay --source /path/to/node
 ```
 
-See `WORK_LOG.md` for the ordered implementation and function-by-function mapping.
+CLI exit codes are 0 for success, 1 for a failed check/build, and 2 for invalid input.
+The ledger adapter implements the baseline append contract with transactional SQLite
+and a verifiable hash chain. Alignment retains the original `dekstop` API spelling,
+metadata extensions and event names. Registry locking serializes concurrent alignment.
+Ingestion and indexing use sorted traversal, exclude generated state and reject oversized
+captures explicitly. Packet export validates shapes and prevents mutation through aliases.
+
+## Process recovery
+
+`scripts/supervise_node.py` runs the IDE and relay as separate supervised processes
+and restarts either after process failure. `deployment/braink-development.service`
+provides the Linux host startup configuration. The current owner runtime starts the
+supervisor as a persistent process; host lifecycle evidence is recorded in the deployment.
+The worker identifies HTTP requests as `BRAINK-CI/0.1` for the website transport.
+
+The own-runtime branch trigger (`scripts/watch_branch.py`) follows the dedicated
+GitHub branch and submits clean builds for changed sectors. Changes to core or shared
+build/test scripts trigger all dependent sectors. Submissions retain stable IDs across
+transport retries, and the relay exports the exact triggering Git commit before building.
+The trigger retains local edits and follows only fast-forward branch updates.

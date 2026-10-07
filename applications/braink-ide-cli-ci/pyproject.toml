@@ -3,18 +3,12 @@ requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "braink-application-node"
+name = "braink-development-sector"
 version = "0.1.0"
-description = "Independent BRAINK IDE, CLI and CI application node"
+description = "BRAINK development-sector delivery manifest"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["braink-node-core==0.1.0", "braink-cli-node==0.1.0", "braink-ide-node==0.1.0", "braink-ci-node==0.1.0"]
 
-[project.scripts]
-braink-node = "braink_node.cli:main"
-
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.setuptools.package-data]
-braink_node = ["static/*.html"]
+[tool.setuptools]
+packages = []

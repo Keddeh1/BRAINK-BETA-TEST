@@ -2,19 +2,20 @@
 
 This is a separate application node hosted in BRAINK-BETA-TEST. Its runtime, distribution, workspace and ledger are independent of the owner-family engine.
 
-## Ordered work
+## Delivery sequence
 
-1. Preserve the nine unique uploaded Python sources under `baselines/`. Complete. Duplicate sources were byte-identical; CPython 3.14 bytecode is not executable source.
-2. Work through paths, registry, alignment, indexing and ingestion. Implemented and locally verified.
-3. Work through pass findings, planning packets and execution results. Implemented and locally verified.
-4. Supply explicit local hashing and ledger adapters; expose CLI commands. Implemented and locally verified.
-5. Add a browser IDE backed by the same application services. Implemented and HTTP-tested.
-6. Add isolated CI, build a wheel, install and exercise the node. Local wheel and tests pass; GitHub results tracked below.
-7. Record deployment evidence and integration boundary. Deployment script implemented; runtime readback follows qualification.
+1. Preserve and map every unique baseline file and function.
+2. Resolve core registry, ingestion, indexing, packet and ledger behavior.
+3. Deliver CLI and IDE using the same core services.
+4. Deliver BRAINK-owned CI with durable jobs and process execution.
+5. Build core, CLI, IDE and CI from separate clean source staging trees.
+6. Install each sector into fresh environments and exercise its tests.
+7. Connect the existing website and runtime to the dedicated application worker.
+8. Verify website-submitted builds, receipt recovery and artifact downloads.
 
-## Architecture boundary
-
-The application consumes a configured workspace and writes its own content-addressed artifacts and event ledger. Owner-runtime integration is an explicit adapter contract, not a replacement engine or an automatic modification to admitted owner packages. Existing KEX comments are preserved as source metadata, not execution instructions or verified scientific guarantees.
+The node uses its own persistent workspace, ledger, jobs and artifacts while joining
+the existing architecture through the website and runtime adapters. Source definitions
+and baseline metadata remain available for the owner systems.
 
 ## Every baseline file and function
 
@@ -33,12 +34,17 @@ The application consumes a configured workspace and writes its own content-addre
 
 ## Added node surfaces
 
-- Local `LedgerStore`: transactional concurrent append, chained SHA-256 references and verification. These are local adapter semantics, not a claim of equivalence to an unavailable owner KEX implementation.
-- CLI: init, align, index, ingest, check, verify-ledger and serve. JSON output and CI exit status use the same services as the IDE.
-- IDE: file list/read/create/save, optimistic revision checks, before-and-after artifacts, planned/completed edit events, index/check/ledger controls. Loopback by default; remote binding requires a token. UTF-8 editor, no debugger or terminal yet.
-- CI: isolated wheel build and installed-package tests on Python 3.10/3.12/3.14, coverage floor and command smoke checks.
-- Deployment: private Linux process with its own venv, workspace/state, PID/log and health readback. Public ingress and reboot supervision are not installed by this release.
+- Core: canonical data, transactional ledger, atomic storage and serialized registry updates.
+- CLI: initialization, alignment, ingestion, indexing, checks, ledger verification, IDE service and CI.
+- IDE: file list/read/create/save, revision checks, provenance artifacts and browser controls.
+- CI: durable source snapshots, atomic claims, stage subprocesses, timeout handling, logs, clean sector builds, installed qualification, artifact hashes and receipts.
+- Website: `/braink/development`, `/braink/ide`, `/braink/cli` and `/braink/ci` connect to the existing runtime.
+- Recovery: receipt outbox is flushed before new claims; the runtime returns existing claims to their worker; interrupted execution receives a terminal receipt.
 
-## Local qualification
+## Verification
 
-The installed wheel passed the initial 21-test suite with 94% statement coverage. An additional concurrent registry update test was added before final qualification. GitHub CI results and final deployed wheel digest are recorded in `DEPLOYMENT.json` after verification.
+29 tests exercise actual subprocess success, failure and timeout, concurrency, recovery,
+file operations and core behavior. Independent installed-package qualification runs the
+core, CLI, IDE and CI suites against their respective clean-build artifacts. Runtime
+queue tests execute SQL against SQLite and verify leases and receipt/artifact digests.
+Final published versions and website execution evidence are recorded in `DEPLOYMENT.json`.

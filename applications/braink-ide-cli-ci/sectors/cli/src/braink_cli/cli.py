@@ -2,18 +2,19 @@
 import argparse
 import json
 import os
+import threading
 from dataclasses import asdict
 from pathlib import Path
 
-from .align import align_project_into_dekstop
-from .indexer import ledger_index
-from .ingest import ingest_directory, ingest_file
-from .ledger import LedgerStore
-from .paths import default_dekstop_paths
-from .pass_runner import run_dekstop_pass
-from .registry import store_registry
-from .result import ExecutionResult
-from .storage import atomic_write
+from braink_node.align import align_project_into_dekstop
+from braink_node.indexer import ledger_index
+from braink_node.ingest import ingest_directory, ingest_file
+from braink_node.ledger import LedgerStore
+from braink_node.paths import default_dekstop_paths
+from braink_node.pass_runner import run_dekstop_pass
+from braink_node.registry import store_registry
+from braink_node.result import ExecutionResult
+from braink_node.storage import atomic_write
 
 
 def services(workspace: Path, state_dir: Path):
@@ -45,6 +46,13 @@ def main(argv=None) -> int:
     check.add_argument("--ingest", action="store_true")
     check.add_argument("--fail-on", choices=("warn", "blocker"), default="blocker")
     subs.add_parser("verify-ledger")
+    ci = subs.add_parser("ci")
+    ci.add_argument("action", choices=("run", "submit", "list", "show", "worker", "relay"))
+    ci.add_argument("--source", type=Path)
+    ci.add_argument("--pipeline", type=Path)
+    ci.add_argument("--job")
+    ci.add_argument("--sector", choices=("core", "cli", "ide", "ci", "all"), default="all")
+    ci.add_argument("--website", default=os.getenv("BRAINK_CI_WEBSITE", "https://www.keddeh.com"))
     serve = subs.add_parser("serve")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=int(os.getenv("PORT", "8765")))
@@ -81,10 +89,42 @@ def main(argv=None) -> int:
             print(json.dumps(ExecutionResult(ok, None if ok else "Findings exceed threshold",
                                              result, [result["event_ref"]]).to_obj(), indent=2))
             return 0 if ok else 1
+        elif args.command == "ci":
+            from braink_ci.runner import CIRunner, sector_pipeline
+            runner = CIRunner(args.state_dir / "ci", store)
+            if args.action in {"run", "submit"}:
+                if args.source is None:
+                    raise ValueError("CI run/submit requires --source")
+                pipeline = json.loads(args.pipeline.read_text()) if args.pipeline else sector_pipeline(args.sector)
+                queued = runner.submit(args.source, pipeline)
+                if args.action == "submit":
+                    result = queued
+                else:
+                    while runner.get(queued["id"])["status"] == "queued":
+                        runner.execute_next()
+                    result = runner.get(queued["id"])
+                    print(json.dumps(result, indent=2))
+                    return 0 if result["status"] == "passed" else 1
+            elif args.action == "list":
+                result = runner.list()
+            elif args.action == "show":
+                result = runner.get(args.job)
+            elif args.action == "worker":
+                try:
+                    runner.worker(threading.Event())
+                except KeyboardInterrupt:
+                    pass
+                return 0
+            else:
+                if args.source is None:
+                    raise ValueError("CI relay requires --source")
+                from braink_ci.relay import WebsiteRelay
+                WebsiteRelay(runner, args.source, args.website).serve()
+                return 0
         elif args.command == "verify-ledger":
             result = store.verify()
         else:
-            from .ide import serve
+            from braink_ide.ide import serve
             serve(paths=paths, store=store, artifacts_dir=artifacts, host=args.host, port=args.port)
             return 0
         print(json.dumps(result, indent=2))

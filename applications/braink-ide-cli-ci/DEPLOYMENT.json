@@ -1,0 +1,47 @@
+{
+  "node": "braink-ide-cli-ci",
+  "health": {
+    "ok": true,
+    "node": "braink-ide-cli-ci",
+    "version": "0.1.0"
+  },
+  "runtime_root": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci",
+  "pid": 608971,
+  "url": "http://127.0.0.1:8765",
+  "scope": "private cloud-host process; no public ingress or reboot supervisor",
+  "source_commit": "111bb25da115f18c7ba2cab3901f7c922092011a",
+  "wheel_sha256": "28bb808b8027362b7889a827a3d46174a48992374b7b71dbddaf9b782c65c54c",
+  "qualification": {
+    "installed_wheel_tests": 22,
+    "statement_coverage_percent": 94,
+    "python": "3.12.14",
+    "cli_commands_verified": [
+      "align",
+      "index",
+      "ingest",
+      "check",
+      "ledger"
+    ],
+    "ide_http_verified": [
+      "health",
+      "file-list",
+      "file-create",
+      "file-read",
+      "workspace-check",
+      "ledger-verify"
+    ],
+    "registered_project": "kexproj:02e0ca95bec5602563f50d2536eccf7ffa2171076c75046089e3fed2776fadbd",
+    "ingested_files": 24,
+    "ledger": {
+      "ok": true,
+      "event_count": 33,
+      "head": "e0d5d02b68b4f2ed7d1283eed38963c9768eed658b2844cfc997dbb4d60830e6"
+    }
+  },
+  "github_ci": {
+    "status": "blocked_before_execution",
+    "reason": "The job was not started because your account is locked due to a billing issue.",
+    "run_url": "https://github.com/Keddeh1/BRAINK-BETA-TEST/actions/runs/37672219831"
+  },
+  "branch": "feat/braink-application-node"
+}

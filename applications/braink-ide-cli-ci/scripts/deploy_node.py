@@ -1,4 +1,4 @@
-"""Install a built wheel and start this independent node on a Linux host.
+"""Install the four sector wheels and start this independent node on a Linux host.
 
 Run with --runtime-root outside Git. The IDE binds to loopback by default.
 The node survives the deploying command, but needs a host supervisor for reboot.
@@ -16,7 +16,7 @@ import venv
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--wheel", type=Path, required=True)
+    parser.add_argument("--artifacts-dir", type=Path, required=True)
     parser.add_argument("--runtime-root", type=Path, required=True)
     parser.add_argument("--port", type=int, default=8765)
     args = parser.parse_args()
@@ -26,7 +26,7 @@ def main():
     if pid_file.exists():
         pid = int(pid_file.read_text())
         cmdline = Path(f"/proc/{pid}/cmdline")
-        if cmdline.exists() and b"braink_node.cli" in cmdline.read_bytes():
+        if cmdline.exists() and b"braink_cli.cli" in cmdline.read_bytes():
             raise SystemExit("Node already running; use its current service before redeploying")
     # Avoid starting on a port used by another application.
     import socket
@@ -34,8 +34,8 @@ def main():
         probe.bind(("127.0.0.1", args.port))
     venv.create(root / "venv", with_pip=True)
     python = root / "venv/bin/python"
-    subprocess.run([str(python), "-m", "pip", "install", "--no-deps", str(args.wheel.resolve())], check=True)
-    common = [str(python), "-m", "braink_node.cli", "--workspace", str(root / "workspace"),
+    subprocess.run([str(python), "-m", "pip", "install", "--no-deps", *[str(p.resolve()) for p in args.artifacts_dir.glob("*/*.whl")]], check=True)
+    common = [str(python), "-m", "braink_cli.cli", "--workspace", str(root / "workspace"),
               "--state-dir", str(root / "state")]
     subprocess.run(common + ["init"], check=True)
     with (root / "node.log").open("ab") as log:
