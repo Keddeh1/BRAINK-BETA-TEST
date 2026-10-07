@@ -1,0 +1,22 @@
+{
+  "schema": "braink.native-guard-replay.v1",
+  "kind": "ISOLATED_NATIVE_STORE_UNDER_EXISTING_OWNER_GUARD",
+  "production_store_modified": false,
+  "root": "/workspace/braink-setup/families/Keddeh-SYSTEMS-Virtual-File-Space-ZCG-ARCHITECTURE/state/diagnostics/braink-native-guard-replay-1791410210",
+  "started": 1791410117.9961698,
+  "guard_fsize_limit": [
+    67108864,
+    67108864
+  ],
+  "SIGXFSZ_handler": "1",
+  "native_source_sha256": "ca0282f1e370b7d08d566f40e4017964dc910a0b767818aee9214c14c1595695",
+  "guard_source_sha256": "8b54a2dd906935fdae12001ca64558fe9299e9708b5bd54d32dc32fb23ef2357",
+  "available_filesystem_bytes": 17934323712,
+  "completed_writes": 16288,
+  "exception": "OperationalError",
+  "reason": "disk I/O error",
+  "sqlite_errorcode": 778,
+  "sqlite_errorname": "SQLITE_IOERR_WRITE",
+  "wal_bytes": 67108864,
+  "finished": 1791410154.83532
+}

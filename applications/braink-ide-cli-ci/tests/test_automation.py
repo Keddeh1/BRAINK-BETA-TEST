@@ -28,6 +28,58 @@ class AutomationTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_delivery_qualifies_new_git_revision_when_only_supporting_source_changes(self):
+        import shutil
+        import subprocess
+        from braink_node.automation import delivery
+        from braink_node.protocol.catalogue import digest
+
+        repository = self.root / 'source'
+        scripts = repository / 'scripts/supervise_node.py'
+        website = repository / 'integrations/website/development.mjs'
+        scripts.parent.mkdir(parents=True)
+        website.parent.mkdir(parents=True)
+        scripts.write_text('VERSION = 1\n')
+        website.write_text('export const version = 1;\n')
+        def git(*args):
+            return subprocess.check_output(['git', *args], cwd=repository, text=True).strip()
+        git('init', '--quiet')
+        def commit(message):
+            git('add', '.')
+            git('-c', 'user.name=BRAINK qualification', '-c', 'user.email=qualification@example.invalid',
+                'commit', '--quiet', '-m', message)
+            return git('rev-parse', 'HEAD')
+        baseline_revision = commit('Original module and supporting source')
+        active = self.root / 'active-source'
+        shutil.copytree(repository, active, ignore=shutil.ignore_patterns('.git'))
+        active_catalogue = compile_catalogue(active)
+        submitted = []
+        def transport(payload):
+            if payload['op'] == 'submit':
+                submitted.append(payload)
+                return {'job': {'id': payload['id'], 'status': 'queued'}}
+            return {'jobs': []}
+        self.context.source = active
+        self.context.desired_source = repository
+        self.context.catalogue = lambda: compile_catalogue(active)
+        self.context.config = {'active_revision': baseline_revision}
+        self.context.website = transport
+        def action(kind, identity, execute):
+            key = digest(identity)[:32]
+            return {'id': key, 'result': execute(key)}
+        self.context.action = action
+        for path, content in ((scripts, 'VERSION = 2\n'), (website, 'export const version = 2;\n')):
+            with self.subTest(source=str(path.relative_to(repository))):
+                path.write_text(content)
+                desired_revision = commit('Update supporting source ' + path.name)
+                self.assertNotEqual(desired_revision, baseline_revision)
+                self.assertEqual(compile_catalogue(repository)['definition_sha256'], active_catalogue['definition_sha256'])
+                submitted.clear()
+                result = delivery.run(self.context)
+                self.assertEqual(result['source_commit'], desired_revision)
+                self.assertEqual({row['sector'] for row in submitted}, {'core', 'cli', 'ide', 'ci'})
+                self.assertTrue(all(row['parameters']['source_commit'] == desired_revision for row in submitted))
+
     def test_failed_daily_recovery_retries_on_next_live_cycle(self):
         import time
         from braink_node.automation.engine import AutomationEngine, ORDER
@@ -181,6 +233,78 @@ class AutomationTests(unittest.TestCase):
         self.assertEqual(len(store.inbox('b')), 1)
         with self.assertRaises(ValueError):
             store.exchange('a','b',{**anchor,'definition':'changed'},'message-one')
+
+
+class SupervisorActivationTests(unittest.TestCase):
+    def setUp(self):
+        import venv
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        venv.EnvBuilder(with_pip=True).create(self.root / 'venv')
+        old = self.root / 'venv/bin/braink-node'
+        old.write_text('#!' + str(self.root / 'venv/bin/python') + '\nprint("previous")\n')
+        old.chmod(0o755)
+        self.config = self.root / 'automation.json'
+        self.config.write_text(json.dumps({'source':'previous','active_revision':'previous'}))
+        spec = importlib.util.spec_from_file_location('braink_supervisor_qualification', Path(__file__).resolve().parents[1] / 'scripts/supervise_node.py')
+        self.supervisor = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.supervisor)
+
+    def activation(self, revision):
+        import hashlib
+        import zipfile
+        release = self.root / 'releases' / revision
+        release.mkdir(parents=True)
+        wheel = release / 'braink_activation_fixture-1.0-py3-none-any.whl'
+        files = {'activation_fixture.py':'def main(): print(' + repr(revision) + ')\n',
+                 'braink_activation_fixture-1.0.dist-info/METADATA':'Metadata-Version: 2.1\nName: braink-activation-fixture\nVersion: 1.0\n',
+                 'braink_activation_fixture-1.0.dist-info/WHEEL':'Wheel-Version: 1.0\nGenerator: qualification\nRoot-Is-Purelib: true\nTag: py3-none-any\n',
+                 'braink_activation_fixture-1.0.dist-info/entry_points.txt':'[console_scripts]\nbraink-node = activation_fixture:main\n'}
+        files['braink_activation_fixture-1.0.dist-info/RECORD'] = ''.join(name + ',,\n' for name in files)
+        with zipfile.ZipFile(wheel, 'w') as archive:
+            for name, body in files.items():archive.writestr(name, body)
+        return {'source_commit':revision,'qualified_source':str(release / 'source'),
+                'wheels':[{'path':str(wheel),'sha256':hashlib.sha256(wheel.read_bytes()).hexdigest()}]}
+
+    def console(self, path):
+        import subprocess
+        return subprocess.check_output([str(path / 'bin/braink-node'), '--help'], text=True).strip()
+
+    def test_real_console_survives_first_and_subsequent_environment_selection(self):
+        first_revision, second_revision = 'a' * 40, 'b' * 40
+        first = self.supervisor.activate_environment(self.root, self.activation(first_revision), self.config)
+        stable = Path(first['environment'])
+        self.assertTrue((self.root / 'venv').is_symlink())
+        self.assertEqual(self.console(self.root / 'venv'), first_revision)
+        self.assertIn(str(stable / 'bin/python'), (stable / 'bin/braink-node').read_text())
+        second = self.supervisor.activate_environment(self.root, self.activation(second_revision), self.config)
+        self.assertNotEqual(first['environment'], second['environment'])
+        self.assertEqual(self.console(self.root / 'venv'), second_revision)
+        self.assertEqual(self.console(stable), first_revision)
+        self.assertEqual(json.loads(self.config.read_text())['active_revision'], second_revision)
+
+    def test_failed_configuration_commit_restores_actual_previous_console(self):
+        from unittest.mock import patch
+        original = self.config.read_bytes()
+        replace = Path.replace
+        def fail_configuration(path, target):
+            if Path(target) == self.config:raise OSError('qualification failure committing config')
+            return replace(path, target)
+        with patch.object(Path, 'replace', fail_configuration):
+            with self.assertRaises(OSError):
+                self.supervisor.activate_environment(self.root, self.activation('rejected'), self.config)
+        self.assertFalse((self.root / 'venv').is_symlink())
+        self.assertEqual(self.console(self.root / 'venv'), 'previous')
+        self.assertEqual(self.config.read_bytes(), original)
+        self.supervisor.activate_environment(self.root, self.activation('accepted'), self.config)
+        selected = self.config.read_bytes()
+        with patch.object(Path, 'replace', fail_configuration):
+            with self.assertRaises(OSError):
+                self.supervisor.activate_environment(self.root, self.activation('rejected-again'), self.config)
+        self.assertTrue((self.root / 'venv').is_symlink())
+        self.assertEqual(self.console(self.root / 'venv'), 'accepted')
+        self.assertEqual(self.config.read_bytes(), selected)
 
 
 if __name__ == '__main__':

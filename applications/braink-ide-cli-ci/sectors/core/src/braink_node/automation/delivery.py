@@ -49,10 +49,7 @@ def activate(context, revision, rows):
 
 
 def run(context):
-    desired = compile_catalogue(context.desired_source)
     revision = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=context.desired_source, text=True).strip()
-    if desired['definition_sha256'] == context.catalogue()['definition_sha256']:
-        revision = context.config.get('active_revision', revision)
     jobs = []
     for sector in ('core', 'cli', 'ide', 'ci'):
         def submit(identity):

@@ -9,6 +9,59 @@ import subprocess
 import time
 
 
+def activate_environment(root, activation, config_path):
+    """Keep generated script paths stable and atomically select a qualified environment."""
+    import hashlib
+    import shutil
+    from uuid import uuid4
+
+    release = root / 'releases' / activation['source_commit']
+    identity = uuid4().hex
+    stage = release / ('activation-venv-' + identity)
+    for row in activation['wheels']:
+        path = Path(row['path']).resolve(strict=True)
+        if not path.is_relative_to(release.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest() != row['sha256']:
+            raise RuntimeError('Prepared wheel differs before activation')
+    shutil.copytree(root / 'venv', stage, symlinks=True)
+    subprocess.run([str(stage / 'bin/python'), '-m', 'pip', 'install', '--no-deps', '--force-reinstall',
+                    *[row['path'] for row in activation['wheels']]], check=True)
+    subprocess.run([str(stage / 'bin/braink-node'), '--help'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    active = root / 'venv'
+    previous = release / ('previous-venv-' + identity)
+    pending_link = root / ('.venv-' + identity)
+    temporary = config_path.with_name(config_path.name + '.' + identity + '.pending')
+    config = json.loads(config_path.read_text())
+    config.update(source=activation['qualified_source'], active_revision=activation['source_commit'])
+    temporary.write_text(json.dumps(config))
+    temporary.chmod(0o600)
+    pending_link.symlink_to(stage)
+    was_symlink = active.is_symlink()
+    if was_symlink:
+        previous.symlink_to(active.resolve(strict=True))
+    else:
+        # The first migration preserves the existing directory while children are stopped.
+        # Subsequent activations replace only the stable alias in one filesystem operation.
+        active.rename(previous)
+    try:
+        pending_link.replace(active)
+        subprocess.run([str(active / 'bin/braink-node'), '--help'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        temporary.replace(config_path)
+    except Exception:
+        if was_symlink:
+            pending_link.unlink(missing_ok=True)
+            pending_link.symlink_to(previous.resolve(strict=True))
+            pending_link.replace(active)
+        else:
+            active.unlink(missing_ok=True)
+            previous.rename(active)
+        temporary.unlink(missing_ok=True)
+        raise
+    finally:
+        pending_link.unlink(missing_ok=True)
+    return {'environment': str(stage), 'previous_environment': str(previous), 'console_readback': True}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime-root', type=Path, required=True)
@@ -72,35 +125,7 @@ def main():
         for name in definitions:(root/(name+'.pid')).unlink(missing_ok=True)
     if activation:
         try:
-            # Prepare a complete Python environment before replacing the active one.
-            # Children are stopped and the own CI outbox has completed at this point.
-            import hashlib
-            import shutil
-            import sys
-            stage = root / 'releases' / activation['source_commit'] / 'activation-venv'
-            if stage.exists():
-                shutil.rmtree(stage)
-            for row in activation['wheels']:
-                path = Path(row['path']).resolve(strict=True)
-                if not path.is_relative_to((root/'releases'/activation['source_commit']).resolve()) or hashlib.sha256(path.read_bytes()).hexdigest() != row['sha256']:
-                    raise RuntimeError('Prepared wheel differs before activation')
-            shutil.copytree(root/'venv', stage, symlinks=True)
-            subprocess.run([str(stage/'bin/python'), '-m', 'pip', 'install', '--no-deps', '--force-reinstall', *[row['path'] for row in activation['wheels']]], check=True)
-            config = json.loads(args.automation_config.read_text())
-            config.update(source=activation['qualified_source'], active_revision=activation['source_commit'])
-            previous = root / 'releases' / activation['source_commit'] / 'previous-venv'
-            (root/'venv').rename(previous)
-            try:
-                stage.rename(root/'venv')
-                temporary = args.automation_config.with_suffix('.pending')
-                temporary.write_text(json.dumps(config))
-                temporary.chmod(0o600)
-                temporary.replace(args.automation_config)
-            except Exception:
-                if (root/'venv').exists():
-                    (root/'venv').rename(stage)
-                previous.rename(root/'venv')
-                raise
+            activation['environment_readback'] = activate_environment(root, activation, args.automation_config)
         except Exception as error:
             activation.update(state='FAILED_RETRYABLE', exception=type(error).__name__, reason=str(error))
             (root/'activation-request.json').write_text(json.dumps(activation))
@@ -109,6 +134,7 @@ def main():
             import sys
             os.execv(sys.executable, [sys.executable, *sys.argv])
         (root/'activation-history').mkdir(exist_ok=True)
+        (root/'activation-request.json').write_text(json.dumps(activation))
         (root/'activation-request.json').replace(root/'activation-history'/ (activation['source_commit']+'.json'))
         (root/'state/automation/activation-prepared.json').unlink(missing_ok=True)
         lock.close()
