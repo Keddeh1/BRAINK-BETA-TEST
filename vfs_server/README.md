@@ -1,37 +1,19 @@
-# VFS_SERVER
+# VFS_SERVER — allocated VFS fleet
 
-Implementation of the existing BRAINK server-room identity `VFS_SERVER`.
+`VFS_SERVER` is a **server of VFS instances** under `KEDDEH_SERVICE`. A queue submission receives its own allocated VFS ID and quota. The submitted baseline (A) and candidate (B) enter that VFS as a compressed A/B admission. A direct artifact POST is retired.
 
-Architectural bindings:
-- server: `VFS_SERVER`
-- module: `WM.DEPLOY_VIRTUAL_SPACE.R1`
-- target: `VFS_SERVER:artifact_graph`
-- adapter: `adapter://vfs/artifact-write`
-- required receipt: `VFS_R12_ARTIFACT_MIRROR_RECEIPT`
-- observer: `OBSERVER_SERVER`
+## Execution contract
 
-The package mirrors deployed files into a content-addressed artifact graph, records SHA-256 identities, preserves predecessor lineage, emits hash-chained receipts, and exposes independent readback.
+1. The owner-authenticated controller calls `POST /vfs` with a label, queue source reference and optional byte quota. The response contains a distinct VFS ID.
+2. It calls `POST /vfs/{id}/ab` with A and B bytes. A is zlib compressed. B is an A reference if identical; otherwise the carrier chooses the smaller of independent zlib and an A-relative XOR delta compressed with zlib.
+3. The actor returns a pending observer state. The controller reads `GET /vfs/{id}/ab/{entry}`, validates both uncompressed SHA-256 digests, then calls `POST /vfs/{id}/ab/{entry}/verify` for separate observer receipts.
+4. The queue workflow records the VFS ID, entry ID, compressed byte count, source digests, actor receipts and observer receipts. It must not mark execution verified from allocation or actor write alone.
 
-No new runtime or revision identity is allocated here.
+Each instance has its own SQLite WAL metadata, content objects, path namespace and receipt chain under `instances/{vfs_id}`. The allocator registry records IDs, source references, quotas and A/B entries. It never resolves a caller supplied filesystem path. The prior `VFSStore` remains the internal content-addressed adapter `adapter://vfs/artifact-write`.
 
-Run: `python -m vfs_server.server --root .vfs-server --host 127.0.0.1 --port 8787`
+Run: `python -m vfs_server.server --root .vfs-server --host 127.0.0.1 --port 8787 --token-file /run/secrets/vfs_token`.
+Tests: `python -m unittest discover -s vfs_server/tests -v` and `node --test vfs_server/web/*.test.mjs`.
 
-Test: `python -m unittest discover -s vfs_server/tests -v`
+The public HTML surface must call an owner-authenticated same-origin server route; that route holds the bearer credential and forwards to VFS_SERVER. Never embed the token in HTML, issue bodies, or receipts. Non-loopback listeners require `--token-file`; local loopback without one is a development mode. A single writable volume and one process are assumed. This package does not claim multi-replica consistency or production deployment.
 
-A write receipt is actor evidence, not verification. Verification is a separate observer readback.
-
-## HTTP carrier and authorization
-
-The server is a real host adapter: POST /artifacts writes content-addressed bytes and returns actor evidence; GET /artifacts/{digest} reads the stored bytes; POST /verify performs a separate observer readback and appends an observer receipt. /paths/{path} and /lineage/{digest} resolve the graph. /status and /ready provide health. Artifact reads, writes, and verification require the configured bearer token. The browser carrier can call these operations through an authenticated Site server route; do not put the token in HTML or a queue issue.
-
-For local development, the default loopback listener may run without a token. A non-loopback listener requires --token-file at startup. Docker Compose and Kubernetes manifests bind the token as a secret; provision it out of band before applying Kubernetes resources. The data volume must be writable by UID/GID 10001. The write receipt is not observer verification: inspect the /verify response and persisted receipt chain separately.
-
-The source uses a synchronous HTTP server and SQLite WAL. Do not claim distributed coordination or exactly-once writes across multiple replicas. The Kubernetes manifest intentionally has one replica and a ReadWriteOnce volume.
-
-## KEDDEH_SERVICE environment and raw carrier
-
-When this host adapter takes over artifact execution it reports the full logical service environment as `KEDDEH_SERVICE`, with `KEDDEH_SYSTEMS`, subsystem `VFS_SERVER`, transport `HTTP`, and the configured carrier ID. Status, readiness, actor writes, and observer verification include that identity; binary readback includes it in headers. The carrier ID is configured at service startup and appears in the receipt context. This classifies the managed execution environment while leaving the underlying physical host explicit in deployment evidence.
-
-`POST /artifacts/raw` accepts bytes directly, with URL-encoded `x-vfs-path` and `x-vfs-source` headers and optional predecessor; `GET /artifacts/{sha256}/raw` returns independently checked bytes. Both require the bearer gate. `vfs_server/web/vfs-client.mjs` is an HTML-compatible client: it checks service identity, posts bytes, verifies SHA-256 on raw readback, invokes the observer, and returns both receipts. Serve it through the same-origin owner-authenticated Site route or on the local host. Keep the bearer in the host secret boundary; do not embed it in published HTML.
-
-Run `node --test vfs_server/web/*.test.mjs` for the carrier HTTP contract. The Python HTTP test exercises the actual VFS handler. The raw route avoids base64 expansion for large artifacts while the JSON route remains for compatibility.
+The new A/B carrier is an explicit implementation of the user's allocation and compression correction. The supplied archival sources establish VFS projection, structural KEX packet compression, and observer readback; they do not supply a byte-for-byte A/B codec specification. The codec here is version one and is described precisely in `docs/ARCHITECTURE.md`. A later codec can be added with an explicit version without reinterpreting old entries.
