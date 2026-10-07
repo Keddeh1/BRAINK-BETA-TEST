@@ -6,6 +6,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
+import tarfile
 
 
 def build(root, sector, run, artifacts):
@@ -38,6 +39,17 @@ def main():
     sectors = ["core", "cli", "ide", "ci"] if args.sector == "all" else ["core"] if args.sector == "core" else ["core", args.sector]
     manifest = {"schema": "braink.sector-build.v1", "requested_sector": args.sector,
                 "builds": [build(root, sector, args.run, args.artifacts) for sector in sectors]}
+    (args.artifacts / "sector-builds.json").write_text(json.dumps(manifest, indent=2))
+    sys.path.insert(0, str(root / "sectors/core/src"))
+    from package_protocol import package
+    protocol_root = args.artifacts / "protocol"
+    manifest["protocol"] = package(root, protocol_root, args.artifacts)
+    archive = args.artifacts / "protocol-colonies.tar.gz"
+    with tarfile.open(archive, "w:gz") as bundle:
+        bundle.add(protocol_root, arcname="protocol")
+    manifest["protocol"]["archive"] = archive.name
+    manifest["protocol"]["archive_sha256"] = hashlib.sha256(archive.read_bytes()).hexdigest()
+    shutil.rmtree(protocol_root)
     (args.artifacts / "sector-builds.json").write_text(json.dumps(manifest, indent=2))
     print(json.dumps(manifest, indent=2))
 

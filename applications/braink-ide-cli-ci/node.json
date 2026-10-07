@@ -13,7 +13,8 @@
       "check",
       "verify-ledger",
       "serve",
-      "ci"
+      "ci",
+      "protocol"
     ],
     "http": [
       "/health",
@@ -59,5 +60,20 @@
       "source": "sectors/ci",
       "clean_build": true
     }
+  },
+  "deployment_protocol": {
+    "schema": "braink.deployment-protocol.v1",
+    "hierarchy": [
+      "function-module",
+      "module-family",
+      "family-variant",
+      "variant-colony"
+    ],
+    "instance_services": [
+      "VFS",
+      "VFS_INSTANTIATION_SUBSCRIPTION",
+      "IL_LLM_NETWORK_MESH_SUBSCRIPTION"
+    ],
+    "specification": "PROTOCOL.md"
   }
 }

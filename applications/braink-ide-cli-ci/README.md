@@ -79,3 +79,7 @@ GitHub branch and submits clean builds for changed sectors. Changes to core or s
 build/test scripts trigger all dependent sectors. Submissions retain stable IDs across
 transport retries, and the relay exports the exact triggering Git commit before building.
 The trigger retains local edits and follows only fast-forward branch updates.
+
+## Deployment protocol
+
+[PROTOCOL.md](PROTOCOL.md) defines the implemented function modules, module families, family variants, variant colonies and per-instance ceremonies. Clean sector builds also produce these hierarchical packages. The runtime supervisor can run the IL-LLM subscription mesh alongside the existing IDE, own CI relay and branch trigger. Each module occurrence, family, variant and colony receives a separate owner VFS store and independently read-back subscriptions.

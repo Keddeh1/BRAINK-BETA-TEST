@@ -46,6 +46,16 @@ def main(argv=None) -> int:
     check.add_argument("--ingest", action="store_true")
     check.add_argument("--fail-on", choices=("warn", "blocker"), default="blocker")
     subs.add_parser("verify-ledger")
+    protocol = subs.add_parser("protocol")
+    protocol.add_argument("action", choices=("catalogue", "deploy", "mesh"))
+    protocol.add_argument("--source", type=Path)
+    protocol.add_argument("--sector", choices=("core", "cli", "ide", "ci", "all"), default="all")
+    protocol.add_argument("--vfs-url", default="http://127.0.0.1:17887")
+    protocol.add_argument("--vfs-token-file", type=Path)
+    protocol.add_argument("--mesh-url", default="http://127.0.0.1:8766")
+    protocol.add_argument("--mesh-token-file", type=Path)
+    protocol.add_argument("--owner-export", type=Path)
+    protocol.add_argument("--port", type=int, default=8766)
     ci = subs.add_parser("ci")
     ci.add_argument("action", choices=("run", "submit", "list", "show", "worker", "relay"))
     ci.add_argument("--source", type=Path)
@@ -89,6 +99,28 @@ def main(argv=None) -> int:
             print(json.dumps(ExecutionResult(ok, None if ok else "Findings exceed threshold",
                                              result, [result["event_ref"]]).to_obj(), indent=2))
             return 0 if ok else 1
+        elif args.command == "protocol":
+            from braink_node.protocol import compile_catalogue, InstanceManager
+            from braink_node.protocol.transport import JSONTransport, HubSubscription
+            if args.action == "mesh":
+                from braink_node.protocol.mesh import MeshStore, mesh_server, owner_state
+                if args.owner_export is None or args.mesh_token_file is None:
+                    raise ValueError("Mesh requires the owner export implementation and credential file")
+                mesh = MeshStore(args.state_dir / "protocol-mesh", owner_state(args.owner_export))
+                mesh_server(mesh, "127.0.0.1", args.port, args.mesh_token_file.read_text().strip()).serve_forever()
+                return 0
+            if args.source is None:
+                raise ValueError("Protocol requires --source")
+            catalogue = compile_catalogue(args.source)
+            if args.action == "catalogue":
+                result = catalogue
+            else:
+                if args.vfs_token_file is None or args.mesh_token_file is None:
+                    raise ValueError("Deploy requires existing VFS and mesh credential files")
+                hub = HubSubscription(JSONTransport(args.vfs_url, args.vfs_token_file.read_text().strip()))
+                mesh = JSONTransport(args.mesh_url, args.mesh_token_file.read_text().strip())
+                result = InstanceManager(args.state_dir / "instances", hub, mesh).deploy(
+                    catalogue, ("core", "cli", "ide", "ci") if args.sector == "all" else (args.sector,))
         elif args.command == "ci":
             from braink_ci.runner import CIRunner, sector_pipeline
             runner = CIRunner(args.state_dir / "ci", store)

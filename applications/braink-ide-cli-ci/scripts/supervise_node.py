@@ -14,6 +14,9 @@ def main():
     parser.add_argument('--runtime-root', type=Path, required=True)
     parser.add_argument('--source', type=Path, required=True)
     parser.add_argument('--checkout', type=Path)
+    parser.add_argument('--owner-export', type=Path)
+    parser.add_argument('--mesh-token-file', type=Path)
+    parser.add_argument('--mesh-port', type=int, default=8766)
     parser.add_argument('--port', type=int, default=8765)
     args = parser.parse_args()
     root = args.runtime_root.resolve(strict=True)
@@ -27,6 +30,8 @@ def main():
     definitions = {'node': common+['serve','--port',str(args.port)], 'relay': common+['ci','relay','--source',str(args.source.resolve(strict=True))]}
     if args.checkout:
         definitions['branch-trigger'] = [str(python), str(args.source/'scripts/watch_branch.py'), '--runtime-root',str(root),'--checkout',str(args.checkout)]
+    if args.owner_export and args.mesh_token_file:
+        definitions['protocol-mesh'] = common + ['protocol', 'mesh', '--owner-export', str(args.owner_export), '--mesh-token-file', str(args.mesh_token_file), '--port', str(args.mesh_port)]
     processes = {}
     stopping = False
     def stop(*unused):
