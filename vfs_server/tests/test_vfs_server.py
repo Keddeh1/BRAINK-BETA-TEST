@@ -43,7 +43,9 @@ class VFSServerTests(unittest.TestCase):
         pair=self.fleet.admit_ab(instance["vfs_id"],b"same",b"same","queue#5")
         self.assertEqual(pair["entry"]["b_codec"],"reference:A")
         self.assertEqual(len(pair["actor_receipts"]),1)
-        with self.assertRaises(ValueError): self.fleet.admit_ab(instance["vfs_id"],b"x"*(32*1024*1024),b"y","queue#5")
+        with patch("vfs_server.fleet.zlib.compress",side_effect=lambda value,level=9:value):
+            with self.assertRaisesRegex(ValueError,"vfs_quota_exceeded"):
+                self.fleet.admit_ab(instance["vfs_id"],b"x"*(32*1024*1024),b"y","queue#5")
     def test_http_auth_allocation_ab_and_observer(self):
         token_file=self.tmp.name+"/token"
         with open(token_file,"w",encoding="utf-8") as stream: stream.write("test-only-secret")
