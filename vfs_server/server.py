@@ -1,11 +1,11 @@
 """HTTP carrier for an allocated fleet of VFS instances and A/B admissions."""
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from urllib.parse import urlparse
-import argparse,base64,binascii,json,re
+import argparse,json,re
 from .fleet import VFSFleet
 from .auth import MutationAuthorizer
 
-MAX_REQUEST_BYTES=90*1024*1024
+MAX_REQUEST_BYTES=16*1024
 ID="[0-9a-f]{32}"
 
 class Handler(BaseHTTPRequestHandler):
@@ -40,7 +40,7 @@ class Handler(BaseHTTPRequestHandler):
         return True
     def _error(self,error):
         if isinstance(error,KeyError): return self.send_json(404,{"error":str(error.args[0])})
-        if isinstance(error,(ValueError,TypeError,KeyError,binascii.Error,json.JSONDecodeError)):
+        if isinstance(error,(ValueError,TypeError,KeyError,json.JSONDecodeError)):
             return self.send_json(400,{"error":str(error)})
         return self.send_json(500,{"error":"internal_error"})
     def do_GET(self):
@@ -67,14 +67,12 @@ class Handler(BaseHTTPRequestHandler):
             if p=="/vfs":
                 data=self.body()
                 allocation=self.fleet.allocate(data["label"],data["source_ref"],
-                                                data.get("quota_bytes",64*1024*1024))
+                                                data.get("quota_bytes",1024*1024))
                 return self.send_json(201,{"allocation":allocation,"next":f"/vfs/{allocation['vfs_id']}/ab"})
             m=re.fullmatch(r"/vfs/("+ID+r")/ab",p)
             if m:
                 data=self.body()
-                a=base64.b64decode(data["a_b64"],validate=True)
-                b=base64.b64decode(data["b_b64"],validate=True)
-                result=self.fleet.admit_ab(m[1],a,b,data["source_ref"])
+                result=self.fleet.admit_ab(m[1],data["bits"],data["source_ref"])
                 return self.send_json(201,result)
             m=re.fullmatch(r"/vfs/("+ID+r")/ab/("+ID+r")/verify",p)
             if m: return self.send_json(200,self.fleet.read_ab(m[1],m[2],observe=True))
