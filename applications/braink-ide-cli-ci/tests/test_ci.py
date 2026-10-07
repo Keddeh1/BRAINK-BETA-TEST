@@ -110,3 +110,14 @@ class CiTests(NodeFixture, unittest.TestCase):
         self.assertEqual(result['stages'][0]['log_text'].strip(), 'committed')
         self.assertEqual(runner.list()[0]['pipeline']['source_commit'], revision)
         self.assertEqual(receipts[0]['op'], 'result')
+
+    def test_interrupted_stage_without_log_still_reports(self):
+        self.file('source.txt')
+        runner = self.runner()
+        queued = runner.submit(self.root, self.pipeline(["{python}", "-c", "print('ok')"]))
+        report = runner.claim()
+        report['stages'].append({'name':'actual-process','status':'running','log':'actual-process.log'})
+        runner._save(report)
+        result = runner.interrupt(queued['id'])
+        self.assertEqual(result['stages'][0]['status'], 'interrupted')
+        self.assertEqual(runner.read_log(queued['id'], 'actual-process'), '')

@@ -43,8 +43,16 @@ and baseline metadata remain available for the owner systems.
 
 ## Verification
 
-29 tests exercise actual subprocess success, failure and timeout, concurrency, recovery,
+31 tests exercise actual subprocess success, failure and timeout, concurrency, recovery,
 file operations and core behavior. Independent installed-package qualification runs the
 core, CLI, IDE and CI suites against their respective clean-build artifacts. Runtime
 queue tests execute SQL against SQLite and verify leases and receipt/artifact digests.
 Final published versions and website execution evidence are recorded in `DEPLOYMENT.json`.
+
+## Continuous branch integration
+
+The dedicated own-runtime trigger follows `feat/braink-application-node`, determines
+which sectors changed, and submits persistent job IDs to the website queue. Exact Git
+commit exports feed the clean builds, preserving source identity even when later commits
+arrive. A test executes a committed source export while retaining different local edits.
+The process supervisor restarts IDE, relay and branch-trigger services independently.

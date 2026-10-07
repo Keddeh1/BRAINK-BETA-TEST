@@ -107,7 +107,7 @@ class CIRunner:
         snapshot = snapshot_source(source, run / "source")
         atomic_write(run / "source-manifest.json", canonical_bytes(snapshot))
         report = {"id": job_id, "status": "queued", "source": str(source),
-                  "source_digest": snapshot["digest"], "pipeline": pipeline,
+                  "source_digest": snapshot["digest"], "source_commit": pipeline.get("source_commit"), "pipeline": pipeline,
                   "created": time.time(), "stages": [], "artifacts": []}
         with self.connect() as db:
             db.execute("INSERT INTO jobs VALUES (?, ?, ?, ?, ?)",
@@ -236,6 +236,8 @@ class CIRunner:
         if not matches:
             raise ValueError("Unknown CI stage")
         path = self.root / "runs" / job_id / matches[0]["log"]
+        if not path.exists():
+            return ""
         with path.open("rb") as stream:
             stream.seek(max(0, path.stat().st_size - 100_000))
             return stream.read().decode("utf-8", errors="replace")
