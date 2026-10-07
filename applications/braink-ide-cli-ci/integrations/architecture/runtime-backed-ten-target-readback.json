@@ -1,0 +1,87 @@
+{
+  "schema": "braink.architecture-development-proof.v1",
+  "active_source_commit": "c0d6725d45a021f2e72d230a45e4ec50825496b2",
+  "website": "https://www.keddeh.com/braink/architecture",
+  "independent_assessment_report_number": null,
+  "targets": [
+    {
+      "target": "reconciliation",
+      "state": "ALIGNED",
+      "evidence_id": "cbaea4d681614466acd533f8d6502457",
+      "artifact_digest": "9a6196b45aa63f19774502b25eb21f37c74585c2b5c93ca5db0747d884b55538",
+      "created": 1791411877.146953
+    },
+    {
+      "target": "evolution",
+      "state": "UNCHANGED",
+      "evidence_id": "bf6ff212073643cf86e541d2c76172ef",
+      "artifact_digest": "ca473e3fea7b864c7dfa94dd185ceec1af11e87cc0f867845d55828798eecedc",
+      "created": 1791411858.617721
+    },
+    {
+      "target": "continuity",
+      "state": "CONTINUOUS",
+      "evidence_id": "71ed1c9efc87459a97f48258928cc218",
+      "artifact_digest": "38793bf63cb0b74c10d975b611ce4560b7ea0d35f06baa37ad7f246b881ed901",
+      "created": 1791411889.24631
+    },
+    {
+      "target": "feedback",
+      "state": "DELIVERED",
+      "evidence_id": "3a7f7167c98b42d785bb54a051d3402e",
+      "artifact_digest": "0dcef2b0461024824e5ffb6127c83df66d5670ba9deb4777495e17b8faa387b8",
+      "created": 1791411917.5193992
+    },
+    {
+      "target": "ceremonies",
+      "state": "READBACK",
+      "evidence_id": "3a4d43533187411aa8cffdbb53d01c5c",
+      "artifact_digest": "aa16765c9133ab06ae79355bd022a9581a706c9400ad22f89c676697c9da162a",
+      "created": 1791411875.3517132
+    },
+    {
+      "target": "delivery",
+      "state": "QUALIFIED",
+      "evidence_id": "7c19fe94a617443cbbdf036ee3731c4e",
+      "artifact_digest": "e0bc9d052efa14c5200b402e5138f570cc0a1927f2d523d5f8cbedfc3c1a4c8f",
+      "created": 1791411895.9786227
+    },
+    {
+      "target": "diagnostics",
+      "state": "OBSERVED",
+      "evidence_id": "ef88c38821354e04a31b45fc0ed15174",
+      "artifact_digest": "7377f759cf8e157bcd3c6bac28ff00e2c98bb6346964cce3e3d4606b2a840bf1",
+      "created": 1791411892.3603492
+    },
+    {
+      "target": "placement",
+      "state": "PLACEMENT_VERIFIED",
+      "evidence_id": "75b88443cf0b4734af941c898d3fffee",
+      "artifact_digest": "952058673cf23f90998db72086277238be0d6b0c5e8bb8dca727f9960f54f505",
+      "created": 1791411896.6560776
+    },
+    {
+      "target": "recovery",
+      "state": "RECONSTRUCTION_VERIFIED",
+      "evidence_id": "e44dd97f972a4d1584aaca92d62ead4d",
+      "artifact_digest": "ede590a09f939e3d9ce4636f69e9eb083a9e82a38c758a750ab78de8f3d0be69",
+      "created": 1791411915.7231429
+    },
+    {
+      "target": "development",
+      "state": "VERIFIED",
+      "evidence_id": "1f7fb8bcef4743deada8a55b6c161456",
+      "artifact_digest": "d57b736a07bc5f0e34cccc43b4c7093d4238de66fafd703a82c71ac42ca478de",
+      "created": 1791411916.592339
+    }
+  ],
+  "deployed_instances": 793,
+  "sectors": [
+    "ci",
+    "cli",
+    "core",
+    "ide"
+  ],
+  "host_loss_exercised": false,
+  "host_reboot_exercised": false
+}

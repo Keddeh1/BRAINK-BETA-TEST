@@ -126,6 +126,7 @@ def main():
     if activation:
         try:
             activation['environment_readback'] = activate_environment(root, activation, args.automation_config)
+            activation['state'] = 'ACTIVATED'
         except Exception as error:
             activation.update(state='FAILED_RETRYABLE', exception=type(error).__name__, reason=str(error))
             (root/'activation-request.json').write_text(json.dumps(activation))

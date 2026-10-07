@@ -1,15 +1,23 @@
 {
   "website": "https://www.keddeh.com/development/experience",
   "site_project": "appgprj_6aa52748b7788191afe0f7f86fc78833",
-  "source_commit": "ecd3f87044e695e771e9e6e1e1aac0c31c9c1804",
-  "site_version": 48,
-  "deployment": "appgdep_6ac6c0ae9b7481919e9b6cec52eecc05",
+  "source_commit": "48dfdf3bc87baf672e33b2cf17dd1eab29cc043d",
+  "site_version": 51,
+  "deployment": "appgdep_6ac6c7528d0481919de864131b43bd0c",
   "deployment_status": "succeeded",
   "qualification": {
-    "website_tests_passed": 18,
-    "application_tests_passed": 49,
+    "website_tests_passed": 22,
+    "application_tests_passed": 52,
     "design_team": "collaborating software agents",
     "human_participant_study_completed": false,
-    "independent_assessment_report_number": null
+    "independent_assessment_report_number": null,
+    "backing_runtime_tests_passed": 9
+  },
+  "backing_runtime": {
+    "project": "appgprj_6aa503aa595481919d947eef56f2556f",
+    "source_commit": "a884def553baa38cca6af5909fdd2a1ec0d79ed1",
+    "version": 22,
+    "deployment": "appgdep_6ac6c724eaf08191a6a79690d8f7b2d1",
+    "live_storage_readback": true
   }
 }

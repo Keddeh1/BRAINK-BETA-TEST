@@ -1,21 +1,20 @@
-import {architectureStore} from './braink-architecture-store.mjs';
+import {runtimeArchitecture, runtimeOwnerCI, runtimeWorkerCI} from './braink-runtime-proxy.mjs';
 import {architecturePage} from './braink-architecture.mjs';
-import {ownerCI,workerCI} from './braink-ci-store.mjs';
 const json=(value,status=200)=>Response.json(value,{status,headers:{'Cache-Control':'private,no-store'}});
-export async function developmentAPI(request,env){
+export async function developmentAPI(request,env,fetcher=fetch){
  const path=new URL(request.url).pathname;
  if(path==='/api/braink-development/worker'){
   if(request.method!=='POST')return json({error:'METHOD_NOT_ALLOWED'},405);
   if(!env.BRAINK_CI_AGENT_TOKEN||request.headers.get('Authorization')!=='Bearer '+env.BRAINK_CI_AGENT_TOKEN)return json({error:'UNAUTHORIZED'},401);
   const value=await request.clone().json();
-  if(['architecture-observation','architecture-status'].includes(value.op))return architectureStore(env.DB,env.CLAIMPATH_RECEIPTS,value);
+  if(['architecture-observation','architecture-status'].includes(value.op))return runtimeArchitecture(env,value,fetcher);
   if(['submit','list','artifact'].includes(value.op)){
    const url=new URL(request.url);url.pathname='/api/braink-development';
    if(value.op==='artifact'){url.searchParams.set('job',value.id);url.searchParams.set('artifact',value.path)}
    const forwarded=new Request(url,{method:value.op==='submit'?'POST':'GET',headers:{'Content-Type':'application/json'},body:value.op==='submit'?JSON.stringify(value):undefined});
-   return ownerCI(forwarded,env.DB,env.CLAIMPATH_RECEIPTS);
+   return runtimeOwnerCI(forwarded,env,fetcher);
   }
-  return workerCI(request,env.DB,env.CLAIMPATH_RECEIPTS);
+  return runtimeWorkerCI(request,env,fetcher);
  }
  if(!['/api/braink-development','/api/braink-development/artifact','/api/braink-architecture'].includes(path))return null;
  const id=request.headers.get('oai-authenticated-user-id'),email=request.headers.get('oai-authenticated-user-email');
@@ -26,8 +25,8 @@ export async function developmentAPI(request,env){
   const origin=request.headers.get('Origin');
   if(request.headers.get('Sec-Fetch-Site')==='cross-site'||origin&&origin!==new URL(request.url).origin)return json({error:'ACCESS_DENIED'},403);
  }
- if(path==='/api/braink-architecture'){if(request.method!=='GET')return json({error:'METHOD_NOT_ALLOWED'},405);return architectureStore(env.DB,env.CLAIMPATH_RECEIPTS,{op:'architecture-status'})}
- return ownerCI(request,env.DB,env.CLAIMPATH_RECEIPTS);
+ if(path==='/api/braink-architecture'){if(request.method!=='GET')return json({error:'METHOD_NOT_ALLOWED'},405);return runtimeArchitecture(env,{op:'architecture-status'},fetcher)}
+ return runtimeOwnerCI(request,env,fetcher);
 }
 export function developmentPage(path){
  if(path==='/braink/architecture')return architecturePage();
