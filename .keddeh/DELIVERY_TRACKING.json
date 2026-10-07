@@ -25,7 +25,14 @@
       "group_by": "Milestone"
     }
   ],
-  "hosted_actions_status": "account billing prevents job startup",
+  "hosted_actions_status": "Historical billing denial retained; latest native VFS run failed before jobs with startup_failure. Current provider cause is unconfirmed; local tests do not establish hosted-job success.",
   "local_qualification": "packages/owner-family/QUALIFICATION.json",
-  "independent_production_assessment": null
+  "independent_production_assessment": null,
+  "customer_frontage_distribution": {
+    "path": "/packages/web4/frontage/CUSTOMER_FRONTAGE.tar.gz",
+    "sha256": "9e6ef8ddf04fd0975285bbc1b2e6d351e8937468495fa15c9b4105976c5c5d3b",
+    "source_commit": "dbfe60640938064fd5e28b3f838e1afaa9744d12",
+    "subscriber_mirrors": 9,
+    "native_site_publication": false
+  }
 }

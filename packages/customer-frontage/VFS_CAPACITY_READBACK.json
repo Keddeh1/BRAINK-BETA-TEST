@@ -1,0 +1,14 @@
+{
+  "schema": "keddeh.vfs-feed-capacity-readback.v1",
+  "samples": 45,
+  "parallel_subscribers": 9,
+  "total_elapsed_seconds": 1.1008500340030878,
+  "max_request_seconds": 1.0697417600022163,
+  "mean_request_seconds": 0.05583108022239887,
+  "cursor": 48523,
+  "prior_failure": "All nine subscriber states reported TimeoutError at fifteen-second request deadline; delivery was not claimed until repaired.",
+  "repair": "same-snapshot append-tail validation with prefix mutation audit and shared verified checkpoint",
+  "core_engine_changed": false,
+  "native_vfs_tests_per_repository": 15,
+  "scope": "actual existing current-host VFS feed; not WAN or independent security certification"
+}

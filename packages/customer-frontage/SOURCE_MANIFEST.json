@@ -1,0 +1,165 @@
+{
+  "schema": "keddeh.customer-frontage-bundle.v1",
+  "source_repository": "Keddeh1/keddeh.com",
+  "source_commit": "dbfe60640938064fd5e28b3f838e1afaa9744d12",
+  "site_project_id": "appgprj_6aa52748b7788191afe0f7f86fc78833",
+  "engine_release": "0.3.2",
+  "scope": "current cloud-host candidate; native Site publication unset",
+  "files": [
+    {
+      "path": "docs/frontage/CUSTOMER_DOM_INVENTORY.json",
+      "bytes": 963543,
+      "sha256": "40265921b7acc4601cdbd6bd934b0e41023a8c205e52800ec031e2148671f4c6"
+    },
+    {
+      "path": "docs/frontage/DOM_EVIDENCE.json",
+      "bytes": 1515,
+      "sha256": "6b3a28d0848fc4f075b3a435a210bdb52a1ef3e3a665b7206854f6f4c7460d54"
+    },
+    {
+      "path": "docs/frontage/PAGE_REVIEW.md",
+      "bytes": 10930,
+      "sha256": "516dc49a36f2e544f1db56332e51c48261677ade1193eaaad9c59d930edbcd99"
+    },
+    {
+      "path": "docs/frontage/README.md",
+      "bytes": 7711,
+      "sha256": "93a1c242c916d84fc6db68d2ea723b470df06c47ae184cd22edffc643dd3e6f4"
+    },
+    {
+      "path": "docs/frontage/RELEASE_RECORD.json",
+      "bytes": 807,
+      "sha256": "39cf1676f6475fc83a91a219772fa2152b67c8db0e0a1374b3b89c4c0cc1cb3c"
+    },
+    {
+      "path": "frontage/CONTROL_REGISTER.json",
+      "bytes": 39579,
+      "sha256": "1ae5037284d126043c67add29b6148342c90fd813b631cf416205d9cd4f3f5fc"
+    },
+    {
+      "path": "frontage/DOM_EVIDENCE.json",
+      "bytes": 1187,
+      "sha256": "54f27e933f47f2d203517800985f92d04a4f956dfe1bae69e5a5c5bdd1a7e737"
+    },
+    {
+      "path": "frontage/README.md",
+      "bytes": 2698,
+      "sha256": "0ecd8aad5f0d6fcdc8071a6c042113d435276377b15bf6efec32a584e69fb23b"
+    },
+    {
+      "path": "frontage/architecture/index.html",
+      "bytes": 8014,
+      "sha256": "c3d1c51ccaa23ea221cf72836911a1f4558c9e4d8559988ac219e44fbb1bc6ba"
+    },
+    {
+      "path": "frontage/claim-review.json",
+      "bytes": 18255,
+      "sha256": "b6e3efaeb70424b713c23e008f01bd9a4ccb59d8a72021e6c1aa63b205ea75cb"
+    },
+    {
+      "path": "frontage/claims.json",
+      "bytes": 1642,
+      "sha256": "931c4f354f040a1e2845eeeeccf119325b6cf5553fa7571cc23bc13af4e95f14"
+    },
+    {
+      "path": "frontage/client.js",
+      "bytes": 5847,
+      "sha256": "07b6293b4b415d09f22a5c41a9599f694bfc5319bb27a1d79c854b34ce9751b2"
+    },
+    {
+      "path": "frontage/contact/index.html",
+      "bytes": 6983,
+      "sha256": "33b43ec57d5c74ff36c14eb68cd0a946bc4a51e9dd35cdbe100dfdec49258c19"
+    },
+    {
+      "path": "frontage/copy-and-clickable-inventory.json",
+      "bytes": 963543,
+      "sha256": "40265921b7acc4601cdbd6bd934b0e41023a8c205e52800ec031e2148671f4c6"
+    },
+    {
+      "path": "frontage/developers/index.html",
+      "bytes": 6195,
+      "sha256": "2a8e6c706f8012eec64610e2be4fce208d3c65955a135b775acd1bc5084c63a4"
+    },
+    {
+      "path": "frontage/downloads/runtime-package.whl",
+      "bytes": 71542,
+      "sha256": "5bbaad7c3d4c2dee231255eb183343674e48a6411f7ee007118c78b3dfffe71d"
+    },
+    {
+      "path": "frontage/enterprise/index.html",
+      "bytes": 5907,
+      "sha256": "fb141c18c295af97f837cb201905fe92f231c3e63b1e96fc7db6b3e7b24245ba"
+    },
+    {
+      "path": "frontage/evidence/index.html",
+      "bytes": 6702,
+      "sha256": "b66ae0e52749c99b772122e7b1fab77823fc22cf4eb8b6d091ba6f5aa137a2f9"
+    },
+    {
+      "path": "frontage/index.html",
+      "bytes": 8327,
+      "sha256": "b8e16eb0742adaa27c19fabaa58335d3597a3dbb9f2f71fad56c69578710c569"
+    },
+    {
+      "path": "frontage/interest/index.html",
+      "bytes": 6196,
+      "sha256": "683d251a03c475f135895354879cb6cbe7dcfc1c5b58e80c9ad6c08de7472ef8"
+    },
+    {
+      "path": "frontage/page-contracts.json",
+      "bytes": 16833,
+      "sha256": "efcc5c11042395a74b6b9f587ed7538a019a3ff0ea8f8daf7ef313846ddebd8f"
+    },
+    {
+      "path": "frontage/platform/index.html",
+      "bytes": 6411,
+      "sha256": "7d0ce669f6b42177522243910b5f18cd38a4a1edc60ea74ec1a2485f192d473b"
+    },
+    {
+      "path": "frontage/privacy/index.html",
+      "bytes": 5986,
+      "sha256": "8dd88d63a8cdcaa42497a110e7f821d9deebdd08c6015603174e6986fd9c9f76"
+    },
+    {
+      "path": "frontage/products/braink/index.html",
+      "bytes": 6339,
+      "sha256": "d8868136b1267fade9943c9a6fed92271c7f9473bccf7eca121fd3e7c9016af1"
+    },
+    {
+      "path": "frontage/products/illlm/index.html",
+      "bytes": 6011,
+      "sha256": "899f7ce95e779cddef09a52b42a5f64888d04adf738e8928f617528d66cd5510"
+    },
+    {
+      "path": "frontage/products/kex/index.html",
+      "bytes": 6003,
+      "sha256": "87a5f19a36ef396de5151fe65aebb5c8d9cd8ab6f3cd0db3bba847fbf2f41ecd"
+    },
+    {
+      "path": "frontage/research/claim-review/index.html",
+      "bytes": 26638,
+      "sha256": "00617095c98f6cd38536819587fabe085144b2a3c3cfa7007a72e7bdbe1c908b"
+    },
+    {
+      "path": "frontage/research/index.html",
+      "bytes": 7941,
+      "sha256": "56b5d1697badc4c9ca4868981e850a1f39a5c174da676482bbbdaf3cae6cb747"
+    },
+    {
+      "path": "frontage/route-manifest.json",
+      "bytes": 4332,
+      "sha256": "07413f3ce1b5dea6313e27c9b3c32efd6f530934469a6002d22f87df06db2cda"
+    },
+    {
+      "path": "frontage/style.css",
+      "bytes": 6155,
+      "sha256": "760cf77073cd2f7701475033bf6f4c26c1958f65f409dba15985c9443d10fe5d"
+    },
+    {
+      "path": "scripts/develop_frontage.py",
+      "bytes": 13570,
+      "sha256": "4acaa4202d6b200f2b019a4752a8a9401c36fcf0a541effb5ad73873cb413935"
+    }
+  ]
+}
