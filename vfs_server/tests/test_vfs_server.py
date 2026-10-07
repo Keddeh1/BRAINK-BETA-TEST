@@ -27,7 +27,7 @@ class VFSServerTests(unittest.TestCase):
         two=self.fleet.allocate("workflow two","queue#4")
         result=self.fleet.admit_ab(one["vfs_id"],b"baseline "*100,b"candidate "*100,"queue#3")
         entry=result["entry"]
-        self.assertEqual(entry["b_codec"],"zlib")
+        self.assertIn(entry["b_codec"],("zlib","xor+zlib"))
         self.assertLess(entry["stored_bytes"],entry["a_bytes"]+entry["b_bytes"])
         verified=self.fleet.read_ab(one["vfs_id"],entry["entry_id"],observe=True)
         self.assertTrue(verified["verified"])
@@ -38,6 +38,13 @@ class VFSServerTests(unittest.TestCase):
         with self.assertRaises(KeyError): self.fleet.entry(two["vfs_id"],entry["entry_id"])
         restarted=VFSFleet(self.tmp.name+"/fleet")
         self.assertEqual(restarted.read_ab(one["vfs_id"],entry["entry_id"])["entry"],entry)
+    def test_nearby_b_uses_delta(self):
+        instance=self.fleet.allocate("delta","queue#6")
+        a=bytes(range(256))*400
+        b=a[:50000]+b"!" + a[50001:]
+        pair=self.fleet.admit_ab(instance["vfs_id"],a,b,"queue#6")
+        self.assertEqual(pair["entry"]["b_codec"],"xor+zlib")
+        self.assertEqual(base64.b64decode(self.fleet.read_ab(instance["vfs_id"],pair["entry"]["entry_id"])["b_b64"]),b)
     def test_identical_b_is_reference_and_quota_is_enforced(self):
         instance=self.fleet.allocate("dedup","queue#5",quota_bytes=32*1024*1024)
         pair=self.fleet.admit_ab(instance["vfs_id"],b"same",b"same","queue#5")
