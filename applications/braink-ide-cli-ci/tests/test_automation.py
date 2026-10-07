@@ -28,6 +28,20 @@ class AutomationTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
+    def test_failed_daily_recovery_retries_on_next_live_cycle(self):
+        import time
+        from braink_node.automation.engine import AutomationEngine, ORDER
+        selected=[]
+        class Stop:
+            stopped=False
+            def is_set(self):return self.stopped
+            def wait(self, seconds):self.stopped=True
+        engine=AutomationEngine.__new__(AutomationEngine)
+        engine.context=SimpleNamespace(flush_evidence=lambda:None,latest=lambda target:{'created':time.time(),'state':'EXECUTION_ERROR' if target=='recovery' else 'OBSERVED'},config={'target_intervals_seconds':{target:86400 for target in ORDER},'cycle_interval_seconds':30})
+        engine.run=lambda targets:(selected.extend(targets) or {'completed':True,'results':[]})
+        engine.serve(Stop())
+        self.assertEqual(selected,['recovery'])
+
     def test_crlf_source_identity_binds_actual_bytes(self):
         import hashlib
         from braink_node.protocol.binding import FunctionBindings

@@ -36,7 +36,7 @@ def run(context):
                 if next_cursor == cursor:
                     break
                 cursor = next_cursor
-            observed = context.hub_transport.request('/subscriptions', {'subscriber': instance, 'prefix': prefix, 'cursor': cursor})
+            observed = subscription if cursor == subscription['cursor'] else context.hub_transport.request('/subscriptions', {'subscriber': instance, 'prefix': prefix, 'cursor': cursor})
             if observed['cursor'] != cursor:
                 raise RuntimeError('Cursor readback differs')
             verified += 1

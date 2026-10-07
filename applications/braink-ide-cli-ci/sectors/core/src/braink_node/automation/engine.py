@@ -74,7 +74,7 @@ class AutomationEngine:
             for target in ORDER:
                 prior = self.context.latest(target)
                 interval = self.context.config['target_intervals_seconds'][target]
-                if prior is None or time.time() - prior['created'] >= interval:
+                if prior is None or prior['state'] in {'EXECUTION_ERROR', 'RETRY_REQUIRED'} or time.time() - prior['created'] >= interval:
                     due.append(target)
             if due:
                 result = self.run(due)

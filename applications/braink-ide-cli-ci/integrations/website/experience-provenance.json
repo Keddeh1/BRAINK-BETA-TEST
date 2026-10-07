@@ -1,0 +1,15 @@
+{
+  "website": "https://www.keddeh.com/development/experience",
+  "site_project": "appgprj_6aa52748b7788191afe0f7f86fc78833",
+  "source_commit": "ecd3f87044e695e771e9e6e1e1aac0c31c9c1804",
+  "site_version": 48,
+  "deployment": "appgdep_6ac6c0ae9b7481919e9b6cec52eecc05",
+  "deployment_status": "succeeded",
+  "qualification": {
+    "website_tests_passed": 18,
+    "application_tests_passed": 49,
+    "design_team": "collaborating software agents",
+    "human_participant_study_completed": false,
+    "independent_assessment_report_number": null
+  }
+}
