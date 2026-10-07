@@ -3,6 +3,7 @@ from urllib.parse import urlparse,unquote
 import argparse,base64,json
 from .model import ArtifactWrite
 from .store import VFSStore\nfrom .auth import MutationAuthorizer
+from .health import readiness
 MAX_REQUEST_BYTES=70*1024*1024
 
 class Handler(BaseHTTPRequestHandler):
@@ -21,6 +22,11 @@ class Handler(BaseHTTPRequestHandler):
         p=unquote(urlparse(self.path).path)
         try:
             if p=="/status":return self.send_json(200,self.store.status())
+            if p=="/ready":
+                state=readiness(self.store)
+                return self.send_json(200 if state["ready"] else 503,state)
+            if not self.authorizer.allowed(self.headers.get("authorization")):
+                return self.send_json(401,{"error":"unauthorized"})
             if p.startswith("/artifacts/"):
                 digest=p.split("/",2)[2]; rec=self.store.get_artifact(digest)
                 if not rec:return self.send_json(404,{"error":"artifact_not_found"})
