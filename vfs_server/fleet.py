@@ -6,7 +6,8 @@ from .model import ArtifactWrite
 from .store import VFSStore
 from .codec import CODEC,encode,decode,graph,proof
 
-ID_PATTERN=re.compile(r"[0-9a-f]{32}\Z")
+ID_PATTERN=re.compile(r"[0-9a-f]{64}\Z")
+ENTRY_PATTERN=re.compile(r"[0-9a-f]{32}\Z")
 
 def _id(value):
     if not isinstance(value,str) or not ID_PATTERN.fullmatch(value): raise ValueError("invalid_vfs_id")
