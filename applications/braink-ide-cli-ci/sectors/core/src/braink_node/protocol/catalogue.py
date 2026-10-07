@@ -110,6 +110,7 @@ def compile_catalogue(root):
         selected = [f for f in families if f['sector'] == sector or sector != 'core' and f['sector'] == 'core']
         variant = {'schema': 'braink.family-variant.v1', 'id': 'variant://braink-development/' + sector,
                    'sector': sector, 'families': [f['id'] for f in selected],
+                   'family_definition_sha256': {f['id']: f['definition_sha256'] for f in selected},
                    'modules': sorted({m for f in selected for m in f['modules']}),
                    'subscriptions': ['VFS_INSTANTIATION', 'IL_LLM_NETWORK_MESH']}
         variant['definition_sha256'] = digest(variant)
@@ -117,7 +118,7 @@ def compile_catalogue(root):
     colonies = []
     for variant in variants:
         colony = {'schema': 'braink.variant-colony.v1', 'id': 'colony://braink-development/' + variant['sector'],
-                  'sector': variant['sector'], 'variants': [variant['id']], 'instance_template': 'braink.instance.v1'}
+                  'sector': variant['sector'], 'variants': [variant['id']], 'variant_definition_sha256': {variant['id']: variant['definition_sha256']}, 'instance_template': 'braink.instance.v1'}
         colony['definition_sha256'] = digest(colony)
         colonies.append(colony)
     catalogue = {'schema': 'braink.deployment-protocol.v1', 'modules': modules, 'families': families,

@@ -23,6 +23,12 @@ class Hub:
             raise RuntimeError('transport unavailable')
         return self.store.subscribe(instance, prefix)
 
+    def readback(self, digest, path):
+        self.store.read_content(digest)
+        if self.store.resolve_path(path).digest != digest:
+            raise RuntimeError('Path changed')
+        return self.store.verify(digest)
+
     def publish(self, instance, path, document):
         from braink_node.owner_vfs.model import ArtifactWrite
         from braink_node.canonical import canonical_bytes

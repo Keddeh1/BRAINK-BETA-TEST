@@ -41,6 +41,19 @@ class InstanceManager:
             state['state'] = stage
             atomic_write(state_path, canonical_bytes(state))
 
+        if state['state'] == 'READBACK':
+            vfs.read_content(state['steps']['INSTANTIATE_VFS']['digest'])
+            if not vfs.verify_receipt_chain()['verified']:
+                raise RuntimeError('Instance VFS receipt chain differs')
+            prefix = state['steps']['SUBSCRIBE_VFS']['prefix']
+            self.hub.subscribe(instance, prefix)
+            observed = self.mesh.request('/subscription', {'instance': instance})
+            if observed['definition_sha256'] != definition['definition_sha256']:
+                raise RuntimeError('Resumed IL-LLM subscription differs')
+            published = state['steps']['READBACK']['actor']
+            artifact_digest = published.get('artifact', published).get('digest', published.get('artifact_digest'))
+            self.hub.readback(artifact_digest, prefix + '/ceremony.json')
+            return state
         if 'INSTANTIATE_VFS' not in state['steps']:
             record, actor = vfs.write(ArtifactWrite('/definition.json', canonical_bytes(definition), instance, media_type='application/json'))
             checkpoint('INSTANTIATE_VFS', {'root': str(directory / 'vfs'), 'digest': record.digest,

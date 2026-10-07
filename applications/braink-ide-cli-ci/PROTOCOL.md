@@ -45,3 +45,7 @@ The owner VFS provenance is in `integrations/vfs-source.json`; deployment readba
 `tests/test_protocol.py` covers interrupted ceremony recovery, instance separation, restarted subscription and inbox storage, actual network exchange, incorrect credentials, conflicting identities, catalogue determinism and real receiver/closure/lambda binding. The existing core/CLI/IDE/CI qualification remains part of the clean installed-wheel run. Host and website readback observations are reported separately from these tests.
 
 Current deployment scope is the connected Keddeh runtime. Permanent server bootstrap and recovery after destruction of that host require evidence from that host's lifecycle; process restart evidence does not establish those properties.
+
+## Host startup configuration
+
+The host service starts the installed runtime interpreter and supervisor with the source checkout, owner IL-LLM export implementation and private mesh credential path. Its existing environment file supplies `BRAINK_RUNTIME_ROOT`, `BRAINK_NODE_SOURCE`, `BRAINK_SOURCE_CHECKOUT`, `BRAINK_OWNER_IL_LLM_EXPORT` and `BRAINK_MESH_TOKEN_FILE`. These identify existing host resources; the source tree and environment file do not embed credential values. The connected runtime uses this same supervisor configuration directly because its PID 1 is not systemd. The service file is provided for owner hosts that use systemd; installation and host reboot on those hosts are not inferred from the connected-runtime process tests.

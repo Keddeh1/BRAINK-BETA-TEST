@@ -1,6 +1,7 @@
 """Transport for existing owner VFS and the deployment mesh subscription service."""
 import base64
 import json
+import hashlib
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
@@ -38,6 +39,15 @@ class HubSubscription:
         observed = self.transport.request('/subscriptions/' + instance)
         if observed['prefix'] != prefix or observed['cursor'] != row['cursor']:
             raise RuntimeError('VFS subscription readback differs')
+        return observed
+
+    def readback(self, digest, path):
+        observed = self.transport.request('/verify', {'digest': digest})
+        fetched = self.transport.request('/artifacts/' + digest)
+        content = base64.b64decode(fetched['content_b64'], validate=True)
+        resolved = self.transport.request('/paths' + path)
+        if not observed['verified'] or resolved['artifact']['digest'] != digest or hashlib.sha256(content).hexdigest() != digest:
+            raise RuntimeError('VFS resumed publication readback differs')
         return observed
 
     def publish(self, instance, path, document):

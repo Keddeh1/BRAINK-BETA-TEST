@@ -119,7 +119,7 @@ class WebsiteRelay:
                 argv = shlex.split(request.get("command", ""))
                 result = subprocess.run([sys.executable, "-m", "braink_cli.cli", "--workspace", str(workspace),
                                          "--state-dir", str(state)] + argv,
-                                        capture_output=True, text=True, timeout=300)
+                                        capture_output=True, text=True)
                 report.update(status="passed" if result.returncode == 0 else "failed",
                               outputs={"returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr})
             else:
