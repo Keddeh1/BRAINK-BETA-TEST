@@ -1,0 +1,23 @@
+{
+  "schema": "keddeh.resident-mirror-live-proof.v1",
+  "source_commit": "ad028cba6178ea850212986fccbe5bb6ce8ed80d",
+  "process_alive": true,
+  "pid": 2015293,
+  "refresh_interval_seconds": 60,
+  "worker_endpoint": "https://www.keddeh.com/api/braink-development/worker",
+  "functions": 7,
+  "own_instances": 10,
+  "ceremonies_complete": 10,
+  "hosted_readback": {
+    "at": 1791425819.7182302,
+    "status": "CURRENT",
+    "stored": true,
+    "current": true,
+    "digest": "7870984d5833d6685bc05ac3e77b4a8cc4cc9abf945aded8a6ecff7bbc0738bf",
+    "instances": 803,
+    "nodes": 260
+  },
+  "refresh_cycles_observed": 3,
+  "subscription_state": "Recorded ceremony evidence, not an active network probe",
+  "systemd_unit_installed": false
+}

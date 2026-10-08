@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Actual 260 definitions and 803 resident instances, including the mirror node served by built Worker",
+    "Colony → variant → family → function selection follows real occurrence relationships",
+    "Instance inspector exposes its VFS, VFS subscription, IL-LLM mesh subscription and ceremony",
+    "Function search returns the matching definition",
+    "390px mobile viewport has no horizontal overflow",
+    "Existing namespace explorer remains accessible",
+    "No browser exceptions"
+  ],
+  "scope": "Local built Worker with actual resident capture, SQLite and local R2; subscription state is recorded ceremony evidence, not an active network probe"
+}

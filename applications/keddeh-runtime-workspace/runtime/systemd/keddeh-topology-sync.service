@@ -1,0 +1,14 @@
+[Unit]
+Description=Keddeh resident architecture topology mirror
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/keddeh/runtime-workspace.env
+ExecStart=/usr/bin/env ${KEDDEH_PYTHON} ${KEDDEH_WORKSPACE_SOURCE}/runtime/topology_sync.py --runtime-root ${BRAINK_RUNTIME_ROOT} --service-root ${KEDDEH_TOPOLOGY_STATE}
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
