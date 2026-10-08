@@ -1,6 +1,6 @@
 {
   "checks": [
-    "Actual 250 definitions and 793 resident instances served by built Worker",
+    "Actual 260 definitions and 803 resident instances, including the mirror node served by built Worker",
     "Colony → variant → family → function selection follows real occurrence relationships",
     "Instance inspector exposes its VFS, VFS subscription, IL-LLM mesh subscription and ceremony",
     "Function search returns the matching definition",
