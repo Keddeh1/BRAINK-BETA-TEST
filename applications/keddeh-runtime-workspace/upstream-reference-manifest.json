@@ -1,0 +1,104 @@
+[
+  {
+    "repository": "satnaing/shadcn-admin",
+    "url": "https://github.com/satnaing/shadcn-admin",
+    "commit": "e16c87f213a5ba5e45964e9b67c792105ec74d26",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "2878e2e14abd2e65158b596b881c9ba79b07f66b03e0a9e4696e486694c1e3ef",
+    "archive_bytes": 1212937,
+    "license_files": [
+      "LICENSE"
+    ],
+    "source_file_count": 272,
+    "review_extracts": [
+      "src/components/layout/app-sidebar.tsx",
+      "src/components/layout/authenticated-layout.tsx",
+      "src/features/dashboard/index.tsx"
+    ]
+  },
+  {
+    "repository": "assistant-ui/assistant-ui",
+    "url": "https://github.com/assistant-ui/assistant-ui",
+    "commit": "cf81a88583c952d1942df0644ac1782ed95090f3",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "7ab79d282c347297c18d3e7e13ba54b2cfad7bf355a7973651d19fb871b4e29e",
+    "archive_bytes": 52170809,
+    "license_files": [
+      "LICENSE"
+    ],
+    "source_file_count": 6556,
+    "review_extracts": [
+      "apps/docs/components/pages/home/demo/thread.tsx",
+      "examples/with-generative-ui/components/chart-tool-ui.tsx"
+    ]
+  },
+  {
+    "repository": "assistant-ui/tool-ui",
+    "url": "https://github.com/assistant-ui/tool-ui",
+    "commit": "49a870286facdbf28160cd647f0d337ebdc9b275",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "0f0e64013c654ce831edfefa6f744f4c297a5b8b3c4b4a9f0b7f8b589662eb04",
+    "archive_bytes": 6596189,
+    "license_files": [
+      "LICENSE.md"
+    ],
+    "source_file_count": 814,
+    "review_extracts": [
+      "apps/www/components/tool-ui/chart/chart.tsx",
+      "apps/www/components/tool-ui/code-diff/code-diff.tsx"
+    ]
+  },
+  {
+    "repository": "xyflow/xyflow",
+    "url": "https://github.com/xyflow/xyflow",
+    "commit": "3d35b57317576b0916c0bfeaaedd573aaacc2839",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "52f53e507507e118fd2e2e3e0dcd2a4350e9f3b9a59d554a9267662f004bc107",
+    "archive_bytes": 585918,
+    "license_files": [
+      "LICENSE"
+    ],
+    "source_file_count": 697,
+    "review_extracts": [
+      "examples/react/src/examples/Subflow/index.tsx",
+      "examples/react/src/examples/SaveRestore/index.tsx"
+    ]
+  },
+  {
+    "repository": "tabler/tabler",
+    "url": "https://github.com/tabler/tabler",
+    "commit": "b168be18538753caebcb2fdcaad28a4b9f91ae7f",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "1faf0357bd8225f6018b8b8a2be48a9781d93bbb172a0c80aa53f3912ab14a58",
+    "archive_bytes": 72224613,
+    "license_files": [
+      "LICENSE"
+    ],
+    "source_file_count": 3231,
+    "review_extracts": [
+      "preview/pages/dashboard-crm.astro"
+    ]
+  },
+  {
+    "repository": "LibreChat-AI/LibreChat",
+    "url": "https://github.com/LibreChat-AI/LibreChat",
+    "commit": "e1dfc10449ff713faffacd60273fddcfe2c0a698",
+    "license": "MIT",
+    "tree_truncated": false,
+    "archive_sha256": "94133359b9fae5f5ab3944f053d8fcb1525fc0d28147e3f5a6765d2d01d96bf9",
+    "archive_bytes": 18509073,
+    "license_files": [
+      "LICENSE"
+    ],
+    "source_file_count": 6418,
+    "review_extracts": [
+      "client/src/components/Chat/ChatView.tsx",
+      "client/src/components/Artifacts/Artifact.tsx"
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+'use client';
+import {Activity,Boxes,Command,FileCode2,FolderTree,Layers3,Network,RefreshCw,Search,Server,Terminal} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
+import {Tabs,TabsContent,TabsList,TabsTrigger} from '@/components/ui/tabs';
+import {Select,SelectContent,SelectItem,SelectTrigger,SelectValue} from '@/components/ui/select';
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/components/ui/table';
+import {requestJSON,inputTemplate,statusCounts,type Registry,type Job,type Snapshot,type Target,type StoredObject} from './model';
+import {useWorkspace} from './state';
+import {Json} from './result-panel';
+export function Topology(){const {view,setView,registry,snapshot,jobs,targets,files,errors,busy,query,setQuery,notice,setNotice,capabilityId,setCapabilityId,namespace,setNamespace,input,setInput,result,setResult,selectedNode,setSelectedNode,objectName,setObjectName,content,setContent,opened,sector,setSector,operation,setOperation,parameters,setParameters,refresh,capability,counts,filteredFiles,filteredCapabilities,act,execute,openFile}=useWorkspace();return <div className="kw-grid"><section className="kw-panel"><h2><Network size={19}/> Persisted namespace topology</h2><p className="kw-help">Each card represents a stored runtime namespace. Open it to inspect its snapshot and execution lineage.</p><div className="kw-node-grid">{registry.namespaces.map(node=><Button variant="outline" key={node.id} className={'kw-node '+(node.id===selectedNode?'kw-selected':'')} onClick={()=>setSelectedNode(node.id)}><Network size={22}/><span>{node.id}</span><small>Version {node.version} · {node.foundry_id||'Owner namespace'}</small></Button>)}</div>{!registry.namespaces.length&&<p className="kw-empty">No persisted namespaces returned.</p>}</section><section className="kw-panel"><h2>Node inspector</h2>{selectedNode?<><Json value={registry.namespaces.find(n=>n.id===selectedNode)}/><Button onClick={()=>{setNamespace(selectedNode);setView('console')}}>Execute in this namespace</Button></>:<p className="kw-empty">Select a namespace.</p>}<h2 className="kw-subheading">Colony and subscription observations</h2>{targets.filter(t=>['reconciliation','continuity','feedback','ceremonies','placement'].includes(t.id)).map(t=><details key={t.id}><summary>{t.title}</summary><Json value={t.evidence}/></details>)}</section></div>;}

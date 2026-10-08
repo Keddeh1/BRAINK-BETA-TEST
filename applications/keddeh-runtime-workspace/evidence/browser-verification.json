@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "Five live API reads complete without errors",
+    "Registered handler executes through actual resident dispatch and durable SQLite/object store",
+    "Stored execution record can be reopened",
+    "Namespace snapshot and execution lineage inspectable",
+    "VFS save, integrity-checked read and download retain exact UTF-8 bytes",
+    "Sector submission accepts native ID and operation contracts; job displayed as queued",
+    "390px mobile viewport has no horizontal overflow",
+    "No browser runtime exceptions",
+    "Existing owner identity enforcement preserved"
+  ],
+  "execution_id": "workspace-c8823699-77ee-4f03-9e42-ce8498c0686b",
+  "vfs_id": "20261008T0126_KEDDEH-SYSTEMS_VFS_VFS_1a18d8a8",
+  "job_id": "f6fae64a49f642a390d76ce9aa1252f7",
+  "scope": "Built Worker served locally; real SQLite and local R2, browser actions; no external inference or production mutation"
+}

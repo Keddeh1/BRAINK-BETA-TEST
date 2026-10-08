@@ -1,0 +1,64 @@
+{
+  "schema": "keddeh.application-node.v1",
+  "id": "keddeh://applications/runtime-workspace",
+  "sector": "experience-development",
+  "backing_runtime": "Keddeh Systems Runtime",
+  "route": "/workspace",
+  "source_project": "appgprj_6aa503aa595481919d947eef56f2556f",
+  "module_families": {
+    "observation": [
+      "overview",
+      "topology"
+    ],
+    "execution": [
+      "console"
+    ],
+    "persistence": [
+      "files"
+    ],
+    "delivery": [
+      "delivery"
+    ],
+    "composition": [
+      "workspace",
+      "state",
+      "model",
+      "result-panel"
+    ]
+  },
+  "variants": {
+    "operator": [
+      "observation",
+      "execution",
+      "persistence",
+      "delivery",
+      "composition"
+    ]
+  },
+  "colonies": {
+    "owner-runtime": [
+      "operator"
+    ]
+  },
+  "instance_context": {
+    "execution_namespace": "braink://owner/workspace",
+    "snapshot_store": "existing agent_namespaces + native object store",
+    "vfs": "existing /api/vfs contract",
+    "mesh_and_ceremony_observations": "existing architecture continuity, feedback, ceremonies and placement records"
+  },
+  "rewrite": {
+    "upstream_source_copied": false,
+    "reference_sources": 6,
+    "third_party_packages_added": false
+  },
+  "integration": {
+    "existing_site_routes_preserved": true,
+    "authentication": "existing native owner identity",
+    "new_api": "/api/workspace",
+    "existing_apis": [
+      "/api/runtime",
+      "/api/vfs",
+      "/api/braink-ci"
+    ]
+  }
+}
