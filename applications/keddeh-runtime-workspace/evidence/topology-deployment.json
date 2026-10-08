@@ -1,0 +1,46 @@
+{
+  "schema": "keddeh.architecture-explorer-delivery.v1",
+  "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+  "source_commit": "df8a9745005bcb7f19c144f5cf9caae62289b3b8",
+  "version": {
+    "id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_2813afd025a88191845bf97b5acbc7b5",
+    "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+    "version_number": 26,
+    "source": {
+      "commit_sha": "df8a9745005bcb7f19c144f5cf9caae62289b3b8"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_0000000052fc81fa8b050a95d0aab7f6",
+      "content_hash": "sha256:86f819c09e57ed9cf55654703728647df929f04268276ca0cc20126a1deee1b0",
+      "size_bytes": 16015360,
+      "file_count": 142
+    },
+    "screenshot_url": null,
+    "deployment_id": null
+  },
+  "deployment": {
+    "id": "appgdep_6ac6fb3c6f148191bc880c612e9955ca",
+    "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+    "title": "KEDDEH.COM/KEDDEH-SYSTEM-RUNTIME",
+    "version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_2813afd025a88191845bf97b5acbc7b5",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site",
+    "has_mcp": true,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aa503aa595481919d947eef56f2556f",
+    "failure_message": null,
+    "env_set_revision": 5,
+    "updated_at": "2026-10-08T02:09:18.711538+00:00"
+  },
+  "workspace_url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site/workspace",
+  "pull_request": "https://github.com/Keddeh1/BRAINK-BETA-TEST/pull/8",
+  "verification": {
+    "typescript": "passed",
+    "worker_build": "passed",
+    "tests": 10,
+    "browser": "passed using actual resident capture, built Worker, local SQLite and R2",
+    "independent_assessment_report": null
+  }
+}
