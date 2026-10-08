@@ -74,7 +74,7 @@ def publish(snapshot, credential_path, endpoint):
     document = canonical(snapshot).decode()
     digest = hashlib.sha256(document.encode()).hexdigest()
     payload = canonical({'op': 'topology-observation', 'document': document, 'digest': digest})
-    request = urllib.request.Request(endpoint, data=payload, headers={'Content-Type': 'application/json', 'Authorization': 'Bearer ' + credential})
+    request = urllib.request.Request(endpoint, data=payload, headers={'Content-Type': 'application/json', 'User-Agent': 'KEDDEH-Topology/1', 'Authorization': 'Bearer ' + credential})
     with urllib.request.urlopen(request, timeout=60) as response:
         result = json.load(response)
     if result.get('digest') != digest or not result.get('current'):
@@ -86,7 +86,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime-root', type=Path, required=True)
     parser.add_argument('--service-root', type=Path, required=True)
-    parser.add_argument('--endpoint', default='https://keddeh-systems-runtime.aboudy65097.chatgpt.site/api/braink-ci/worker')
+    parser.add_argument('--endpoint', default='https://www.keddeh.com/api/braink-development/worker')
     parser.add_argument('--once', action='store_true')
     parser.add_argument('--interval', type=float, default=60)
     args = parser.parse_args()
