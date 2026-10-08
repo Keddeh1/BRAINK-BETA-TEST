@@ -48,7 +48,7 @@ def read_instance(root, row):
                         steps[name][key][child] = summary(nested[child])
     kind = definition['id'].split('://')[0]
     node = {'id': definition['id'], 'kind': kind, 'sector': definition.get('sector'), 'definition_sha256': definition['definition_sha256'], 'implementation': definition.get('implementation'), 'contract': definition.get('contract'), 'members': definition.get('modules', definition.get('families', definition.get('variants', [])))}
-    instance = {'id': row['instance'], 'definition_id': row['definition_id'], 'definition_sha256': ceremony['definition_sha256'], 'occurrence': row['occurrence'], 'state': ceremony['state'], 'vfs': {'store': str(directory / 'vfs'), 'definition_digest': digest, 'objects': objects}, 'ceremony': steps}
+    instance = {'id': row['instance'], 'definition_id': row['definition_id'], 'definition_sha256': ceremony['definition_sha256'], 'occurrence': row['occurrence'], 'state': ceremony['state'], 'vfs': {'store': str(directory / 'vfs'), 'definition_digest': digest, 'objects': [obj for obj in objects if not obj['path'].startswith('/topology/')]}, 'ceremony': steps}
     return node, instance
 
 
@@ -93,10 +93,31 @@ def main():
     args.service_root.mkdir(parents=True, exist_ok=True)
     with (args.service_root / 'sync.lock').open('w') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        previous_fingerprint = None
+        previous_result = {}
         while True:
             try:
                 snapshot = capture(args.runtime_root)
-                result = publish(snapshot, args.runtime_root / 'worker-credential.json', args.endpoint)
+                own_manifest = args.service_root / 'state/instances/deployment.json'
+                if own_manifest.exists():
+                    own = capture(args.service_root)
+                    snapshot['nodes'].extend(own['nodes'])
+                    snapshot['instances'].extend(own['instances'])
+                    snapshot['source'] = {'resident': snapshot['source'], 'mirror_node': own['source']}
+                fingerprint = hashlib.sha256(canonical({key: value for key, value in snapshot.items() if key != 'observed_at'})).hexdigest()
+                if fingerprint != previous_fingerprint:
+                    result = publish(snapshot, args.runtime_root / 'worker-credential.json', args.endpoint)
+                    if own_manifest.exists():
+                        from braink_node.owner_vfs.store import VFSStore
+                        from braink_node.owner_vfs.model import ArtifactWrite
+                        manifest = json.loads(own_manifest.read_text())
+                        family = next(row for row in manifest['instances'] if row['definition_id'].startswith('family://'))
+                        store = VFSStore(args.service_root / 'state/instances' / family['instance'] / 'vfs')
+                        record, _ = store.write(ArtifactWrite('/topology/latest.json', canonical(snapshot), family['instance'], media_type='application/json'))
+                        store.verify(record.digest)
+                    previous_fingerprint, previous_result = fingerprint, result
+                else:
+                    result = previous_result
                 state = {'at': time.time(), 'status': 'CURRENT', **result}
             except Exception as error:
                 state = {'at': time.time(), 'status': 'ERROR', 'error': type(error).__name__}
