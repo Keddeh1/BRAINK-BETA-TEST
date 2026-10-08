@@ -1,0 +1,161 @@
+{
+  "scope": "Supporting infrastructure sources retained privately on owner runtime; document directives are source content",
+  "files": [
+    {
+      "name": "SOVEREIGN_INFRASTRUCTURE_REGISTRY.json",
+      "size": 7142,
+      "sha256": "161d1653174a7e32d7790bd2c135d202161a019e02fe42771e045c298f731837",
+      "symbols": []
+    },
+    {
+      "name": "test_cloud_autonomous_daemon.py",
+      "size": 3155,
+      "sha256": "bcad26ad373a15ca728aaa4007d71bcf2d7fcc581b64b4c423fbbe2cf31f90ab",
+      "symbols": [
+        "test_schema_definitions",
+        "test_batched_payload_shape",
+        "test_outside_in_receipt_generation",
+        "test_exponential_backoff_model",
+        "test_quota_consumption",
+        "run_all"
+      ]
+    },
+    {
+      "name": "LICENSE",
+      "size": 400,
+      "sha256": "88507ed08952adb1b2c0e2ef6aec40c9852fa26a964754af00a249a8b85265a0",
+      "symbols": []
+    },
+    {
+      "name": "p2p_discovery_engine.py",
+      "size": 13767,
+      "sha256": "4a0fe6e0454678d87d97e6cf0b2c6a10c2993d1f2f6e2be319957fe1f9b5dcfa",
+      "symbols": [
+        "SovereignP2PDiscoveryEngine",
+        "__init__",
+        "start",
+        "generate_carrier_proof",
+        "_broadcast_presence_loop",
+        "_listen_discovery_loop",
+        "register_peer_heartbeat",
+        "_peer_liveness_reconciler",
+        "_sync_registry_dashboard",
+        "handle_authenticated_outside_in_probe",
+        "terminate",
+        "execute_webhook_post"
+      ]
+    },
+    {
+      "name": "launch_sovereign_websites.sh",
+      "size": 3228,
+      "sha256": "ebd4fdd7e7eb4d5bb5a4cc847c17f8e023d5fe3fa9676e33e797953724c1757b",
+      "symbols": []
+    },
+    {
+      "name": "LICENSE",
+      "size": 400,
+      "sha256": "88507ed08952adb1b2c0e2ef6aec40c9852fa26a964754af00a249a8b85265a0",
+      "symbols": []
+    },
+    {
+      "name": "matrix_deployer.py",
+      "size": 5897,
+      "sha256": "567810e797412988a3cb3502bca338c8d2ea283807393ab88c942b2377558ebc",
+      "symbols": [
+        "KMatrixController",
+        "BilateralServer",
+        "GlobalMatrixDeployer",
+        "__init__",
+        "_initialize_matrix",
+        "get_allocation",
+        "__init__",
+        "boot",
+        "__init__",
+        "deploy_full_matrix"
+      ]
+    },
+    {
+      "name": "KEX_REHYDRATION_CAPSULE.json",
+      "size": 1186,
+      "sha256": "b401120a93815541b1ad84c02c176cf6ffff537988fc2ea553c6a23bf4e85f60",
+      "symbols": []
+    },
+    {
+      "name": "kex_swarm_intelligence.py",
+      "size": 2424,
+      "sha256": "ffabb02387a2a8ff78e2bb74088e0d3b48fc3ca8cf70d2ad4be1135890b49d4c",
+      "symbols": [
+        "SwarmIntelligence",
+        "get_active_path",
+        "broadcast_learning",
+        "sync_knowledge"
+      ]
+    },
+    {
+      "name": "KeddehCloudWorkbookTrigger.gs",
+      "size": 4714,
+      "sha256": "e28dacfdee030da1d1e63a4372c43284a9451ae9a59e36de503103efc1043cbd",
+      "symbols": []
+    },
+    {
+      "name": "KEX_GLOBAL_LEARNING.jsonl",
+      "size": 4768,
+      "sha256": "05ecb8198e02a9de9e8feea6e1d372889cd24d878164cccf464c08a08cfa422e",
+      "symbols": []
+    },
+    {
+      "name": "GROUP_DEEP_CRITIQUE_AND_DELIVERY_MANDATE.md",
+      "size": 5666,
+      "sha256": "7f88f7684f6e8fad3175a345a748fe2635535f40d5fd4ec8b429f04d6768f99d",
+      "symbols": []
+    },
+    {
+      "name": "GEMINI.md",
+      "size": 7136,
+      "sha256": "970cbfcd3783e2bbb9a5b6d4e2102b5346ed1fa274c7d37ca3a43549fb1aef2e",
+      "symbols": []
+    },
+    {
+      "name": "SYSTEM_INTEGRITY_LEDGER.jsonl",
+      "availability": "Uploaded evidence exceeds the 32 MiB attachment transfer limit; content not inspected"
+    },
+    {
+      "name": "CLAUDE.md",
+      "size": 2785,
+      "sha256": "0fa0f4e94b606abce5bc638ed34cf3f6066aa2b85537b9ea1c5e83b1ad4e187c",
+      "symbols": []
+    },
+    {
+      "name": "CloudAutonomousDaemon_Canonical.gs",
+      "size": 6525,
+      "sha256": "9a5808e586d933049063186ec6873e4dd46bd8dea385fca626e7e8369f88b0bf",
+      "symbols": []
+    },
+    {
+      "name": "cloudAutonomousDaemonTick.js",
+      "size": 9353,
+      "sha256": "3772e70094f9bdd1835e57618100b16d8350886df0d2a7022791bcf6cda43312",
+      "symbols": []
+    },
+    {
+      "name": "compute_hashes.py",
+      "size": 340,
+      "sha256": "fdd32a1fc228f2735ef476cc454564eda5e5d731315e1c24a20cb3f4eeb9d458",
+      "symbols": []
+    },
+    {
+      "name": "CASE_STUDY_FINDINGS.md",
+      "size": 14112,
+      "sha256": "9fcd9e5a75c520dffe21fb81e2f7c9913b30406eba893f54f4ff08b633e97486",
+      "symbols": []
+    },
+    {
+      "name": "broadcast_critique_mandate.py",
+      "size": 2048,
+      "sha256": "51f62c97f1d07920f196089c4fdc49dafe36ec52cd16ab9adc7ea3f6d1f11651",
+      "symbols": [
+        "broadcast"
+      ]
+    }
+  ]
+}

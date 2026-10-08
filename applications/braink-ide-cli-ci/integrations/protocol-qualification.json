@@ -1,0 +1,151 @@
+{
+  "schema": "braink.protocol-qualification.v1",
+  "observed_at_utc": "2026-10-07T20:43:23Z",
+  "source_commit": "a0ea2edf05481b71e88af73a2e6ef86001a3b379",
+  "catalogue_sha256": "3c8b63f74e5740214521986453c8739e870777077a3be92eba4f224dab9d9a2d",
+  "deployment_scope": "Existing connected Keddeh cloud runtime; independent instance namespaces and subscriptions",
+  "instances": 571,
+  "distinct_vfs_roots": 571,
+  "ceremony_states": {
+    "READBACK": 571
+  },
+  "every_instance_verified": {
+    "local_vfs_content": true,
+    "local_receipt_chain": true,
+    "owner_hub_subscription": true,
+    "network_mesh_subscription": true
+  },
+  "ceremony_manifest_sha256": "65ea194dbd6b3a496c3d8852437b346fd5b9600e21f7171998c8632d73263dfa",
+  "module_invocation": {
+    "instance": "braink-ecba85e96f0aec6f769dcc393e97dbc1734b7836aac4ada5fafacc2e0a56d1d4",
+    "module": "function://braink-development/braink_node.canonical/sha256_hex",
+    "actual_return_sha256": "ea355428633bd6d1c51e37b0126750479eb6b295dddf8c942a713c1e5f36873b",
+    "argument_type": "bytes",
+    "instance_receipt_chain_verified": true
+  },
+  "network_exchange": {
+    "sender": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+    "recipient": "braink-4e3e7fddaf48e1b9835aa308123cd2cbe8241f709317843c6c840e9122169cd3",
+    "sequence": 2,
+    "digest": "5ef64537812e92201422b043e6127d60a8e8940bc31509b28dcf4c90b7daf81b",
+    "observer_verified": true,
+    "inbox_readback_matches": true
+  },
+  "clean_build": {
+    "schema": "braink.sector-build.v1",
+    "requested_sector": "all",
+    "builds": [
+      {
+        "sector": "core",
+        "wheel": "core/braink_node_core-0.1.0-py3-none-any.whl",
+        "sha256": "4879c43b2d739ae67385760b8849cede0cf7c0fa8acbcf1e809aa6044fa17270",
+        "dependencies": []
+      },
+      {
+        "sector": "cli",
+        "wheel": "cli/braink_cli_node-0.1.0-py3-none-any.whl",
+        "sha256": "f71af48edf6aad18dcbd2f10a395efad87652990b92e6842f02c16327de10d29",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      },
+      {
+        "sector": "ide",
+        "wheel": "ide/braink_ide_node-0.1.0-py3-none-any.whl",
+        "sha256": "bbc44b617ac0840e8f0f14cde8e96c836228a53564fb20d072caa80617ee0399",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      },
+      {
+        "sector": "ci",
+        "wheel": "ci/braink_ci_node-0.1.0-py3-none-any.whl",
+        "sha256": "ae4baf35dc807d881772273a9a8615194c53d504d60bdd939906d926c9b71777",
+        "dependencies": [
+          "braink-node-core==0.1.0"
+        ]
+      }
+    ],
+    "protocol": {
+      "catalogue_sha256": "3c8b63f74e5740214521986453c8739e870777077a3be92eba4f224dab9d9a2d",
+      "modules": 155,
+      "families": 30,
+      "variants": 4,
+      "colonies": 4,
+      "supporting_functions": 92,
+      "archive": "protocol-colonies.tar.gz",
+      "archive_sha256": "e5c2006afc38f1266dce25e921008d55355ef492f95c4376e72b97350b87d903"
+    }
+  },
+  "tests": {
+    "total": 38,
+    "protocol": 6,
+    "installed_wheels": true,
+    "status": "passed"
+  },
+  "owner_il_llm": {
+    "source_sha256": "488d3fb58aa4499a1b59ba4f109a14e48ed31ffd8689a5680188ba40c81f7c16",
+    "state_sha256": "fa98d9546aec56ecba390e81119113cf030861cce98735016ef5f3ee71e05995"
+  },
+  "limits_of_evidence": [
+    "Host-destruction recovery and permanent server bootstrap have not been exercised.",
+    "Canonical state binding and relational exchange do not constitute requalification of every wider IL-LLM capability."
+  ],
+  "website_clean_builds": {
+    "source_commit": "a0ea2edf05481b71e88af73a2e6ef86001a3b379",
+    "sectors": [
+      {
+        "sector": "ci",
+        "job": "d01eeb43e6f247e3a0cbe856848eadc1",
+        "status": "passed",
+        "artifacts_downloaded_and_verified": 4,
+        "receipt_sha256": "db13f3ff5270aa03dfc95a5d9a2622d4f3aa284bc6003403f90fb13236dc8b99"
+      },
+      {
+        "sector": "cli",
+        "job": "f5eb296ca8f24b53b478b0617c6a1dc7",
+        "status": "passed",
+        "artifacts_downloaded_and_verified": 4,
+        "receipt_sha256": "9faf7da721f6aef47d533f04f04e09d375582c93e26dabde8b6f8639fd9ffd2e"
+      },
+      {
+        "sector": "core",
+        "job": "13b02a3ac9b44f1f8f3e96c4ac02f5d6",
+        "status": "passed",
+        "artifacts_downloaded_and_verified": 3,
+        "receipt_sha256": "5b63432054f37ca76f77e8f4c98a25e720b6603d80b9cb7cffdc5e024b9ba54e"
+      },
+      {
+        "sector": "ide",
+        "job": "6ab61d0bad114d55a80faa805900900d",
+        "status": "passed",
+        "artifacts_downloaded_and_verified": 4,
+        "receipt_sha256": "2c8bdb325f3168ded721676f61b37bd943534bdc068d81b65af8fd71aaa47f10"
+      }
+    ]
+  },
+  "mesh_process_restart": {
+    "old_pid": 1720148,
+    "new_pid": 1721833,
+    "supervisor_restarted": true,
+    "subscription_preserved": true,
+    "inbox_preserved": true,
+    "preserved_messages": 1
+  },
+  "recovery_record": {
+    "failed_website_job": "5cd49f604e9ffdb97d0723b471d8582d",
+    "observed_failure": "HTTP 500 during owner hub artifact publication",
+    "retained_stage": "SUBSCRIBE_IL_LLM_NETWORK_MESH",
+    "completed_replay_job": "b6ada826a49e89c4589049359eb059a0",
+    "completed_replay_state": "READBACK",
+    "service_error_cause": "Not isolated; fresh publication probes succeeded and completed replay was independently verified.",
+    "remediation": "Completed ceremonies verify their existing published artifacts; interrupted ceremonies retain and resume their actual committed stages."
+  },
+  "website_execution": {
+    "job_id": "b6ada826a49e89c4589049359eb059a0",
+    "status": "passed",
+    "instances": 571,
+    "returncode": 0,
+    "catalogue_sha256": "3c8b63f74e5740214521986453c8739e870777077a3be92eba4f224dab9d9a2d"
+  }
+}

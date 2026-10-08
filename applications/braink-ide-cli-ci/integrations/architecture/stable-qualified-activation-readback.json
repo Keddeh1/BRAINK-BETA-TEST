@@ -1,0 +1,7 @@
+{
+  "revision": "c0d6725d45a021f2e72d230a45e4ec50825496b2",
+  "supervisor_pid": 3000757,
+  "environment_alias": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/releases/c0d6725d45a021f2e72d230a45e4ec50825496b2/activation-venv-4ceba90a2d9b49c98752e083d49014ff",
+  "console_readback": true,
+  "source": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/releases/c0d6725d45a021f2e72d230a45e4ec50825496b2/source"
+}

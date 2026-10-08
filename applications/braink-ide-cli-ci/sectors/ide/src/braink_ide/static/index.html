@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BRAINK Application Node</title>
+<style>
+body{margin:0;background:#10151e;color:#e1e8f4;font:15px system-ui}header{padding:22px;border-bottom:1px solid #33415a}h1{font-size:22px;margin:0 0 8px}button,input,select{padding:10px;background:#202c40;color:inherit;border:1px solid #526586;border-radius:4px}button{cursor:pointer}main{display:grid;grid-template-columns:260px 1fr;gap:20px;padding:20px}aside button{display:block;width:100%;text-align:left;margin-bottom:6px;overflow-wrap:anywhere}textarea{box-sizing:border-box;width:100%;height:55vh;background:#151d2b;color:#e1e8f4;font:14px monospace;padding:15px;border:1px solid #526586}pre{white-space:pre-wrap;overflow-wrap:anywhere}label{display:block;margin:10px 0}nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}@media(max-width:700px){main{grid-template-columns:1fr}}
+</style>
+<header><h1>BRAINK · IDE / CLI / CI</h1><div>Independent application node · workspace editor and checks</div></header>
+<main><aside><label>Node access token <input id="token" type="password" autocomplete="off"></label><button id="connect">Connect / refresh</button><label>Workspace files</label><div id="files"></div></aside>
+<section><nav><input id="path" aria-label="Workspace relative file path" placeholder="projects/example/main.py"><button id="new">New file</button><button id="save">Save</button><button id="check">Check workspace</button><button id="index">Refresh index</button><button id="ledger">Verify ledger</button></nav><label for="editor">File contents</label><textarea id="editor" spellcheck="false"></textarea><pre id="result" role="status">Connect to load workspace files.</pre></section></main>
+<script>
+let revision=null;
+const el=id=>document.getElementById(id);
+const show=obj=>el('result').textContent=typeof obj==='string'?obj:JSON.stringify(obj,null,2);
+async function api(path,body){const headers={};if(el('token').value)headers.Authorization='Bearer '+el('token').value;if(body!==undefined)headers['Content-Type']='application/json';const response=await fetch(path,{method:body===undefined?'GET':'POST',headers,body:body===undefined?undefined:JSON.stringify(body)});const obj=await response.json();if(!response.ok)throw Error(obj.error||'Request failed');return obj}
+async function refresh(){const obj=await api('/api/files');el('files').replaceChildren();for(const path of obj.files){const button=document.createElement('button');button.textContent=path;button.onclick=()=>run(async()=>{const file=await api('/api/file?path='+encodeURIComponent(path));el('path').value=path;el('editor').value=file.content;revision=file.revision;show('Loaded '+path)});el('files').append(button)}}
+async function run(fn){try{await fn()}catch(error){show(error.message)}}
+el('connect').onclick=()=>run(async()=>{await refresh();show('Connected')});
+el('new').onclick=()=>{revision=null;el('editor').value='';show('Enter a new relative file path, write contents, then save.')};
+el('save').onclick=()=>run(async()=>{const obj=await api('/api/file',{path:el('path').value,content:el('editor').value,revision});revision=obj.revision;show(obj);await refresh()});
+el('check').onclick=()=>run(async()=>show(await api('/api/check',{})));
+el('index').onclick=()=>run(async()=>show(await api('/api/index',{})));
+el('ledger').onclick=()=>run(async()=>show(await api('/api/ledger')));
+</script></html>

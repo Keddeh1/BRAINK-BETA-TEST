@@ -1,0 +1,352 @@
+{
+  "schema": "keddeh.experience.hci-review.v1",
+  "assessment_kind": "independent collaborating-agent source and live HTTP assessment",
+  "not_claimed": [
+    "Human design team participation",
+    "Human participant research",
+    "External formal assessment report",
+    "Paid service operational when readiness is false",
+    "Browser-rendered accessibility or performance certification"
+  ],
+  "created_at": "2026-10-07T21:46:39.474907+00:00",
+  "site": "https://www.keddeh.com",
+  "project_id": "appgprj_6aa52748b7788191afe0f7f86fc78833",
+  "source_evidence": [
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/braink-architecture.mjs",
+      "sha256": "0c41a5672bfb8c7277843b551e4a314e6ccdb62e15230f6c2bea25ba0592a4ab"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/braink-development.mjs",
+      "sha256": "f57fdd9821e525f78c477b02445ae09958eafa4c64220d1b322a5dca1b5dd645"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/landing-router.mjs",
+      "sha256": "ab39178603330d7c2babccc7f7042e2de2b1c4ad234e6e4eb76581371e97cb32"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/page-experience.mjs",
+      "sha256": "e2056d4c78a4ef15bead4c5a37535cc11f824e08fd4f7906c9456c6cdde43693"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/interest.mjs",
+      "sha256": "5e249d83930aeca1b3dd0d9a764d912cc2e05f7f722440ed0107e77d730cb840"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/claimpath-delivery.mjs",
+      "sha256": "af888adf3ee97ea1abc807edf59bbb931e8a72c94843c36298c4048309ba34fd"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/source/spatial-entry.js",
+      "sha256": "55d4e3053c0c20859721166e8c530f5f3b7c226a065790dad4664abc63e46dab"
+    },
+    {
+      "path": "/workspace/work/keddeh-ci-site/dist/server/index.js",
+      "sha256": "93a7baf6b2b091d604efcb4a6b0533d5bc780eea9c27c84360ee2ab3a112fe54"
+    }
+  ],
+  "live_observations": [
+    {
+      "method": "GET",
+      "path": "/",
+      "status": 200,
+      "html_bytes": 36448,
+      "links": 43,
+      "h1_count": 1
+    },
+    {
+      "method": "GET",
+      "path": "/braink/development",
+      "status": 200,
+      "html_bytes": 6121
+    },
+    {
+      "method": "GET",
+      "path": "/api/braink-architecture",
+      "status": 401,
+      "body": {
+        "error": "AUTHENTICATION_REQUIRED"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/claimpath/billing",
+      "status": 200,
+      "body": {
+        "ready": false,
+        "label": null
+      }
+    }
+  ],
+  "findings": [
+    {
+      "id": "UX-01",
+      "severity": "high",
+      "evidence_type": "source-observed",
+      "title": "Public discovery and operational ownership need clear task and role boundaries",
+      "source_evidence": [
+        "braink-development.mjs: developmentPage exposes owner sign-in with all controls visible",
+        "dist/server/index.js: public BRAINK entry appends IDE/CLI/CI links",
+        "page-experience.mjs: public directory shows owner editor links"
+      ],
+      "proposed_fix": "Introduce a sector with clearly labelled public services, working utilities, research and owner operations. Explain which actions require the existing owner account without changing native authority.",
+      "verification_tasks": [
+        "Anonymous visitor can find one usable utility in at most two navigation decisions",
+        "Public user can distinguish an owner-only runtime operation before submitting it",
+        "Every existing application deep link remains reachable"
+      ]
+    },
+    {
+      "id": "UX-02",
+      "severity": "high",
+      "evidence_type": "source-observed",
+      "title": "Runtime errors appear as untranslated machine codes",
+      "source_evidence": [
+        "braink-development.mjs: perform renders error.message and hides auth unless AUTHENTICATION_REQUIRED",
+        "braink-architecture.mjs: perform renders error.message",
+        "live architecture API: 401 AUTHENTICATION_REQUIRED"
+      ],
+      "proposed_fix": "Map known status codes to actionable language with retry/sign-in/context-specific recovery. Retain expandable raw diagnostics. Preserve editor content and queued job identity.",
+      "verification_tasks": [
+        "401 shows owner sign-in and return path",
+        "403 explains correct-account requirement",
+        "503/network failure preserves entered text and offers retry",
+        "Job readback failure does not resubmit an existing job"
+      ]
+    },
+    {
+      "id": "UX-03",
+      "severity": "medium",
+      "evidence_type": "source-observed",
+      "title": "Repeated controls and raw evidence impose avoidable cognitive work",
+      "source_evidence": [
+        "braink-architecture.mjs: ten rows use identical Run and Inspect labels",
+        "braink-development.mjs: job table buttons all say Inspect",
+        "both operational pages primarily render JSON in pre"
+      ],
+      "proposed_fix": "Give contextual accessible button names and concise result summaries: operation, observed state, source identity, time, next action. Expand raw evidence on demand.",
+      "verification_tasks": [
+        "Accessible name uniquely identifies each operation",
+        "Last observation and pending execution remain distinguishable",
+        "User can locate a failed stage and its retry route without reading the entire JSON document"
+      ]
+    },
+    {
+      "id": "UX-04",
+      "severity": "medium",
+      "evidence_type": "source-observed",
+      "title": "Primary learning CTAs do not match every market task",
+      "source_evidence": [
+        "landing-router.mjs: each audience CTA routes to /learn and says Learn the architecture",
+        "page-experience.mjs: information pages receive learning-interest CTA",
+        "interest.mjs: actual D1-backed learning registration"
+      ],
+      "proposed_fix": "Separate useful software, project/service enquiry and learning registration as explicit task choices. Keep existing consent and D1 persistence intact.",
+      "verification_tasks": [
+        "Tool seeker reaches a runtime workspace without registering interest",
+        "Learning subscriber receives retained success/failure state",
+        "Project enquiry is labelled accurately as enquiry rather than a deployed service purchase"
+      ]
+    },
+    {
+      "id": "UX-05",
+      "severity": "medium",
+      "evidence_type": "source-observed",
+      "title": "Operational pages lack a skip link and current-location treatment",
+      "source_evidence": [
+        "braink-development.mjs: header before main, no skip link or main id",
+        "braink-development.mjs: no aria-current navigation attribute",
+        "braink-architecture.mjs: aria-current exists but no skip link"
+      ],
+      "proposed_fix": "Add skip-to-main, current navigation, meaningful headings, contextual table labels and details regions. Maintain visible focus and native controls.",
+      "verification_tasks": [
+        "Keyboard first focus offers skip link",
+        "Skip moves focus to main content",
+        "Current section announced by assistive technology",
+        "All actions complete through keyboard without pointer-only interactions"
+      ]
+    },
+    {
+      "id": "UX-06",
+      "severity": "medium",
+      "evidence_type": "heuristic-inference",
+      "title": "Mobile operational tables may obscure context and actions",
+      "source_evidence": [
+        "braink-architecture.mjs: at <=760px each th/td min-width 140px, table wrapper scrolls",
+        "braink-development.mjs: <=700px table becomes horizontal overflow block"
+      ],
+      "proposed_fix": "Provide a mobile card or stacked row presentation preserving semantic relationships; keep technical evidence wrap and support zoom.",
+      "verification_tasks": [
+        "At 320/375/768px no page-level horizontal overflow",
+        "At 200% zoom essential status/action pairs remain visible",
+        "Keyboard horizontal content remains reachable",
+        "Touch targets measured at least 44x44 CSS pixels as a project design target"
+      ]
+    },
+    {
+      "id": "UX-07",
+      "severity": "high",
+      "evidence_type": "live-observed",
+      "title": "Paid ClaimPath availability must reflect actual billing readiness",
+      "source_evidence": [
+        "GET /api/claimpath/billing -> HTTP200 {ready:false,label:null}",
+        "claimpath-delivery.mjs: missing configured payment bindings cause 503 and no paid download"
+      ],
+      "proposed_fix": "Use existing readiness endpoint for market/service availability. Link working browser workspace separately from paid delivery; expose meaningful unavailable state and support route.",
+      "verification_tasks": [
+        "Unavailable payment state never produces a purchase-success claim",
+        "Configured paid state requires verified real payment/entitlement path",
+        "Browser utility remains usable when payment configuration is absent"
+      ]
+    },
+    {
+      "id": "UX-08",
+      "severity": "medium",
+      "evidence_type": "heuristic-inference",
+      "title": "Luxury visual consistency must extend across real service journeys",
+      "source_evidence": [
+        "Live homepage HTML 36448 bytes; development page 6121 bytes",
+        "landing-router.mjs: audience visual themes differ from operational navy/system-ui layout"
+      ],
+      "proposed_fix": "Use a shared restrained visual system with coherent typography, generous spacing, high-contrast accents and predictable navigation. Do not hide working controls or replace them with decorative service promises.",
+      "verification_tasks": [
+        "Compare home/sector/utility/runtime at desktop and mobile",
+        "Measure text and control contrast against WCAG2.2 AA thresholds",
+        "Motion honors prefers-reduced-motion",
+        "Decorative graphics have alternatives and do not block task execution"
+      ]
+    },
+    {
+      "id": "UX-09",
+      "severity": "medium",
+      "evidence_type": "source-observed",
+      "title": "IDE action latency and save conflict require user-oriented state",
+      "source_evidence": [
+        "braink-development.mjs: file actions poll up to120 seconds; new-file resets revision",
+        "braink-development.mjs: save uses one global revision variable",
+        "native relay is an asynchronous execution queue"
+      ],
+      "proposed_fix": "Track active path/revision and explicit saving, queued, running, completed and conflicting-save states. Warn only on actual unsaved edits before replacing content. Keep retry bound to original job.",
+      "verification_tasks": [
+        "Two-file switching cannot attach stale revision to a different file",
+        "Conflict preserves local text and offers reload/comparison",
+        "Slow jobs remain inspectable after polling returns",
+        "Rapid duplicate clicks do not produce unintended duplicate saves"
+      ]
+    },
+    {
+      "id": "UX-10",
+      "severity": "medium",
+      "evidence_type": "research-proposal",
+      "title": "Usability claims require actual participant evidence",
+      "source_evidence": [
+        "No participant sessions or human study measurements performed in this assessment"
+      ],
+      "proposed_fix": "Run consented task-based research with representative tool users, technical operators and service buyers; include accessibility needs. Record qualitative failures and actual completion measures rather than invented averages.",
+      "verification_tasks": [
+        "Pilot moderated sessions with tasks below",
+        "Recruit actual participants separately from automated testing",
+        "Report sample characteristics, task outcomes, exact denominators and limitations",
+        "Iterate observed blockers and rerun changed tasks"
+      ]
+    }
+  ],
+  "usability_research_plan": {
+    "status": "proposed_not_performed",
+    "participant_recruitment": "Recruit actual representative service buyers, utility users and technical operators, including keyboard and assistive technology users. Start a pilot of roughly five participants per distinct audience; that is a planning choice, not a population-level efficacy claim.",
+    "consent": "Explain purpose, voluntary participation, collected data and retention; avoid real private workspace information in research tasks.",
+    "tasks": [
+      {
+        "id": "TASK-01",
+        "audience": "new visitor",
+        "task": "Find and open a working tool suitable for organising files",
+        "success": "Working storage application opened; user understands persistence/export scope",
+        "measure": [
+          "completion yes/no",
+          "time to first utility",
+          "wrong turns",
+          "comprehension of local storage"
+        ]
+      },
+      {
+        "id": "TASK-02",
+        "audience": "service buyer",
+        "task": "Identify a relevant service and prepare an enquiry without confusing it with a purchase",
+        "success": "Correct service/enquiry route with accurate delivery expectations",
+        "measure": [
+          "route completion",
+          "expectation comprehension",
+          "confidence response collected after task"
+        ]
+      },
+      {
+        "id": "TASK-03",
+        "audience": "owner/operator",
+        "task": "Inspect latest architecture evidence and identify an unresolved operation",
+        "success": "Correct state/source/time and next action identified",
+        "measure": [
+          "correct interpretation",
+          "time to locate issue",
+          "unnecessary evidence expansion"
+        ]
+      },
+      {
+        "id": "TASK-04",
+        "audience": "owner/operator",
+        "task": "Queue a clean sector build, locate its result and download a verified artifact",
+        "success": "Actual queued -> executed -> retained result -> artifact download, hash verified",
+        "measure": [
+          "end-to-end completion",
+          "queue/readback errors",
+          "recovery after network interruption"
+        ]
+      },
+      {
+        "id": "TASK-05",
+        "audience": "keyboard/screen-reader user",
+        "task": "Navigate sector, select utility and read operation outcome without pointer input",
+        "success": "No keyboard trap; meaningful control names and announced state",
+        "measure": [
+          "focus order defects",
+          "unlabelled controls",
+          "announced updates",
+          "task completion"
+        ]
+      },
+      {
+        "id": "TASK-06",
+        "audience": "mobile user",
+        "task": "Use a utility and inspect failed service operation at 375px width",
+        "success": "Inputs/status/actions visible; failure can be recovered without losing work",
+        "measure": [
+          "horizontal overflow",
+          "target sizes",
+          "lost input",
+          "successful recovery"
+        ]
+      }
+    ],
+    "reporting": "Separate observed session evidence, automated verification and design interpretation. Publish actual denominators and limitations; no synthetic success rates."
+  },
+  "engineering_verification_plan": [
+    "Execute existing native route and store tests with new sector tests",
+    "Run realistic DOM interactions with actual owner/anonymous API states",
+    "Use browser screenshots and keyboard traversal at 320/375/768/1440px",
+    "Run axe-core against rendered pages and manual screen-reader checks where available",
+    "Measure performance in real browser with network/device conditions recorded; do not substitute source file size for Core Web Vitals",
+    "Verify public service readiness through deployed APIs and owned runtime effects",
+    "Retain route/status/source revision and digest evidence for release readback"
+  ],
+  "priority_order": [
+    "UX-07",
+    "UX-02",
+    "UX-01",
+    "UX-03",
+    "UX-09",
+    "UX-05",
+    "UX-06",
+    "UX-04",
+    "UX-08",
+    "UX-10"
+  ]
+}

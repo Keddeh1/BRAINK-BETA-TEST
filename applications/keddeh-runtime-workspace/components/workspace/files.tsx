@@ -1,0 +1,12 @@
+'use client';
+import {Activity,Boxes,Command,FileCode2,FolderTree,Layers3,Network,RefreshCw,Search,Server,Terminal} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
+import {Tabs,TabsContent,TabsList,TabsTrigger} from '@/components/ui/tabs';
+import {Select,SelectContent,SelectItem,SelectTrigger,SelectValue} from '@/components/ui/select';
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/components/ui/table';
+import {requestJSON,inputTemplate,statusCounts,type Registry,type Job,type Snapshot,type Target,type StoredObject} from './model';
+import {useWorkspace} from './state';
+import {Json} from './result-panel';
+export function FileWorkspace(){const {view,setView,registry,snapshot,jobs,targets,files,errors,busy,query,setQuery,notice,setNotice,capabilityId,setCapabilityId,namespace,setNamespace,input,setInput,result,setResult,selectedNode,setSelectedNode,objectName,setObjectName,content,setContent,opened,sector,setSector,operation,setOperation,parameters,setParameters,refresh,capability,counts,filteredFiles,filteredCapabilities,act,execute,openFile}=useWorkspace();return <div className="kw-grid"><section className="kw-panel"><h2><FolderTree size={19}/> Stored objects</h2>{filteredFiles.map(file=><Button variant="ghost" className="kw-file" key={file.id} onClick={()=>void act(()=>openFile(file))}><FileCode2 size={20}/><span>{file.name}<small>{file.domainId} · {file.sizeBytes.toLocaleString()} bytes</small></span></Button>)}{!filteredFiles.length&&<p className="kw-empty">No files match this search.</p>}</section><section className="kw-panel"><h2><FileCode2 size={19}/> {opened?'File editor':'New file'}</h2><label>Object name<Input value={objectName} onChange={e=>setObjectName(e.target.value)}/></label><label className="kw-label">Content<Textarea aria-label="Content" className="kw-editor" value={content} onChange={e=>setContent(e.target.value)}/></label><div className="kw-action-row"><Button disabled={busy||!objectName.trim()} onClick={()=>void act(async()=>{const saved=await requestJSON('/api/vfs',{name:objectName,content,domainId:opened?.domainId||'vfs'});setNotice('New object saved and verified.');setResult(saved)})}>Save new version</Button>{opened&&<a href={'/api/vfs?id='+encodeURIComponent(opened.id)+'&download=1'}>Download stored version</a>}</div>{opened&&<details className="kw-contract"><summary>Stored object identity</summary><Json value={opened}/></details>}</section></div>;}

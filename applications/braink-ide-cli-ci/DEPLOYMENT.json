@@ -1,0 +1,289 @@
+{
+  "node": "braink-ide-cli-ci",
+  "sector": "BRAINK development",
+  "repository": "Keddeh1/BRAINK-BETA-TEST",
+  "branch": "feat/braink-application-node",
+  "website": {
+    "url": "https://www.keddeh.com/braink/development",
+    "version": 45,
+    "source_commit": "c16fc112c0994f5db90f412b89b71c55fc8f3ea3",
+    "version_id": "appgprj_6aa52748b7788191afe0f7f86fc78833~appgver_524325bd51ac81919bd7a35960867568",
+    "deployment_id": "appgdep_6ac69fd848688191a572ac2da0b9222c",
+    "status": "succeeded",
+    "environment_revision": 7
+  },
+  "runtime_adapter": {
+    "version": 20,
+    "source_commit": "38f1eded9a6614213f97ebcbb00362ade1da6572",
+    "version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_b161f7bc75ac8191bce1fe9e94c97dd7",
+    "deployment_id": "appgdep_6ac6a35293008191b094821ca7e1ade0",
+    "status": "succeeded"
+  },
+  "ci_execution": "Owner Linux application runtime; website-resident durable control plane",
+  "qualification": {
+    "tests": 32,
+    "sector_runs": {
+      "ci": {
+        "job_id": "584a7d5e211d4bb2a1914b09087464e7",
+        "local_run_id": "8d1c406ad6c74221af08e31402e27b31",
+        "status": "passed",
+        "source_commit": "98358acb9ea1f1757776965de034af0d46ffe9a9",
+        "source_digest": "b78ac5d5f2c25ae9617671298a49066562d04e9054c331e195dd6737c293e8e6",
+        "receipt_sha256": "df21a2609f604fa46e53e5f67c6bc024730ce1010ed4fa62e6e45f8b4ed6cf3f",
+        "stages": [
+          {
+            "name": "syntax",
+            "status": "passed",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "clean-sector-build",
+            "status": "passed",
+            "log_sha256": "d50729695a92c00bee147bc6c0f7bb373ca46acd7d05b8e4fc5fe126b2038655"
+          },
+          {
+            "name": "test-installed-sector",
+            "status": "passed",
+            "log_sha256": "c8869f774fbfa06be511d642c8317eb265516842fb0e5952c5689f8ce5343bd2"
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "artifacts/ci/braink_ci_node-0.1.0-py3-none-any.whl",
+            "size": 8589,
+            "sha256": "1fbd0dd89be22891afd5855a5c367f4eeb7aac869d886d99f2394ff83a42188b"
+          },
+          {
+            "path": "artifacts/core/braink_node_core-0.1.0-py3-none-any.whl",
+            "size": 11901,
+            "sha256": "ae893b357d51394a4c6d9f52e6698802881f664788d291ac8157a7f5c6cbf0de"
+          },
+          {
+            "path": "artifacts/sector-builds.json",
+            "size": 539,
+            "sha256": "8234810f22654f4a617d4ecdfe4c51572b806c05a1c64aab2ab108ed238179e9"
+          }
+        ]
+      },
+      "ide": {
+        "job_id": "8b4b60fb096a4bc09970c1be5b5ea24e",
+        "local_run_id": "28d0f30aeede4f53b8047048678b3365",
+        "status": "passed",
+        "source_commit": "2f4f9beeb8f217c2fdd05fee07c2c7e50f26f411",
+        "source_digest": "0720162f3d260615b1de5edb128d48a5507938e00a62655455d1341c0953fd9b",
+        "receipt_sha256": "534b6f37298bb4cd89c67819e192c8d1b30b4b8d4dca1f9bc709cb40e25981a0",
+        "stages": [
+          {
+            "name": "syntax",
+            "status": "passed",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "clean-sector-build",
+            "status": "passed",
+            "log_sha256": "928562382912587dce478a6d638d1b5c14cfd352ebf550b47dd4e183f2d478ea"
+          },
+          {
+            "name": "test-installed-sector",
+            "status": "passed",
+            "log_sha256": "2cee54a9c0e11a028e914421542f256527934ce492c3eb266dc1018c88226560"
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "artifacts/core/braink_node_core-0.1.0-py3-none-any.whl",
+            "size": 11901,
+            "sha256": "1b5a4b41c81073bf055d91a21c63a8314dc851f79856d3ef10e1f76c11ca39ff"
+          },
+          {
+            "path": "artifacts/ide/braink_ide_node-0.1.0-py3-none-any.whl",
+            "size": 5940,
+            "sha256": "ec01c5b5b6bab4961c1b3cafb178b556a76f948ff1549c67b2d01ad1ad3b0b57"
+          },
+          {
+            "path": "artifacts/sector-builds.json",
+            "size": 543,
+            "sha256": "dfb0fca23743493e0f3f3a4598021c0ceaf3d34fe6a6838792c873a3cdd97c58"
+          }
+        ]
+      },
+      "core": {
+        "job_id": "8278c2faabd041cfbe7c8348c1f855ac",
+        "local_run_id": "3381572537dd4b3a88d73fbaf798cb16",
+        "status": "passed",
+        "source_commit": "2f4f9beeb8f217c2fdd05fee07c2c7e50f26f411",
+        "source_digest": "0720162f3d260615b1de5edb128d48a5507938e00a62655455d1341c0953fd9b",
+        "receipt_sha256": "959fff873e7abedee6ff3b56e84deaa16117b39704acc207a0559098bb8bd877",
+        "stages": [
+          {
+            "name": "syntax",
+            "status": "passed",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "clean-sector-build",
+            "status": "passed",
+            "log_sha256": "e3b2efb285aaef492f61298c1a2339414b0ef28cae5551c20278a4942c2eac18"
+          },
+          {
+            "name": "test-installed-sector",
+            "status": "passed",
+            "log_sha256": "37a3b811b64af615cc41465d8ad509af1891585e56bbc638a3b1a91bc31a341e"
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "artifacts/core/braink_node_core-0.1.0-py3-none-any.whl",
+            "size": 11901,
+            "sha256": "4ce8a2a9ca131b119d5e665c2ff191a9d4fcb1510f33fd2f77d5fa7ccb69c052"
+          },
+          {
+            "path": "artifacts/sector-builds.json",
+            "size": 297,
+            "sha256": "a9e6996a3ddb0cfeed3d3ad1e76a6ac88ac9bcd121d2602c1244b6e76724e8ec"
+          }
+        ]
+      },
+      "cli": {
+        "job_id": "0ba00afd911b44e5b1e70ad6e846cefd",
+        "local_run_id": "7b564ecf49ea455fb553d109511772ca",
+        "status": "passed",
+        "source_commit": "2f4f9beeb8f217c2fdd05fee07c2c7e50f26f411",
+        "source_digest": "0720162f3d260615b1de5edb128d48a5507938e00a62655455d1341c0953fd9b",
+        "receipt_sha256": "d2aeb34c5b5977da29088aa054785e96ec5aa2e840605bf3cd8f0d6f6ea1d909",
+        "stages": [
+          {
+            "name": "syntax",
+            "status": "passed",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "name": "clean-sector-build",
+            "status": "passed",
+            "log_sha256": "3427516406a0d003b64ce80cac9de0f04b79f1a4070faeafae4813cc8ae84b0c"
+          },
+          {
+            "name": "test-installed-sector",
+            "status": "passed",
+            "log_sha256": "01255b11428289eeac8a695255a66f03bb513b56e5b451b743bdd922aa63e5d8"
+          }
+        ],
+        "artifacts": [
+          {
+            "path": "artifacts/cli/braink_cli_node-0.1.0-py3-none-any.whl",
+            "size": 3778,
+            "sha256": "d45ce6601f131c6b671cd0d3f0894a06354aa2bd068aeea43517a95e6fbe6d94"
+          },
+          {
+            "path": "artifacts/core/braink_node_core-0.1.0-py3-none-any.whl",
+            "size": 11901,
+            "sha256": "da98e95cdff7349363ca18d8b100eab97c86a1b1a96c065b73fbdf4b3a69d319"
+          },
+          {
+            "path": "artifacts/sector-builds.json",
+            "size": 543,
+            "sha256": "bc85b0ea5d35fc9dc18bdd7306e2a95ac36dc0547449532dba9e82a797430719"
+          }
+        ]
+      }
+    },
+    "artifact_download_sha256": "verified for every returned artifact"
+  },
+  "website_operations": [
+    {
+      "job_id": "65e38dbfa6314f028b2414e8964c648f",
+      "operation": "file-list",
+      "status": "passed",
+      "receipt_sha256": "f8e52e883be73c1b69eabbb1eccd823f77c91fe4a294855ceaace2c0a35a9736"
+    },
+    {
+      "job_id": "29cc69c23d2644fab77eed8e7715ab00",
+      "operation": "file-save",
+      "status": "passed",
+      "receipt_sha256": "118a6e42a9ee16b205ac3565fb319782eb446404a87ed3f0b840ac7650caa687"
+    },
+    {
+      "job_id": "18ba44d0f9454cfda1d745bc667ec57b",
+      "operation": "file-read",
+      "status": "passed",
+      "receipt_sha256": "9542207ec191e00072272ab033d6c335511992d68af3aee4cb0a909cb9d3f706"
+    },
+    {
+      "job_id": "538f750a88a9454c9b813428758f53d4",
+      "operation": "file-save",
+      "status": "passed",
+      "receipt_sha256": "204284a5eb6cdf231de5cfccbc32075effc3710b5ebf9355413eb5563649d210"
+    },
+    {
+      "job_id": "b4bcf175af56424ea036d0c86648145b",
+      "operation": "cli",
+      "status": "passed",
+      "receipt_sha256": "548fb9303a8bf0eb77914c3665ab712319bac23cc9690e86954e74d8f2b1c29f"
+    },
+    {
+      "job_id": "dbe2533722e3468db4208a3680f350c3",
+      "operation": "cli",
+      "status": "passed",
+      "receipt_sha256": "0446bcde539f624d6fd377c7dbcc6c46e1750b5195cc31f5ba515db7774854db"
+    }
+  ],
+  "recovery": {
+    "supervisor_restart": "verified",
+    "branch_trigger": "verified after GitHub push",
+    "exact_commit_export": "verified in nested application layout",
+    "interruption_receipts": "tested",
+    "receipt_retry": "tested"
+  },
+  "active_services": [
+    "IDE",
+    "CI relay",
+    "GitHub branch trigger",
+    "application supervisor"
+  ],
+  "host_startup": {
+    "current_runtime": "Persistent supervised processes on the connected Linux host",
+    "systemd_unit": "deployment/braink-development.service; host PID 1 is not systemd"
+  },
+  "uploaded_evidence": {
+    "inventory": "integrations/reference-inputs.json",
+    "large_integrity_ledger": "Transfer exceeds 32 MiB tool limit; contents not inspected"
+  },
+  "github_status_reporting": {
+    "status": "Existing GitHub integration does not grant commit-status write access (HTTP 403)",
+    "authoritative_results": "Own website CI queue and receipts in this file"
+  },
+  "deployment_protocol": {
+    "schema": "braink.deployment-protocol.v1",
+    "source_commit": "a0ea2edf05481b71e88af73a2e6ef86001a3b379",
+    "function_modules": 155,
+    "module_families": 30,
+    "family_variants": 4,
+    "variant_colonies": 4,
+    "instance_count": 571,
+    "readback_complete": true,
+    "evidence": "integrations/protocol-qualification.json",
+    "specification": "PROTOCOL.md",
+    "mesh_port": 8766,
+    "installed_wheel_tests": {
+      "total": 38,
+      "protocol": 6,
+      "installed_wheels": true,
+      "status": "passed"
+    },
+    "website_execution": {
+      "job_id": "b6ada826a49e89c4589049359eb059a0",
+      "status": "passed",
+      "instances": 571,
+      "returncode": 0,
+      "catalogue_sha256": "3c8b63f74e5740214521986453c8739e870777077a3be92eba4f224dab9d9a2d"
+    },
+    "mesh_restart": {
+      "old_pid": 1720148,
+      "new_pid": 1721833,
+      "supervisor_restarted": true,
+      "subscription_preserved": true,
+      "inbox_preserved": true,
+      "preserved_messages": 1
+    }
+  }
+}

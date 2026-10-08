@@ -1,0 +1,17 @@
+{
+  "runtime": {
+    "schema": "braink.runtime-readiness.v1",
+    "runtime": "Keddeh Systems Runtime",
+    "database_readback": true,
+    "object_readback": true,
+    "ready": true
+  },
+  "experience": {
+    "schema": "keddeh.experience-transport-readback.v1",
+    "verified": true,
+    "participant": false,
+    "recorded_as_research": false,
+    "digest": "7e924fbb233f6c36393662cd2267cd28e89f1c21398324560dc013385c1335a4"
+  },
+  "ready": true
+}

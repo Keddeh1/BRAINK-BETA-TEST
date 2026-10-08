@@ -1,0 +1,20 @@
+{
+  "repository": "Keddeh1/Keddeh-SYSTEMS-Virtual-File-Space-ZCG-ARCHITECTURE",
+  "commit": "6c8d45a9fc8af9b041e1907133293023ef0c3330",
+  "source_prefix": "vfs_server",
+  "binding": "Byte-preserved implementation for each independent instance VFS",
+  "files": [
+    {
+      "path": "__init__.py",
+      "sha256": "5cbb3716711d74f598f6da85c792b5a19006014192e968ccf432841b323bac20"
+    },
+    {
+      "path": "model.py",
+      "sha256": "391d22cfd57fa3d7bc2fd127e461c0c96d64379b19e23c5a3d1154b9f29de70a"
+    },
+    {
+      "path": "store.py",
+      "sha256": "ca0282f1e370b7d08d566f40e4017964dc910a0b767818aee9214c14c1595695"
+    }
+  ]
+}

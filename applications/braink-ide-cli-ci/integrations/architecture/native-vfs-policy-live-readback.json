@@ -1,0 +1,17 @@
+{
+  "schema": "braink.native-vfs-policy-live-readback.v1",
+  "state": "PASSED",
+  "observed_at": 1791410701.8834813,
+  "instance": "braink-3eca41bf57728f873ffd736ee096e1a41ea05d8c0b89869142c122a499bff777",
+  "before_cursor": 76980,
+  "verified_event_page_count": 4,
+  "cursor_actor": 76984,
+  "cursor_observer": 76984,
+  "ready": true,
+  "native_child_limits": [
+    "Max file size             unlimited            unlimited            bytes     ",
+    "Max core file size        0                    0                    bytes     ",
+    "Max open files            256                  256                  files     "
+  ],
+  "native_child_host_pid": 2723070
+}
