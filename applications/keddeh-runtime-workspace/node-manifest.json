@@ -8,7 +8,8 @@
   "module_families": {
     "observation": [
       "overview",
-      "topology"
+      "topology",
+      "namespaces"
     ],
     "execution": [
       "console"
@@ -24,6 +25,10 @@
       "state",
       "model",
       "result-panel"
+    ],
+    "resident-mirror": [
+      "topology_sync",
+      "workspace-topology-store"
     ]
   },
   "variants": {
@@ -32,7 +37,8 @@
       "execution",
       "persistence",
       "delivery",
-      "composition"
+      "composition",
+      "resident-mirror"
     ]
   },
   "colonies": {
@@ -59,6 +65,8 @@
       "/api/runtime",
       "/api/vfs",
       "/api/braink-ci"
-    ]
+    ],
+    "topology_api": "/api/workspace/topology",
+    "topology_actor_operation": "topology-observation"
   }
 }
