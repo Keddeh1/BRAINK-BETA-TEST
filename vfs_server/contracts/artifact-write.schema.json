@@ -1,14 +1,50 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "title":"adapter://vfs/artifact-write",
-  "type":"object",
-  "required":["path","content_b64","source"],
-  "properties":{
-    "path":{"type":"string","minLength":1},
-    "content_b64":{"type":"string","contentEncoding":"base64"},
-    "source":{"type":"string","minLength":1},
-    "predecessor":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
-    "media_type":{"type":"string"}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "adapter://vfs/artifact-write",
+  "type": "object",
+  "required": [
+    "path",
+    "content_b64",
+    "source"
+  ],
+  "properties": {
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "content_b64": {
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "predecessor": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "continuation_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "expected_version": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    }
   },
-  "additionalProperties":false
+  "additionalProperties": false
 }
