@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {registerOllamaRoutes} from './ollama-transport.mjs';
+function harness(fetchImpl){const routes={};registerOllamaRoutes({get:(p,f)=>routes[p]=f,post:(p,f)=>routes[p]=f},{fetchImpl});return routes;}
+function response(){return {code:200,chunks:[],status(n){this.code=n;return this},setHeader(){},write(b){this.chunks.push(b);return true},end(){this.ended=true},json(b){this.data=b},on(){}};}
+test('preserves complete context and actual provider response',async()=>{let captured;const routes=harness(async(url,opts)=>{captured={url:String(url),body:JSON.parse(opts.body)};return new Response(JSON.stringify({model:'resident',message:{content:'actual'}}))});const body={model:'resident',messages:[{role:'system',content:'x'.repeat(3000)}],stream:false};const res=response();await routes['/api/ollama/chat']({body},res);assert.deepEqual(captured.body,body);assert.equal(captured.url,'http://127.0.0.1:11434/api/chat');assert.equal(JSON.parse(Buffer.concat(res.chunks)).model,'resident');});
+test('discovery failure never manufactures installed models',async()=>{const routes=harness(async()=>{throw Error('unreachable')});const res=response();await routes['/api/ollama/tags']({},res);assert.equal(res.code,503);assert.equal(res.data.error,'OLLAMA_UNREACHABLE');assert.equal(res.data.models,undefined);});
+test('uncertain execution is reported without a provider fallback',async()=>{let calls=0;const routes=harness(async()=>{calls++;throw Error('disconnected')});const res=response();await routes['/api/ollama/chat']({body:{}},res);assert.equal(calls,1);assert.equal(res.data.error,'OLLAMA_OUTCOME_UNKNOWN');});
