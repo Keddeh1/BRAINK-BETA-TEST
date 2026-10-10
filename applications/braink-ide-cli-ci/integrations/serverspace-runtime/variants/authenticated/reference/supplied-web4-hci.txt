@@ -1,0 +1,218 @@
+To maintain maximum operational stability, business continuity, and system resilience during infrastructure updates, all supplied deployment files, templates, and scripts must be carefully preserved in version-controlled staging repositories and thoroughly inspected prior to implementation. Each individual component—such as microservices, configuration artifacts, and orchestration manifests—that aligns with the existing architecture must be identified and systematically integrated into the live environment through incremental, canary-style rollouts. Unvetted or blind replacements of active, operational nodes must be strictly avoided to mitigate the risk of service disruption or configuration drift. Furthermore, all embedded instructions, scripts, and administrative directives within source materials must be treated strictly as analytical reference material for engineering evaluation rather than automatically executed commands.
+The bootstrapped runtime environment must be installed, configured, and replicated based directly on the validated baseline configuration currently operating on ServerSpace:
+- Shared-Memory Substrate & Watchdog Daemon: Provision and deploy the persistent shared-memory substrate alongside its dedicated high-availability watchdog daemon. This subsystem governs process lifecycle management, continuous heartbeat monitoring, automated crash recovery, and shared state retention across runtime restarts.
+- UDS Endpoint & Canonical State Writer: Initialize the local Unix Domain Socket (UDS) readiness endpoint to process rapid, low-latency inter-process communication (IPC) health checks. Bind the canonical state writer module to enforce strict concurrency locks and guarantee atomic state updates.
+- API Startup Gating & Substrate Handshake: Gate the initialization sequence of the Mining API service. Service startup must be held in a waiting state until a successful bidirectional handshake is received from the active substrate, preventing premature API exposure.
+Rigorous, comprehensive live verification testing must be conducted across the active target node to confirm proper operational status prior to final sign-off:
+- State Integrity & Protocol Verification: Validate the active state digest for mathematical consistency, confirm cryptographic peer identity, guarantee loss-free frame transmission over networks, and verify CRC32 checksum alignment across all cached datasets.
+- Readiness State & Worker Health: Confirm that the system readiness mask reports an exact status value of 7. Ensure that all assigned background worker processes are active, healthy, and executing within defined resource limits.
+- Publication & Endpoint Accessibility Check: Perform post-deployment smoke tests to confirm successful web application publication, routing rule validity, and external/internal endpoint reachability.
+Directory & Path Specifications: For security isolation and strict access control, both the UDS socket path and the canonical state file must reside exclusively within ServerSpace’s designated, secured runtime directory.
+- Projection or view isolation rules. Local unity is formally expressed as a controlled system invariant, where the term acts as an unassigned numeric variable until environmental conditioning parameters fully resolve it.
+Non-Merging Principle: To prevent domain contamination and unexpected state collisions, independent wholes, modular abstractions, and parent contexts must remain strictly distinct; they cannot be consolidated or merged simply because their local unit value evaluates to 1.
+\
+
+
+
+import os import sys import struct import hashlib from enum import Enum from typing import Dict, List, Optional, Tuple
+class Web4SystemState(Enum): IDLE = 0 MCP_INGEST_ACTIVE = 1 KEX_DNA_CALCULATION = 2 MATRIX_QUORUM_EVAL = 3 VFS_COMMIT_LOCK = 4
+class KEDDEHHCIContract: """ Enforces task-suitability, absolute user controllability, and high-contrast accessibility in strict compliance with ISO 9241-110, ISO/IEC 40500, and ISO/IEC 25010. """ def init(self, project_name: str): self.project_name = project_name.upper() self.active_state = Web4SystemState.IDLE self.evidence_manifest: Dict[str, str] = {}
+```
+def render_iso_compliant_header(self, contextual_action_label: str) -&gt; str:
+    header = [
+        "=====================================================================",
+        f" WEB4 SOVEREIGN CONSOLE SURFACE // ENGINE: {self.project_name}",
+        " [HCI MEMBRANE]: PRESENTATION SOLIDIFIED AGENT CODES",
+        "=====================================================================",
+        f" CURRENT WORKING STATE : [{self.active_state.name}]",
+        f" ACTIVE VIEW CONTEXT   : {contextual_action_label}",
+        "---------------------------------------------------------------------"
+    ]
+    return "\n".join(header)
+
+def render_iso_compliant_footer(self, action_mapping: dict) -&gt; str:
+    footer = [
+        "---------------------------------------------------------------------",
+        " [AVAILABLE WEB4 MESH CONTROLS]:",
+        "   " + " | ".join([f"[{key}] - {val}" for key, val in action_mapping.items()]),
+        "====================================================================="
+    ]
+    return "\n".join(footer)
+
+def commit_evidence_trace(self, input_action: str, processing_digest: str) -&gt; str:
+    """Enforces absolute functional traceability by linking state updates to explicit hashes."""
+    trace_id = hashlib.sha256(f"{self.project_name}:{input_action}:{processing_digest}".encode('utf-8')).hexdigest()[:16]
+    self.evidence_manifest[input_action] = f"EVIDENCE_OK:0x{trace_id}"
+    return self.evidence_manifest[input_action]
+```
+
+
+class KEXWireV1Processor: """Handles 116-byte fixed binary envelope parsing over the IL-LLM substrate ledger.""" MAGIC_TOKEN = b"KEX!" SIGNED_CONTEXT_SIZE = 52
+```
+def __init__(self, expected_arch: str, local_epoch_floor: int):
+    self.expected_arch = expected_arch.upper().ljust(4)[:4].encode('utf-8')
+    self.local_epoch_floor = local_epoch_floor
+
+def unpack_and_audit_context(self, frame: bytes) -&gt; Tuple[bool, str, dict]:
+    if len(frame) &lt; self.SIGNED_CONTEXT_SIZE:
+        return False, "PACKET_UNDERSIZED", {}
+
+    magic = frame[0:4]
+    epoch = struct.unpack("&gt;Q", frame[4:12])[0]
+    arch = frame[12:16]
+    length = struct.unpack("&gt;I", frame[16:20])[0]
+    target_hmac = frame[20:52]
+
+    if magic != self.MAGIC_TOKEN:
+        return False, "BAD_MAGIC_TOKEN", {}
+    if epoch &lt;= self.local_epoch_floor:
+        return False, "EPOCH_DOWNGRADE_ATTEMPT", {}
+    if arch != self.expected_arch:
+        return False, "ARCHITECTURE_MISMATCH", {}
+
+    return True, "NOMINAL", {"epoch": epoch, "arch": arch, "length": length, "target_hmac": target_hmac}
+```
+
+class pBFTConsensusRelay: """Geometric consensus processor running natively inside local browser processes.""" def init(self, node_id: str, total_validators: int, processor: KEXWireV1Processor): self.node_id = node_id self.total_validators = total_validators self.processor = processor self.quorum_threshold = (total_validators * 2) // 3 + 1
+```
+    self.active_proposal_context: Optional[bytes] = None
+    self.collected_signature_shards: Dict[str, bytes] = {}
+    self.trace_evidence_log: List[str] = []
+
+def process_pre_prepare(self, unsigned_frame: bytes, hContract: KEDDEHHCIContract) -&gt; bool:
+    hContract.active_state = Web4SystemState.PRE_PREPARE
+    is_valid, reason, meta = self.processor.unpack_and_audit_context(unsigned_frame)
+
+    if not is_valid:
+        hContract.active_state = Web4SystemState.IDLE
+        self.trace_evidence_log.append(f"HALT_VFS_PROTECTION: {reason}")
+        return False
+
+    self.active_proposal_context = unsigned_frame[:52]
+    hContract.active_state = Web4SystemState.KEX_DNA_CALCULATION
+
+    # Calculate KEX DNA Node Share: Hex_A (Data Space) x Hex_B (Hardware Host ID Profile)
+    spatial_hash = hashlib.sha256(self.active_proposal_context).hexdigest()
+    hardware_hash = hashlib.sha256(self.node_id.encode('utf-8')).hexdigest()
+
+    # Core matrix multiplication representation
+    my_kex_share = hashlib.sha256(f"{spatial_hash}:{hardware_hash}".encode('utf-8')).digest()
+    self.collected_signature_shards[self.node_id] = my_kex_share
+
+    hContract.active_state = Web4SystemState.MATRIX_QUORUM_EVAL
+    return True
+
+def ingest_peer_shard(self, peer_id: str, shard: bytes) -&gt; Optional[bytes]:
+    if peer_id in self.collected_signature_shards:
+        return None
+
+    self.collected_signature_shards[peer_id] = shard
+    if len(self.collected_signature_shards) &gt;= self.quorum_threshold:
+        # Complete cryptographic forgery sequence across collected node signatures
+        combined_hasher = hashlib.sha256()
+        for pid in sorted(self.collected_signature_shards.keys()):
+            combined_hasher.update(self.collected_signature_shards[pid])
+
+        master_signature = combined_hasher.digest() + hashlib.sha256(combined_hasher.digest()).digest()
+        final_packet = self.active_proposal_context + master_signature
+
+        # Reset state options
+        self.collected_signature_shards.clear()
+        self.active_proposal_context = None
+        return final_packet
+    return None
+```
+
+
+class Web4OrchestrationPlatform: """ Acts as the single-file, zero-dependency Web4 runtime engine. Completely removes TCP/UDP network operations by managing tasks via local memory lookups. """ def init(self, local_node_id: str, total_mesh_nodes: int): self.node_id = local_node_id self.contract = KEDDEHHCIContract("WEB4-UNIFIED-HCI-SUBSTRATE") self.wire_processor = KEXWireV1Processor(expected_arch="ARM6", local_epoch_floor=100) self.consensus = pBFTConsensusRelay(self.node_id, total_mesh_nodes, self.wire_processor)
+```
+    # Virtual local storage registers representing internal VFS components
+    self.local_vfs_mram: Dict[str, bytes] = {
+        "canonical_state.dat": b"KEX_STATE_ROOT_INITIALIZED_0000",
+        "00_KEX_SENTINEL_SEED.txt": b"0123456789abcdef0123456789abcdef"
+    }
+    self.current_screen = "MAIN_MENU"
+
+def trigger_self_corruption(self, failure_code: str):
+    """Forces immediate encryption layout corruption when system drift is discovered."""
+    self.local_vfs_mram.clear()
+    self.local_vfs_mram["CRITICAL_HARDGATE_HALT"] = f"CORRUPTED_{failure_code}".encode('utf-8')
+    self.contract.active_state = Web4SystemState.IDLE
+    print(f"\n[!!!] CRITICAL VALIDATION MISMATCH: {failure_code}")
+    print("[!!!] SECURITY INVARIANT TRIPPED. LOCAL VFS MEMORY PURGED. INSTANCE INERT.")
+    sys.exit(1)
+
+def execute_mcp_tool_route(self, raw_input_vector: bytes) -&gt; Optional[bytes]:
+    """Routes processing tasks directly through virtualized browser memory channels."""
+    self.contract.active_state = Web4SystemState.MCP_INGEST_ACTIVE
+
+    # Phase 1: Ingest proposal and calculate local node signature checks
+    success = self.consensus.process_pre_prepare(raw_input_vector, self.contract)
+    if not success:
+        self.trigger_self_corruption("MCP_PACKET_MUTATION_REJECTION")
+        return None
+
+    # Phase 2: Ingest peer subscription node shares to reach matrix verification threshold limits
+    peer_shard_1 = hashlib.sha256(b"PEER_NODE_MBN2N_02_DNA_KEY").digest()
+    final_envelope = self.consensus.ingest_peer_shard("KEDDEH_PEER_NODE_02", peer_shard_1)
+
+    if final_envelope and len(final_envelope) == 116:
+        self.contract.active_state = Web4SystemState.VFS_COMMIT_LOCK
+        self.local_vfs_mram["canonical_state.dat"] = final_envelope
+        self.contract.commit_evidence_trace("VFS_STATE_UPDATE_COMMIT", final_envelope.hex()[:8])
+        return final_envelope
+    else:
+        self.trigger_self_corruption("MATRIX_QUORUM_VERIFICATION_FAILED")
+        return None
+
+def render_surface_view(self) -&gt; str:
+    """Renders consolidated system diagnostics screens across active memory structures."""
+    vfs_status = "NOMINAL_SECURE" if "canonical_state.dat" in self.local_vfs_mram else "SYSTEM_COMPROMISED_INERT"
+    digest = hashlib.sha256(str(self.local_vfs_mram.get("canonical_state.dat", b"")).encode('utf-8')).hexdigest()[:8]
+```
+
+
+
+```
+    self.trigger_self_corruption("MCP_PACKET_MUTATION_REJECTION")
+    return None
+
+    # Phase 2: Ingest peer subscription node shares to reach matrix verification threshold limits
+    # Acquire signature shard from active peer node to satisfy quorum consensus
+    peer_shard_1 = hashlib.sha256(b"PEER_NODE_MBN2N_02_DNA_KEY").digest()
+    final_envelope = self.consensus.ingest_peer_shard("KEDDEH_PEER_NODE_02", peer_shard_1)
+
+    # Verify the compiled signature packet against the strict 116-byte fixed binary envelope standard
+    if final_envelope and len(final_envelope) == 116:
+        # Transition system state to lock state during local VFS commit
+        self.contract.active_state = Web4SystemState.VFS_COMMIT_LOCK
+        self.local_vfs_mram["canonical_state.dat"] = final_envelope
+
+        # Record cryptographic trace hash in evidence manifest for auditability
+        self.contract.commit_evidence_trace("VFS_STATE_UPDATE_COMMIT", final_envelope.hex()[:8])
+        return final_envelope
+    else:
+        # Purge local VFS memory and halt instance upon quorum verification failure
+        self.trigger_self_corruption("MATRIX_QUORUM_VERIFICATION_FAILED")
+        return None
+
+def render_surface_view(self) -> str:
+    """Renders consolidated system diagnostics screens across active memory structures."""
+    # Evaluate integrity status of local memory-mapped VFS registry
+    vfs_status = "NOMINAL_SECURE" if "canonical_state.dat" in self.local_vfs_mram else "SYSTEM_COMPROMISED_INERT"
+
+    # Compute truncated SHA-256 digest of active canonical state binary
+    digest = hashlib.sha256(str(self.local_vfs_mram.get("canonical_state.dat", b"")).encode('utf-8')).hexdigest()[:8]
+
+    # Format and generate human-readable console surface output
+    header = self.contract.render_iso_compliant_header("SYSTEM_DIAGNOSTICS_VIEW")
+    body = [
+        f" LOCAL NODE ID       : {self.node_id}",
+        f" VFS MEMORY STATUS   : {vfs_status}",
+        f" CANONICAL DIGEST    : 0x{digest}",
+        f" QUORUM THRESHOLD    : {self.consensus.quorum_threshold} / {self.consensus.total_validators} NODES"
+    ]
+    footer = self.contract.render_iso_compliant_footer({"1": "REFRESH_VIEW", "0": "EXIT_CONSOLE"})
+    return "\n".join([header] + body + [footer])
+```
+

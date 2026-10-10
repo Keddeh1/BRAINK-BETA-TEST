@@ -1,0 +1,77 @@
+{
+  "schema": "keddeh.hci-live-qualification.v1",
+  "observed_at": 1791639440.9863734,
+  "scope": "Authenticated read-only diagnostics; no consensus or mutation admission claim",
+  "instances": [
+    {
+      "identity": "serverspace/substrate-auth-canary",
+      "root": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-auth-canary",
+      "refreshes": 32,
+      "tested_widths": [
+        20,
+        80,
+        83
+      ],
+      "rejected_mutation_controls": 3,
+      "before_q": 79199,
+      "after_q": 79199,
+      "mutual_authentication": true,
+      "readiness_mask": 7,
+      "state_digest": "93fd0532fe354398fbac1f7954ad2eeca6648ddace7d3780c86a47c8aae7fadd",
+      "crc32": 3762097853,
+      "api": {
+        "host": "127.0.0.1",
+        "port": 38699,
+        "path": "/api/substrate",
+        "http_status": 200
+      }
+    },
+    {
+      "identity": "serverspace/substrate-replica",
+      "root": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-replica",
+      "refreshes": 32,
+      "tested_widths": [
+        20,
+        80,
+        83
+      ],
+      "rejected_mutation_controls": 3,
+      "before_q": 113285,
+      "after_q": 113285,
+      "mutual_authentication": true,
+      "readiness_mask": 7,
+      "state_digest": "c58d3a182cc7cf9c4acb739060253e14045dad532f6597159d45854c6f376da7",
+      "crc32": 1960532885,
+      "api": {
+        "host": "127.0.0.1",
+        "port": 42331,
+        "path": "/api/substrate",
+        "http_status": 200
+      }
+    },
+    {
+      "identity": "serverspace/substrate-primary",
+      "root": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-primary",
+      "refreshes": 32,
+      "tested_widths": [
+        20,
+        80,
+        83
+      ],
+      "rejected_mutation_controls": 3,
+      "before_q": 111748,
+      "after_q": 111749,
+      "mutual_authentication": true,
+      "readiness_mask": 7,
+      "state_digest": "37180e59893e3538c148312ccabbcf5a9b233b966f3daafe2c68c51410fd3a7e",
+      "crc32": 575620330,
+      "api": {
+        "host": "127.0.0.1",
+        "port": 40185,
+        "path": "/api/substrate",
+        "http_status": 200
+      }
+    }
+  ],
+  "supplied_source_sha256": "30f165f922f9020e25003cb7ea526900d563d94d076f0982621cc72e380523dd"
+}

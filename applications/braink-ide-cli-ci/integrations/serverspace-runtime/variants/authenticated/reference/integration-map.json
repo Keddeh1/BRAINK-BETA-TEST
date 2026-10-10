@@ -1,0 +1,28 @@
+{
+  "source": "supplied-web4-hci.txt",
+  "sha256": "30f165f922f9020e25003cb7ea526900d563d94d076f0982621cc72e380523dd",
+  "source_policy": "Preserved reference; never executed",
+  "integrations": {
+    "HCI": "hci.py uses existing authenticated substrate.handshake",
+    "KEXWireV1Processor": "strict 116-byte context parser; parsing is not admission",
+    "admission": "existing sectors/admission/web4_admission.py remains authoritative and unchanged",
+    "VFS": "existing canonical writer, mmap, locks, supervisor and enrolled contexts retained"
+  },
+  "source_defects": [
+    "Missing PRE_PREPARE enum member",
+    "Malformed constructors and duplicated source blocks",
+    "Peer hashes are synthetic, not authenticated votes",
+    "Concatenated digests are not an Ed25519 or FROST signature",
+    "Dictionary is volatile and is not the persistent VFS",
+    "Self-corruption destroys retained state",
+    "ISO compliance cannot be established by presentation labels"
+  ],
+  "excluded_from_production": [
+    "synthetic peer shards",
+    "hash-derived signature substitution",
+    "VFS purge",
+    "hardcoded sentinel seed",
+    "unsupported consensus or certification claims"
+  ],
+  "consensus_status": "This delivery does not implement FROST or pBFT; no consensus path is exposed as operational"
+}
