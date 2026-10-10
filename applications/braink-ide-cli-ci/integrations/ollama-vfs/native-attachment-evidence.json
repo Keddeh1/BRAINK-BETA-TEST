@@ -1,195 +1,204 @@
 {
   "all_ceremonies_readback": true,
-  "distinct_vfs_roots": 25,
-  "instances": 25,
+  "distinct_vfs_roots": 37,
+  "instances": 37,
   "mesh_exchange": {
-    "digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+    "digest": "95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
     "observer": {
       "artifact": {
-        "created_at": 1791606611.8506997,
-        "digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "created_at": 1791608394.2905796,
+        "digest": "95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
         "media_type": "application/json",
-        "path": "/messages/e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "path": "/messages/95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
         "predecessor": null,
         "size": 500,
-        "source": "braink-255dfe369e4daf7685e317a2554bc29b7cf9dafaf8da9716e1f7d214de8c4647"
+        "source": "braink-0ac8babd28fb87165c1618b3b398b671b0ca139f91a7cb66fdd4f47c84b80e0c"
       },
       "receipt": {
-        "artifact_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
-        "at": 1791606664.4153779,
+        "artifact_digest": "95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
+        "at": 1791608422.0635352,
         "detail": {
-          "expected_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
-          "observed_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+          "expected_digest": "95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
+          "observed_digest": "95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
           "size": 500
         },
         "kind": "OBSERVER_VFS_READBACK",
-        "path": "/messages/e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
-        "previous_receipt_digest": "70e2a0617b9331d9d5c0888128e13a978b159e1f3aa2230d769faeb663d54c6a",
-        "receipt_digest": "e2fc62e38abbc250ffe8a7b8fd8f72d78443543758e21bf9dd72efb70dcf9154",
-        "receipt_id": "OBSERVER_VFS_READBACK:e2fc62e38abbc250ffe8a7b8",
+        "path": "/messages/95bd241e9ac57067ab464b17595e81aec33ec1b6a37763dfff2dcde4f983d9c9",
+        "previous_receipt_digest": "c41e821398439142562b682bb44f823d8cdd3db7956250dbdd7de937ae74ab39",
+        "receipt_digest": "fd2ca500fa3a7a33fb54ade970f189e160ca0e9af9194edeec3297d1b7a85255",
+        "receipt_id": "OBSERVER_VFS_READBACK:fd2ca500fa3a7a33fb54ade9",
         "status": "VISIBLE"
       },
       "verified": true
     },
     "replayed": true,
-    "sequence": 275
+    "sequence": 276
   },
+  "model_weights_materialisation_verified": false,
+  "nested_vfs_reference_resolution_verified": true,
   "ollama_inference_verified": false,
   "schema": "keddeh.ollama.native-attachment.v1",
   "scope": "Current connected execution workspace; no production or Android inference claim",
-  "source_sha256": "a02612952e55275d8c1839f0f9c42aff1884b733233f946d083c55937b9141d5",
+  "source_sha256": "1876fe70d7243bf0114c084b2c534bfd82724b17d374d8c0e643ac3ca1e5e22c",
   "variant_inventory_observations": [
     {
-      "actor": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575",
-      "instance": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575",
+      "actor": "braink-e79202a4bee73795e20a48bf6e9f65759ec30aa2a2f84ed2ee8f5ea18e1846db",
+      "error_type": "URLError",
+      "instance": "braink-e79202a4bee73795e20a48bf6e9f65759ec30aa2a2f84ed2ee8f5ea18e1846db",
       "receipt": {
-        "digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+        "digest": "b93ffd9730ccf79d362c9ef234bb02d3d25f8b096b654a202d0be9592c5e137a",
         "observer": {
           "artifact": {
-            "created_at": 1791606611.7262444,
-            "digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+            "created_at": 1791608394.1364684,
+            "digest": "b93ffd9730ccf79d362c9ef234bb02d3d25f8b096b654a202d0be9592c5e137a",
             "media_type": "application/json",
-            "path": "/executions/b4788c5201b0478ba7a8e6c7399c75ef/result.json",
+            "path": "/executions/d96c2b6b50444317a24bf54016e3c748/result.json",
             "predecessor": null,
             "size": 142,
-            "source": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575"
+            "source": "braink-e79202a4bee73795e20a48bf6e9f65759ec30aa2a2f84ed2ee8f5ea18e1846db"
           },
           "receipt": {
-            "artifact_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
-            "at": 1791606664.3087685,
+            "artifact_digest": "b93ffd9730ccf79d362c9ef234bb02d3d25f8b096b654a202d0be9592c5e137a",
+            "at": 1791608421.9322343,
             "detail": {
-              "expected_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
-              "observed_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+              "expected_digest": "b93ffd9730ccf79d362c9ef234bb02d3d25f8b096b654a202d0be9592c5e137a",
+              "observed_digest": "b93ffd9730ccf79d362c9ef234bb02d3d25f8b096b654a202d0be9592c5e137a",
               "size": 142
             },
             "kind": "OBSERVER_VFS_READBACK",
-            "path": "/executions/b4788c5201b0478ba7a8e6c7399c75ef/result.json",
-            "previous_receipt_digest": "3f1b725a3174ea75a89361f059100b740f5ef7804c3b71b1d907640c71de6133",
-            "receipt_digest": "f3e2815e1f9fb91a77ec723445ce33f8210d370b861b93595da3e1a23c6b5430",
-            "receipt_id": "OBSERVER_VFS_READBACK:f3e2815e1f9fb91a77ec7234",
+            "path": "/executions/d96c2b6b50444317a24bf54016e3c748/result.json",
+            "previous_receipt_digest": "407840061ddf617d7b5bdb2a453b974dfe854815b34b71431ad59734082164c5",
+            "receipt_digest": "86f191d484af7c355e9477e4959d50f8a76c490adaefb8f0896d6c5ad21a603f",
+            "receipt_id": "OBSERVER_VFS_READBACK:86f191d484af7c355e9477e4",
             "status": "VISIBLE"
           },
           "verified": true
         }
       },
+      "request_digest": "ea1f187412434aa04c38da3d54ffefa9da698c7951b8496ec0de85b6e35ecaaa",
       "state": "UNREACHABLE_OR_INVALID",
       "variant": "variant://braink-ollama/console"
     },
     {
-      "actor": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105",
-      "instance": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105",
+      "actor": "braink-6133d3a412a7ce491ad4913a968628e5370443162010f6703342861c7b3baa0b",
+      "error_type": "URLError",
+      "instance": "braink-6133d3a412a7ce491ad4913a968628e5370443162010f6703342861c7b3baa0b",
       "receipt": {
-        "digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+        "digest": "63ce0f5bf097ea5ad0aad9d68ada49308cedf54cd0eab2d51cd0afd353dac2b0",
         "observer": {
           "artifact": {
-            "created_at": 1791606611.7640624,
-            "digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+            "created_at": 1791608394.181758,
+            "digest": "63ce0f5bf097ea5ad0aad9d68ada49308cedf54cd0eab2d51cd0afd353dac2b0",
             "media_type": "application/json",
-            "path": "/executions/b585433218654235a505b562ad897750/result.json",
+            "path": "/executions/28c6c878bc474d328d7a86805c11f729/result.json",
             "predecessor": null,
             "size": 142,
-            "source": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105"
+            "source": "braink-6133d3a412a7ce491ad4913a968628e5370443162010f6703342861c7b3baa0b"
           },
           "receipt": {
-            "artifact_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
-            "at": 1791606664.3383095,
+            "artifact_digest": "63ce0f5bf097ea5ad0aad9d68ada49308cedf54cd0eab2d51cd0afd353dac2b0",
+            "at": 1791608421.9678347,
             "detail": {
-              "expected_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
-              "observed_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+              "expected_digest": "63ce0f5bf097ea5ad0aad9d68ada49308cedf54cd0eab2d51cd0afd353dac2b0",
+              "observed_digest": "63ce0f5bf097ea5ad0aad9d68ada49308cedf54cd0eab2d51cd0afd353dac2b0",
               "size": 142
             },
             "kind": "OBSERVER_VFS_READBACK",
-            "path": "/executions/b585433218654235a505b562ad897750/result.json",
-            "previous_receipt_digest": "fdd81c91378ad2ef8af5dc814a628fc8abf405bd4dbc310a7974d74fd6ddc9fd",
-            "receipt_digest": "24cde25c190e36176669e77cdb928db0fae761791b29e28808c98e339b77bd2c",
-            "receipt_id": "OBSERVER_VFS_READBACK:24cde25c190e36176669e77c",
+            "path": "/executions/28c6c878bc474d328d7a86805c11f729/result.json",
+            "previous_receipt_digest": "c0e8484b7b9e3d4ec7760d2f1e9a187d47ed610acd623ebb994cc1e1b35412de",
+            "receipt_digest": "c6acb0c4f1ac94b891d5f08b516b7a93996be481dc6b4483840f5fcfd57b59e6",
+            "receipt_id": "OBSERVER_VFS_READBACK:c6acb0c4f1ac94b891d5f08b",
             "status": "VISIBLE"
           },
           "verified": true
         }
       },
+      "request_digest": "43b935e83786dc49c9310f663758f877d4f2848df3610541f82676cfe4cadd1d",
       "state": "UNREACHABLE_OR_INVALID",
       "variant": "variant://braink-ollama/ide"
     },
     {
-      "actor": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710",
-      "instance": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710",
+      "actor": "braink-42f98b9993367cd6027df67f60cdac6b4118632177908b2dfd3c65e584f11d34",
+      "error_type": "URLError",
+      "instance": "braink-42f98b9993367cd6027df67f60cdac6b4118632177908b2dfd3c65e584f11d34",
       "receipt": {
-        "digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+        "digest": "ec35ad9bc15adea39d3be904c66ea88325402885b50b663a0ad6faf9cbbc7c55",
         "observer": {
           "artifact": {
-            "created_at": 1791606611.7975323,
-            "digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+            "created_at": 1791608394.2265568,
+            "digest": "ec35ad9bc15adea39d3be904c66ea88325402885b50b663a0ad6faf9cbbc7c55",
             "media_type": "application/json",
-            "path": "/executions/83f969aeea4a4b0ebcdbbadbefc51e58/result.json",
+            "path": "/executions/0f8651b3799e44fb82ba2a66ddde0370/result.json",
             "predecessor": null,
             "size": 142,
-            "source": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710"
+            "source": "braink-42f98b9993367cd6027df67f60cdac6b4118632177908b2dfd3c65e584f11d34"
           },
           "receipt": {
-            "artifact_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
-            "at": 1791606664.3734794,
+            "artifact_digest": "ec35ad9bc15adea39d3be904c66ea88325402885b50b663a0ad6faf9cbbc7c55",
+            "at": 1791608422.013924,
             "detail": {
-              "expected_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
-              "observed_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+              "expected_digest": "ec35ad9bc15adea39d3be904c66ea88325402885b50b663a0ad6faf9cbbc7c55",
+              "observed_digest": "ec35ad9bc15adea39d3be904c66ea88325402885b50b663a0ad6faf9cbbc7c55",
               "size": 142
             },
             "kind": "OBSERVER_VFS_READBACK",
-            "path": "/executions/83f969aeea4a4b0ebcdbbadbefc51e58/result.json",
-            "previous_receipt_digest": "78c2b49556ca95113039a057ec34640913d85a0d1c1a57f68657fcaa6470a8fa",
-            "receipt_digest": "e732a664c824adccb7667b37c653c506bb786d210626cfb6361ba02cf8e3681b",
-            "receipt_id": "OBSERVER_VFS_READBACK:e732a664c824adccb7667b37",
+            "path": "/executions/0f8651b3799e44fb82ba2a66ddde0370/result.json",
+            "previous_receipt_digest": "37e17de01a2c10ae5c059ca81e5a098abfb8c96316717e1526d9fecf67bb264e",
+            "receipt_digest": "3feaf30c3db5d9154595d609f392cbe9d565c2e9ad89e5d9b254e19fcf97d1e9",
+            "receipt_id": "OBSERVER_VFS_READBACK:3feaf30c3db5d9154595d609",
             "status": "VISIBLE"
           },
           "verified": true
         }
       },
+      "request_digest": "0c4cb87baa73a0b3ca6cd1340187d1990b532e36957086a9bbc026de76d5872d",
       "state": "UNREACHABLE_OR_INVALID",
       "variant": "variant://braink-ollama/cli"
     },
     {
-      "actor": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73",
-      "instance": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73",
+      "actor": "braink-9d9cc66ca43d2610399186dbf9ef42153605cf98abca168e75baef979b98f687",
+      "error_type": "URLError",
+      "instance": "braink-9d9cc66ca43d2610399186dbf9ef42153605cf98abca168e75baef979b98f687",
       "receipt": {
-        "digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+        "digest": "313afdf07bd6f3855c143bc99da7dcdf7b638d2f6a88b87a51beabb598cc64b3",
         "observer": {
           "artifact": {
-            "created_at": 1791606611.8335135,
-            "digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+            "created_at": 1791608394.2706816,
+            "digest": "313afdf07bd6f3855c143bc99da7dcdf7b638d2f6a88b87a51beabb598cc64b3",
             "media_type": "application/json",
-            "path": "/executions/872c809a0da540ad9d3853c02cc7e05d/result.json",
+            "path": "/executions/7960c28b4f60441495c7965ffe933875/result.json",
             "predecessor": null,
             "size": 142,
-            "source": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73"
+            "source": "braink-9d9cc66ca43d2610399186dbf9ef42153605cf98abca168e75baef979b98f687"
           },
           "receipt": {
-            "artifact_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
-            "at": 1791606664.4044333,
+            "artifact_digest": "313afdf07bd6f3855c143bc99da7dcdf7b638d2f6a88b87a51beabb598cc64b3",
+            "at": 1791608422.0523617,
             "detail": {
-              "expected_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
-              "observed_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+              "expected_digest": "313afdf07bd6f3855c143bc99da7dcdf7b638d2f6a88b87a51beabb598cc64b3",
+              "observed_digest": "313afdf07bd6f3855c143bc99da7dcdf7b638d2f6a88b87a51beabb598cc64b3",
               "size": 142
             },
             "kind": "OBSERVER_VFS_READBACK",
-            "path": "/executions/872c809a0da540ad9d3853c02cc7e05d/result.json",
-            "previous_receipt_digest": "75b3f9a6f30c6c8c34d80d401144e99125390e924b9dd396d3c66802c3c7f8bb",
-            "receipt_digest": "d76a876ed464894914f1ecc4826aedb288b603541e300544da66418b77ff2680",
-            "receipt_id": "OBSERVER_VFS_READBACK:d76a876ed464894914f1ecc4",
+            "path": "/executions/7960c28b4f60441495c7965ffe933875/result.json",
+            "previous_receipt_digest": "109fe6c15d663ab18549ad6d6c71096afa258652e91572752873ce5ecffa8422",
+            "receipt_digest": "6462ae69e428efa6149ced663db445a717a5d23efcce48efd2fde2123a4f85a3",
+            "receipt_id": "OBSERVER_VFS_READBACK:6462ae69e428efa6149ced66",
             "status": "VISIBLE"
           },
           "verified": true
         }
       },
+      "request_digest": "61ae4f2caf0468571017f920d23e0a842c8ee4b61e78a802b82cb3bb34a2877f",
       "state": "UNREACHABLE_OR_INVALID",
       "variant": "variant://braink-ollama/ci"
     }
   ],
   "qualification": {
+    "native_python_tests_passed": 11,
     "javascript_tests_passed": 7,
-    "native_python_tests_passed": 4,
     "ceremony_resume_readback_verified": true,
-    "nested_model_volume_materialisation_verified": false,
-    "android_build_verified": false,
-    "production_deployment_verified": false
+    "production_deployment_verified": false,
+    "android_build_verified": false
   }
 }

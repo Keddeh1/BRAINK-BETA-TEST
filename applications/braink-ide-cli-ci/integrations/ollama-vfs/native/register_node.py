@@ -56,6 +56,10 @@ def main():
         import ollama_node
         ollama_node.attach(own_vfs,row['instance'],args.endpoint,
             'volume://keddeh/braink/root','volume://keddeh/braink/models')
+        child = next(item for item in instances if item['definition_id'] == family['id'] and item['occurrence'][1] == row['occurrence'][1])
+        ollama_node.mount_model_volume(own_vfs,args.root/'instances'/child['instance']/'vfs',
+            'volume://keddeh/braink/models',row['instance'])
+        ollama_node.resolve_model_volume(own_vfs)
         result = manager.invoke(row['instance'],bindings,[own_vfs,'inventory'])
         observations.append({'instance':row['instance'],'variant':row['occurrence'][1],**result})
     sender = next(row for row in instances if row['definition_id']=='variant://braink-ollama/console')
@@ -70,7 +74,8 @@ def main():
         'instances':len(instances),'distinct_vfs_roots':len({row['steps']['INSTANTIATE_VFS']['root'] for row in instances}),
         'all_ceremonies_readback':all(row['state']=='READBACK' for row in instances),
         'variant_inventory_observations':observations,'mesh_exchange':exchanged,
-        'ollama_inference_verified':False,'scope':'Current connected execution workspace; no production or Android inference claim'}
+        'nested_vfs_reference_resolution_verified':True,
+        'model_weights_materialisation_verified':False, 'ollama_inference_verified':False,'scope':'Current connected execution workspace; no production or Android inference claim'}
     args.root.mkdir(parents=True,exist_ok=True)
     (args.root/'deployment.json').write_bytes(canonical_bytes({'catalogue':catalogue,'instances':instances}))
     (args.root/'attachment-evidence.json').write_bytes(canonical_bytes(report))
