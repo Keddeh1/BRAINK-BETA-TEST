@@ -1,4 +1,5 @@
 """Add SDK instances to the existing supervisor, canary first; preserve all owners."""
+import asyncio
 import fcntl
 import json
 import os
@@ -62,7 +63,10 @@ def main():
                 break
             except Exception:time.sleep(.1)
         else:raise RuntimeError('New instance not ready; rollout stops before next instance')
-        instances.append({'identity':identity,'root':str(root),'url':'http://127.0.0.1:'+str(port)+'/mcp'})
+        from qualify_resolve_mcp import qualify
+        url='http://127.0.0.1:'+str(port)+'/mcp'
+        asyncio.run(qualify(url,identity))
+        instances.append({'identity':identity,'root':str(root),'url':url})
     result={'source_commit':revision,'software':str(software),'rollback_manifest':str(rollback),
             'instances':instances,'scope':'Loopback official SDK services; independent VFS, retained substrate nodes'}
     atomic(runtime/'resolve-deployment.json',result)
