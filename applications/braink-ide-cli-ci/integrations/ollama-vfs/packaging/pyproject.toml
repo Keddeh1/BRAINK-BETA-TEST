@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "braink-ollama-node"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = ["braink-node-core>=0.1.0"]
+[project.scripts]
+braink-model-node = "node_cli:main"
+braink-model-register = "register_node:main"
+braink-model-ci = "sector_ci:main"
+[tool.setuptools]
+py-modules = ["ollama_node", "node_cli", "register_node", "sector_ci", "test_ollama_node"]
+[tool.setuptools.data-files]
+"." = ["ollama-transport.mjs", "ollama-transport.test.mjs", "vfs-ollama-actor.mjs", "vfs-ollama-actor.test.mjs", "native-route-binding.test.mjs"]

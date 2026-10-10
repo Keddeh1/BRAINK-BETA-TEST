@@ -1,0 +1,25 @@
+{
+  "distribution": "braink-ollama-node",
+  "wheel": "braink_ollama_node-0.1.0-py3-none-any.whl",
+  "sha256": "084cd401d1d67f854af679bbb38f84c6fa50bf8cc3bf9836f972b8efbaec4ac5",
+  "source_sha256": {
+    "test_ollama_node.py": "f73f27eaa2b872683269273538a68015a0e091947a28540bfca2ec2230158355",
+    "sector_ci.py": "851769dee7072b97617c1e02ed2dcb67d40d93aacc16f1c3ab3e4806c234aa85",
+    "node_cli.py": "6f351cf13590e1e3ce762d610d88d80fc6aec723669e37e80399e8bb4b75e79f",
+    "register_node.py": "0197bc72a3383f23258b48ba3327cd7c09b3f7ad8e578db902f54276ff6ad072",
+    "ollama_node.py": "f8a52f6c967afdc94c57bcf48dea02e29e9c65fa3ef8d77209268770f6029ddb"
+  },
+  "build_exit_code": 0,
+  "installed_qualification": true,
+  "installed_checks": {
+    "native": {
+      "exit_code": 0,
+      "tests": 13
+    },
+    "console": {
+      "exit_code": 0,
+      "tests": 7
+    }
+  },
+  "native_protocol_regressions_passed": 7
+}

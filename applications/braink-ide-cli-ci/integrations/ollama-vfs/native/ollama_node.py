@@ -1,5 +1,6 @@
 """Ollama execution attached to the owner's VFS; no replacement identity algebra."""
 import json
+import hashlib
 import fcntl
 from pathlib import Path
 from urllib.error import HTTPError
@@ -61,9 +62,50 @@ def resolve_model_volume(root):
     if reference is None:
         raise ValueError('Model volume reference absent')
     document = json.loads(parent.read_content(reference.digest))
+    if not Path(document['child_root']).is_dir():
+        raise FileNotFoundError('Referenced model VFS backing is unavailable')
     child = VFSStore(document['child_root'])
     child.read_content(document['definition_digest'])
     return document
+
+
+def index_model_file(root, filename, model, license_record, actor):
+    """Retain a verified backing-file reference without duplicating the model weights."""
+    source = Path(filename).resolve(strict=True)
+    checksum = hashlib.sha256()
+    size = 0
+    with source.open('rb') as stream:
+        before = source.stat()
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            checksum.update(chunk)
+            size += len(chunk)
+        after = source.stat()
+    if (before.st_size, before.st_mtime_ns, before.st_ino) != (after.st_size, after.st_mtime_ns, after.st_ino) or size != after.st_size:
+        raise RuntimeError('Model backing file changed during readback')
+    document = {'model': model, 'license': license_record, 'backing_file': str(source),
+        'sha256': checksum.hexdigest(), 'size': size, 'custody': 'EXTERNAL_BACKING_REFERENCE',
+        'inference_qualification': 'NOT_EXECUTED'}
+    key = hashlib.sha256(model.encode()).hexdigest()
+    return retain(root, '/models/' + key + '.json', document, actor)
+
+
+def verify_model_file(root, model):
+    store = VFSStore(root)
+    key = hashlib.sha256(model.encode()).hexdigest()
+    record = store.resolve_path('/models/' + key + '.json')
+    if record is None:
+        raise ValueError('Model backing reference absent')
+    document = json.loads(store.read_content(record.digest))
+    checksum = hashlib.sha256()
+    size = 0
+    with Path(document['backing_file']).open('rb') as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b''):
+            checksum.update(chunk)
+            size += len(chunk)
+    if checksum.hexdigest() != document['sha256'] or size != document['size']:
+        raise RuntimeError('Model backing file readback differs')
+    return {'model': model, 'sha256': document['sha256'], 'size':size, 'backing_verified': True,
+        'inference_qualification':document['inference_qualification']}
 
 
 def execute(root, operation, payload=None, timeout=300, request_id=None):

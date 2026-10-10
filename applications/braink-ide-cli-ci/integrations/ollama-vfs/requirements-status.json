@@ -1,0 +1,25 @@
+{
+  "scope": "BRAINK Ollama model-node sector in the connected execution workspace",
+  "verified": {
+    "function_module_catalogue": "Operational Python functions and lexical closures source-pinned by native FunctionVisitor",
+    "composition": "Native families, four variants, one colony and dedicated shared model-vault custody",
+    "instance_vfs": "Separate native VFS roots with subscriptions, ceremonies and observer readbacks",
+    "networking": "Actual owner hub and IL-LLM mesh exchange/inbox readback",
+    "execution_continuity": "Retained requests, changed-input rejection, interrupted dispatch and replay",
+    "nested_vfs": "Backed dedicated vault references; resolution rejects missing backing",
+    "model_backing_custody": "Streaming checksum and tamper checks tested on labelled test artifacts",
+    "own_ci": "Real host checks invoked through instantiated CI module; outputs retained in own VFS"
+  },
+  "unresolved": {
+    "ollama_carrier": "No executable, configured URL or listening default endpoint in this workspace; Docker daemon unavailable",
+    "model_weights": "No actual LLM weights imported or pulled; test bytes are not models",
+    "inference": "No completed model inference verified",
+    "interfaces": "Existing console integration corrected in source; operational variant dispatcher implemented. Complete IDE and production UI flows not qualified.",
+    "production": "Source is on additive GitHub branch; production website attachment not deployed by this change",
+    "android": "Source correction present; APK compilation and device execution not qualified"
+  },
+  "physical_workspace_observation": {
+    "free_disk_bytes_approximate": 178000000,
+    "observation_is_not_a_virtual_address_limit": true
+  }
+}

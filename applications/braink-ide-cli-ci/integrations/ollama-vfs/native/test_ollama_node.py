@@ -79,4 +79,22 @@ class NativeActorTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 ollama_node.mount_model_volume(self.root,child,'volume://models','native-actor')
 
+    def test_model_backing_is_verified_without_claiming_inference(self):
+        weights=self.root/'model-test-bytes.bin'
+        weights.write_bytes(b'test backing bytes, not an LLM')
+        ollama_node.index_model_file(self.root,weights,'test-artifact',{'classification':'TEST_ONLY'},'native-actor')
+        observed=ollama_node.verify_model_file(self.root,'test-artifact')
+        self.assertTrue(observed['backing_verified'])
+        self.assertEqual(observed['inference_qualification'],'NOT_EXECUTED')
+        weights.write_bytes(b'altered')
+        with self.assertRaises(RuntimeError):ollama_node.verify_model_file(self.root,'test-artifact')
+    def test_deleted_volume_is_not_silently_recreated(self):
+        import shutil
+        child=self.root/'child'
+        ollama_node.retain(child,'/definition.json',{'volume':'models'},'volume')
+        ollama_node.mount_model_volume(self.root,child,'volume://models','native-actor')
+        shutil.rmtree(child)
+        with self.assertRaises(FileNotFoundError):ollama_node.resolve_model_volume(self.root)
+        self.assertFalse(child.exists())
+
 if __name__=='__main__':unittest.main()
