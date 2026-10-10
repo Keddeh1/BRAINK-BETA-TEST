@@ -1,0 +1,141 @@
+--- a/server.ts
++++ b/server.ts
+@@ -1,3 +1,4 @@
++import { registerOllamaRoutes } from './ollama-transport.mjs';
+ import express from 'express';
+ import { createServer } from 'http';
+ import { WebSocketServer, WebSocket } from 'ws';
+@@ -1668,132 +1669,7 @@
+     } catch (e) { res.status(500).json({ error: 'Scale failed' }); }
+   });
+ 
+-  app.post('/api/ollama/chat', async (req, res) => {
+-    const { model, messages, stream } = req.body;
+-    const OLLAMA_URL = process.env.VITE_OLLAMA_URL || 'http://localhost:11434';
+-    
+-    try {
+-      // 0. TOKEN & CONTEXT BOUNDARY PROTECTION:
+-      // Strip error payloads and enforce sliding window of the last 10 messages with character capping
+-      const rawMessages: Array<{ role: string; content: string }> = Array.isArray(messages) ? messages : [];
+-      const sanitizedMessages = rawMessages
+-        .filter(m => m && typeof m.content === 'string')
+-        .map(m => {
+-          let text = m.content;
+-          // Clean out recursive error diagnostics so they don't bloat prompt tokens
+-          if (text.startsWith('ERROR:') && text.includes('System Diagnostics:')) {
+-            text = text.split('\n\nSystem Diagnostics:')[0].replace(/^ERROR:\s*/, 'Notice: ');
+-          }
+-          if (text.length > 2000) {
+-            text = text.slice(0, 2000) + '... [truncated for context safety]';
+-          }
+-          return { role: m.role === 'assistant' ? 'assistant' : 'user', content: text };
+-        })
+-        .slice(-10); // Strict sliding window: 10 turns max
+-
+-      const lastMsg = sanitizedMessages[sanitizedMessages.length - 1]?.content || "";
+-      
+-      // 1. CLASSIFY & DECODE
+-      const inputSymbol = lastMsg;
+-      const classification = inputSymbol.length > 500 ? 'HEAVY_BLOB' : 'INSTRUCTION_SEQUENCE';
+-      
+-      // 2. MEANING & ADDRESS RESOLUTION (1x Boundary)
+-      const manifoldCoord = BrainkAlgebraEngine.resolveSemanticCollision(inputSymbol, model || "default");
+-      const injectiveAddr = `kex::1x${manifoldCoord.toString(16).toUpperCase()}`;
+-      
+-      console.log(`[Braink] Symbolic Entry: Class=${classification} Addr=${injectiveAddr}`);
+-      
+-      // 3. STATE & TRANSITION (The AI Inference)
+-      let responseData;
+-
+-      if (process.env.VITE_OLLAMA_URL) {
+-        const response = await axios.post(`${OLLAMA_URL}/api/chat`, {
+-          model: model || 'llama3',
+-          messages: sanitizedMessages,
+-          stream: stream || false
+-        }, { timeout: 30000 });
+-        responseData = response.data;
+-      } else {
+-        const systemInstruction = `You are the KEDDEH Intelligence Stream (kex::1xBRAINK_CORE). 
+-Current Injective Address: ${injectiveAddr}. 
+-State: ACTIVE. 
+-Constraint: Logical Identity != Physical Placement.
+-Provide engineering-aligned responses with rigorous discipline.`;
+-
+-        // Format for @google/genai SDK v2
+-        const contents = sanitizedMessages.map(m => ({
+-          role: m.role === 'assistant' ? 'model' : 'user',
+-          parts: [{ text: m.content }]
+-        }));
+-
+-        const geminiResult = await ai.models.generateContent({
+-          model: "gemini-3.8-flash",
+-          contents: contents.length > 0 ? contents : [{ role: 'user', parts: [{ text: inputSymbol || 'System ping' }] }],
+-          config: {
+-            systemInstruction,
+-            thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+-            maxOutputTokens: 2048,
+-            temperature: 0.2
+-          }
+-        });
+-        
+-        responseData = {
+-          model: model || 'gemini-3.8-flash',
+-          created_at: new Date().toISOString(),
+-          message: {
+-            role: 'assistant',
+-            content: geminiResult.text || "NO_RESPONSE_FROM_SUBSTRATE"
+-          },
+-          done: true
+-        };
+-      }
+-
+-      // 4. OBSERVED TRANSITION: Injecting Invariant Metadata
+-      if (responseData && typeof responseData === 'object') {
+-        responseData.braink_metadata = {
+-          manifold_coordinate: manifoldCoord,
+-          injective_address: injectiveAddr,
+-          deterministic_lock: BrainkAlgebraEngine.evaluateMaterialLock(manifoldCoord, Date.now()),
+-          authority: process.env.VITE_OLLAMA_URL ? "RING_3_PROXIED" : "KEDDEH_NATIVE_SUBSTRATE",
+-          layer_1_root: "RESERVED"
+-        };
+-      }
+-
+-      res.json(responseData);
+-    } catch (err) {
+-      const errorMsg = err instanceof Error ? err.message : String(err);
+-      console.error(`[Ollama] Substrate error: ${errorMsg}`);
+-      
+-      res.status(503).json({ 
+-        error: "AI Substrate Unreachable", 
+-        detail: errorMsg,
+-        system_diagnostics: {
+-          error: errorMsg,
+-          suggestion: "Check Gemini API configuration or Ollama service state."
+-        }
+-      });
+-    }
+-  });
+-
+-  app.get('/api/ollama/tags', async (_req, res) => {
+-    const OLLAMA_URL = process.env.VITE_OLLAMA_URL || 'http://localhost:11434';
+-    try {
+-      if (process.env.VITE_OLLAMA_URL) {
+-        const response = await axios.get(`${OLLAMA_URL}/api/tags`, { timeout: 5000 });
+-        res.json(response.data);
+-      } else {
+-        res.json({
+-          models: [
+-            { name: "llama3", size: "8.0GB", details: { family: "llama", parameter_size: "8B" } },
+-            { name: "mistral", size: "4.1GB", details: { family: "mistral", parameter_size: "7B" } },
+-            { name: "gemini-substrate", size: "CLOUD", details: { family: "gemini", parameter_size: "VAR" } }
+-          ]
+-        });
+-      }
+-    } catch (err) {
+-      res.json({ models: [{ name: "gemini-substrate", size: "CLOUD" }] });
+-    }
+-  });
++  registerOllamaRoutes(app);
+ 
+   app.get('/api/software/registry', (_req, res) => {
+     res.json({ ok: true, packages: GLOBAL_SOFTWARE_REGISTRY.getPackages() });

@@ -1,0 +1,13 @@
+{
+  "archive_sha256": "e8aef970074f538937600bdde7baca22171906c75978c741429ed62ef77a2865",
+  "original_server_sha256": "a1bb6ac4f818264c31351215f6d85de737a0bf8fcb5efccb8450734d8d49b65c",
+  "corrected_server_sha256": "5b9dc1cad65a626c78d48750bed37296a661f4227bf1cfb71a9fce36e54a3c08",
+  "entrypoints": {
+    "chat": "server.ts:1671",
+    "inventory": "server.ts:1778"
+  },
+  "defect": "Default localhost binding was declared but bypassed when VITE_OLLAMA_URL was absent.",
+  "replacement": "registerOllamaRoutes forwards actual Ollama responses, preserves submitted context and reports actual transport failures. Native actor attachment is available through actor/executionContext options.",
+  "live_inference_verified": false,
+  "patch_applied_to_exact_archive_source_verified": true
+}
