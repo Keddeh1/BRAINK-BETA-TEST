@@ -1,0 +1,66 @@
+{
+  "schema": "keddeh.hosted-resolve-publication.v1",
+  "source_commit": "ccae4d39defcd7db821b0227dd061755df96f4ec",
+  "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+  "saved_version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_fb3e2ad61448819189bdc2cd49467e60",
+  "version_number": 48,
+  "deployment": {
+    "id": "appgdep_6aca56cf90c08191ac0227bdc212c58b",
+    "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+    "title": "KEDDEH.COM/KEDDEH-SYSTEM-RUNTIME",
+    "version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_fb3e2ad61448819189bdc2cd49467e60",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site",
+    "has_mcp": true,
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6aa503aa595481919d947eef56f2556f",
+    "failure_message": null,
+    "env_set_revision": 6,
+    "updated_at": "2026-10-10T15:16:52.192907+00:00"
+  },
+  "access": {
+    "mode": "public",
+    "revision": 2
+  },
+  "mcp_url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site/mcp",
+  "archive_storage": {
+    "archive_format": "tar",
+    "sediment_file_id": "file_000000008bd881faa3d19a5465e17b82",
+    "content_hash": "sha256:0a284803f10354bd24b1d79800b40f7712ed9600dd21d2a40a49cebe85210295",
+    "size_bytes": 29562880,
+    "file_count": 183
+  },
+  "build": "node scripts/run-framework.mjs build: PASS",
+  "regression_checks": {
+    "passed": 30
+  },
+  "live_worker_qualification": {
+    "engine": "workerd/Miniflare",
+    "actual_bindings": [
+      "D1 SQLite",
+      "R2"
+    ],
+    "sdk": "@modelcontextprotocol/sdk 1.32.0",
+    "validator": "CfWorkerJsonSchemaValidator",
+    "concurrent_replays": 16,
+    "rest_readback": true,
+    "anonymous_denied": true,
+    "scope": "Local Worker HTTP qualification using explicit test identity; not production authentication attestation"
+  },
+  "hosted_database_tables_verified": [
+    "mcp_commands",
+    "vfs_objects"
+  ],
+  "external_smoke": {
+    "result": "BLOCKED",
+    "operation": "HTTPS request to deployed Site through configured proxy",
+    "reason": "Tunnel connection failed: 403 Forbidden"
+  },
+  "independent_assessment_document": null,
+  "managed_environment_publication": {
+    "result": "UNAVAILABLE_OPERATION",
+    "reason": "Exposed cloud environment connector provides status only; no configuration-write or publish tool is exposed"
+  },
+  "local_nodes": "Retained; hosted variant uses independent VFS namespace serverspace-resolve-hosted"
+}
