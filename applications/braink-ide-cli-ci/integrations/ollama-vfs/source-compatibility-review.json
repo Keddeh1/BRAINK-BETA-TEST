@@ -1,0 +1,176 @@
+{
+  "schema": "braink.source-compatibility.v1",
+  "scope": "Latest eleven supplied data-library files and the installed additive node",
+  "sources": [
+    {
+      "file": "colab_substrate_mount.py",
+      "sha256": "a2c0e2c98a5301d708b66b072f7cdbfa47baadb56bb74b70613472f3493a81c7",
+      "bytes": 922521,
+      "original_modified": false,
+      "executed_during_review": false,
+      "syntax": "NOTEBOOK_OR_SYNTAX_REQUIRES_EXTRACTION",
+      "syntax_error_line": 286
+    },
+    {
+      "file": "k_cloud_substrate_master_daemon.py",
+      "sha256": "17414b23a824cd73452ab4118de70157f0e4837c287044f9b18655df03488b25",
+      "bytes": 690652,
+      "original_modified": false,
+      "executed_during_review": false,
+      "syntax": "NOTEBOOK_OR_SYNTAX_REQUIRES_EXTRACTION",
+      "syntax_error_line": 348
+    },
+    {
+      "file": "copy_of_untitled3.py",
+      "sha256": "c0ae46a51de0d00d5fb40d61700b6812c67e504fe604408c601214176e8c86f5",
+      "bytes": 153843,
+      "original_modified": false,
+      "executed_during_review": false,
+      "syntax": "NOTEBOOK_OR_SYNTAX_REQUIRES_EXTRACTION",
+      "syntax_error_line": 64
+    },
+    {
+      "file": "keddeh-systems-hcf-workstation+braink-ai.zip",
+      "sha256": "7d39b6f1941bc447f4afd498243c6171cd6231b8d117b1e228c5550b214de002",
+      "bytes": 3312374,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 577,
+      "uncompressed_bytes": 3228144,
+      "embedded_instruction_files": [
+        "AGENTS.md"
+      ],
+      "bootstrap_sources": [
+        {
+          "path": "scripts/setup_dev_env.sh",
+          "sha256": "b65ccecdc9c56d99619008872bfae69fbaad0937aedbc16983b519b09f4743f7"
+        },
+        {
+          "path": "app/applet/scripts/setup_dev_env.sh",
+          "sha256": "86c11a6099a203bcc0c525564c36362830d5820c6edebf43ffa69347d5d6cbd9"
+        }
+      ]
+    },
+    {
+      "file": "bilateral_discrepancy_solver.py",
+      "sha256": "d096d679ecbf4bc358a34b721a236a813d66318e86e8cf5ea16fdb0eaabb87e2",
+      "bytes": 1301600,
+      "original_modified": false,
+      "executed_during_review": false,
+      "syntax": "NOTEBOOK_OR_SYNTAX_REQUIRES_EXTRACTION",
+      "syntax_error_line": 9660
+    },
+    {
+      "file": "ORIGIN OF ZERO - KEDDEH SYSTEMS RESEARCH .pdf",
+      "sha256": "d2edca61c93d34b528b50811db4227d1b006b4211d8f110680c8f023c58772d2",
+      "bytes": 788682,
+      "original_modified": false,
+      "executed_during_review": false,
+      "inspection_scope": "Preserved and hash-inventoried; research PDF not reinterpreted as executable code"
+    },
+    {
+      "file": "braink-console---2.1 (1).zip",
+      "sha256": "3521c600722f31597542e26eaceb707f68e1236f7886681942a706bfac26a4d0",
+      "bytes": 462874,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 38,
+      "uncompressed_bytes": 458316,
+      "embedded_instruction_files": [],
+      "bootstrap_sources": []
+    },
+    {
+      "file": "android-apk-servers (1).zip",
+      "sha256": "eea7e2346d60a68a44d97f2e67670c354cb0f9ca1a3b3f7a85f158dd9a8c7e53",
+      "bytes": 491472,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 143,
+      "uncompressed_bytes": 470368,
+      "embedded_instruction_files": [
+        "AGENTS.md"
+      ],
+      "bootstrap_sources": []
+    },
+    {
+      "file": "keddeh-systems.zip",
+      "sha256": "603a911f16f3b91e97f5044259f9e6eebee02f9b70fb94dc036996a84126580c",
+      "bytes": 670417,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 109,
+      "uncompressed_bytes": 653431,
+      "embedded_instruction_files": [],
+      "bootstrap_sources": []
+    },
+    {
+      "file": "keddeh-systems-workstations.zip",
+      "sha256": "1bd8009ddcf1a61a61e2a18493f79d3341f4b8203f05b193db5ca74feba53b14",
+      "bytes": 1217685,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 101,
+      "uncompressed_bytes": 1206719,
+      "embedded_instruction_files": [],
+      "bootstrap_sources": []
+    },
+    {
+      "file": "remix-serverspace-+-mine-proto-proof.zip",
+      "sha256": "0391dc521a1e43f580d03f10a9c593587506e97e2fb3bab9595f2b5183693a74",
+      "bytes": 2985084,
+      "original_modified": false,
+      "executed_during_review": false,
+      "members": 271,
+      "uncompressed_bytes": 2945708,
+      "embedded_instruction_files": [],
+      "bootstrap_sources": [
+        {
+          "path": "mining-engine/bootstrap.sh",
+          "sha256": "90dbd99d4548f7bbd6dd075c49f824ff2e5b586f4cf101f0453d63f27fac4d48"
+        },
+        {
+          "path": "mining_engine/bootstrap.sh",
+          "sha256": "90dbd99d4548f7bbd6dd075c49f824ff2e5b586f4cf101f0453d63f27fac4d48"
+        }
+      ]
+    }
+  ],
+  "installed_model_source_mismatches": [],
+  "installed_core_matches": {
+    "observer_state.py": true,
+    "protocol/instances.py": true
+  },
+  "active_instances": 194,
+  "working_node_replaced": false,
+  "embedded_instructions_policy": "Source material; no automatic execution",
+  "decisions": [
+    {
+      "component": "HCF Ollama startup sequence",
+      "fit": "Selected operations adapted into host_process.py; global installers and home/shell writes not executed"
+    },
+    {
+      "component": "Existing native VFS, InstanceManager and IL-LLM mesh",
+      "fit": "Retained; additive lifecycle and observer modules use their actual custody/subscription contracts"
+    },
+    {
+      "component": "User observer-state derivation",
+      "fit": "Integrated into core execution context and explicit arithmetic operations; does not redefine KEX seed or VFS"
+    },
+    {
+      "component": "Colab notebook exports",
+      "fit": "Definition/callback extraction required; parsing and hard-coded status outputs are not service readiness"
+    },
+    {
+      "component": "Mining bootstrap scripts",
+      "fit": "Reviewed only; service overwrite, certificate generation, broad provisioning and external mining connection not performed"
+    },
+    {
+      "component": "Android and web archives",
+      "fit": "Source inventory retained; whole-app replacement not performed"
+    },
+    {
+      "component": "ServerSpace UDS/shared-memory bootstrap",
+      "fit": "Exact live protocol/source still required; available mining bootstrap does not supply requested frame/CRC/readiness contract"
+    }
+  ]
+}
