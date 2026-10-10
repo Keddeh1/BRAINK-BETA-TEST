@@ -1,0 +1,150 @@
+{
+  "observed_at": 1791639685.5964248,
+  "results": [
+    {
+      "uri": "http://127.0.0.1:19100/",
+      "incident": {
+        "incidentId": "KEX-404-INC-PROBE_FAILURE-5ec8a4e7",
+        "requestedUri": "http://127.0.0.1:19100/",
+        "timestamp": "1791639685592406058",
+        "clientIp": "127.0.0.1",
+        "detail": "ConnectionRefusedError: [Errno 111] Connection refused",
+        "state_policy": "retained; diagnostic does not mutate substrate",
+        "seal": "df533ad5ff581bde3502eb078daec7adb236a1f448fde902e1ca7e09fcade85e",
+        "record_digest": "89d8e3fb3238cf8cd9a17caa01e4684f907361b7525a40c4e7d445613ea1626f"
+      }
+    },
+    {
+      "uri": "http://127.0.0.1:3000/serverspace-app/",
+      "incident": {
+        "incidentId": "KEX-404-INC-PROBE_FAILURE-ac6dd696",
+        "requestedUri": "http://127.0.0.1:3000/serverspace-app/",
+        "timestamp": "1791639685593791894",
+        "clientIp": "127.0.0.1",
+        "detail": "ConnectionRefusedError: [Errno 111] Connection refused",
+        "state_policy": "retained; diagnostic does not mutate substrate",
+        "seal": "d43afdfe315d9057293e7c8ae4d9e9485040473b7b9ac23ba78faa200edddfea",
+        "record_digest": "1f7f8bfe3bc8617f8259702d36c1f3edc3e1cedae7b1ece8848263e2626743af"
+      }
+    },
+    {
+      "uri": "http://127.0.0.1:19100/api/health",
+      "incident": {
+        "incidentId": "KEX-404-INC-PROBE_FAILURE-a2854345",
+        "requestedUri": "http://127.0.0.1:19100/api/health",
+        "timestamp": "1791639685594776585",
+        "clientIp": "127.0.0.1",
+        "detail": "ConnectionRefusedError: [Errno 111] Connection refused",
+        "state_policy": "retained; diagnostic does not mutate substrate",
+        "seal": "49aefe357aee29d6453eea59db8607832b79ef288a179461641e6beb0490e79d",
+        "record_digest": "26d3c741ddb3bf55c10d15a5cb4293942bdd8bae243039d77aea673066301bed"
+      }
+    },
+    {
+      "uri": "http://127.0.0.1:19100/api/telemetry",
+      "incident": {
+        "incidentId": "KEX-404-INC-PROBE_FAILURE-1771a4f4",
+        "requestedUri": "http://127.0.0.1:19100/api/telemetry",
+        "timestamp": "1791639685595599054",
+        "clientIp": "127.0.0.1",
+        "detail": "ConnectionRefusedError: [Errno 111] Connection refused",
+        "state_policy": "retained; diagnostic does not mutate substrate",
+        "seal": "73d0e37248bd4587d220ceb4b525e4eaab28bbd6ad91d3de78d8bcc62ebe6e15",
+        "record_digest": "e4596fe53f8da71bb953ccf1bcfa5cafee8a34291290639aea00a644d26ee9de"
+      }
+    }
+  ],
+  "retained_runtime_snapshots": [
+    {
+      "state": {
+        "I": "serverspace/substrate-primary",
+        "O": {
+          "daemon_pid": 260548,
+          "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-primary"
+        },
+        "q": 114147,
+        "t": 1791639685.5174115,
+        "workers": {
+          "canonical_writer": {
+            "pid": 260551,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          },
+          "publisher": {
+            "pid": 260550,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          }
+        }
+      },
+      "state_digest": "a34570486f31cc33f4445e207b43de793fcb66816815a9e17e04317e0b535402",
+      "readiness_mask": 7,
+      "crc32": 2765140167,
+      "frame_bytes": 465,
+      "peer_identity": {
+        "pid": 260548,
+        "uid": 1000,
+        "gid": 1000
+      },
+      "authentication": {
+        "protocol": "KXA2",
+        "algorithm": "Ed25519",
+        "mutual": true,
+        "server_public": "4a8e68c7ce8c0840c41be32b43ea31eca1212ef595888f103d9eafe780a08257",
+        "client_public": "4e196a52868575e753f6a64a7e428b705ee219346d1c6c2ceafa42c19ac25a1d"
+      }
+    },
+    {
+      "state": {
+        "I": "serverspace/substrate-replica",
+        "O": {
+          "daemon_pid": 259394,
+          "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-replica"
+        },
+        "q": 115683,
+        "t": 1791639685.5174718,
+        "workers": {
+          "canonical_writer": {
+            "pid": 259397,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          },
+          "publisher": {
+            "pid": 259396,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          }
+        }
+      },
+      "state_digest": "536a2311ea5dd69d32567bcc375d6a7e167dfbad863f5d5ee00b4edb175a3125",
+      "readiness_mask": 7,
+      "crc32": 2651268138,
+      "frame_bytes": 465,
+      "peer_identity": {
+        "pid": 259394,
+        "uid": 1000,
+        "gid": 1000
+      },
+      "authentication": {
+        "protocol": "KXA2",
+        "algorithm": "Ed25519",
+        "mutual": true,
+        "server_public": "ef599333c8be8b5bdaa8185936c6aa72deddba335a3586ede9186726f78e43ea",
+        "client_public": "80ff6068ab1435fd7e05d206e0905f900384eb320d8a2f3770bd82a73a01ecef"
+      }
+    }
+  ],
+  "scope": "Live HTTP readback; SHA256 receipts do not certify consensus, hardware or endpoint cryptography"
+}
