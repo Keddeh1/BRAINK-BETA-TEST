@@ -1,6 +1,7 @@
 import tempfile,unittest
 from vfs_server.model import ArtifactWrite
-from vfs_server.store import VFSStore,sha256_bytes\nfrom vfs_server.auth import MutationAuthorizer
+from vfs_server.store import VFSStore,sha256_bytes
+from vfs_server.auth import MutationAuthorizer
 
 class VFSServerTests(unittest.TestCase):
     def setUp(self): self.tmp=tempfile.TemporaryDirectory(); self.store=VFSStore(self.tmp.name)

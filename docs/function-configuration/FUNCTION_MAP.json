@@ -1,0 +1,1383 @@
+{
+  "schema": "kex.function-breakdown.v1",
+  "groups": [
+    {
+      "source_root": "/workspace/keddeh-braink-module-audit/braink",
+      "functions": [
+        {
+          "path": "core/exceptions.py",
+          "function": "RingAccessException.__init__",
+          "line": 13,
+          "end_line": 28,
+          "signature": "self, message: str, requested_ring: int, current_ring: int",
+          "docstring": "Initialize RingAccessException.\n\nArgs:\n    message: Human-readable error message\n    requested_ring: Ring level being accessed\n    current_ring: Current ring level privilege",
+          "calls": [
+            "super",
+            "super().__init__"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "763f6bb3b430dfaa62d8153fddf8819c40e187b27595d3d7f6a5d89c04bb655d",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.__init__",
+          "line": 22,
+          "end_line": 40,
+          "signature": "self, ring_level: RingLevel, cycle_count: int=0, memory_base: int=0, memory_limit: int=0",
+          "docstring": "Initialize ring state.\n\nArgs:\n    ring_level: Current ring privilege level\n    cycle_count: CPU cycles executed\n    memory_base: Base address for ring memory\n    memory_limit: Upper memory limit for ring",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "d4748d1af36bbc3c67e19b0a3f84d248fd7cd4972a58330ee5fd39b866dc6e4e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.ring_level",
+          "line": 43,
+          "end_line": 45,
+          "signature": "self",
+          "docstring": "Get current ring level.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b22627ef81369192927863d4dcf212166d1abf3183d9f6380f4b71e10aacfa73",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.cycle_count",
+          "line": 48,
+          "end_line": 50,
+          "signature": "self",
+          "docstring": "Get total cycles executed.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "7c187f817e552857c231e7cf9666a4dcd57a2bd3175bb27f67b875f691868f2a",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.memory_base",
+          "line": 53,
+          "end_line": 55,
+          "signature": "self",
+          "docstring": "Get memory base address.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b742fa3f1644292969cfe6551e9f987dc851e4c34fb2e0991e14ecff1b944cf9",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.memory_limit",
+          "line": 58,
+          "end_line": 60,
+          "signature": "self",
+          "docstring": "Get memory upper limit.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "9bfa395d8bb0daf934b00118e3a371074ceedd6c96e0833b59c3e8e36d7dc891",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "RingState.__repr__",
+          "line": 62,
+          "end_line": 70,
+          "signature": "self",
+          "docstring": "String representation of ring state.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "291206546aac13c362a85b0fcee26410a904b04d0bd168c7afcb4d76440fab0e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "Ring.__init__",
+          "line": 76,
+          "end_line": 96,
+          "signature": "self, level: RingLevel, memory_base: int=0, memory_size: int=0",
+          "docstring": "Initialize a ring.\n\nArgs:\n    level: Ring privilege level\n    memory_base: Base address for this ring's memory\n    memory_size: Size of memory allocated to this ring",
+          "calls": [
+            "RingState"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "7d3a51648e47a9a94d905b1eca6d45ff1d62c24f76676b58ce5cfcbfc49b1e80",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "Ring.state",
+          "line": 99,
+          "end_line": 101,
+          "signature": "self",
+          "docstring": "Get current ring state (immutable).",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "931af4c27c7f4298c129f5a75b1c97b5ba389f1c244ce538c68d0959ae6e7cf3",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "Ring.can_access",
+          "line": 103,
+          "end_line": 121,
+          "signature": "self, target_ring: RingLevel",
+          "docstring": "Check if this ring can access a target ring.\n\nLower ring numbers (higher privilege) can generally access higher\nnumbered rings (lower privilege). Access from higher to lower requires\nexplicit permission validation.\n\nArgs:\n    target_ring: Target ring level to access\n\nReturns:\n    True if access is allowed, False otherwise",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "fe69841805ebc461fe3190da99779a8f5312d7382155dcecd61ff9a8160a9f66",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "core/rings.py",
+          "function": "Ring.__repr__",
+          "line": 123,
+          "end_line": 125,
+          "signature": "self",
+          "docstring": "String representation of ring.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "3e2552b2d9f26a1912f1104c3cb5ad725c70fd059cb2cbde16b5290df924c5e0",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/dispatcher.py",
+          "function": "WorkModuleDispatcher.__init__",
+          "line": 64,
+          "end_line": 72,
+          "signature": "self, executors: Optional[Dict[str, Callable[[Dict[str, Any]], Dict[str, Any]]]]=None",
+          "docstring": "Initialize dispatcher.",
+          "calls": [
+            "ValueError",
+            "any",
+            "callable",
+            "dict",
+            "self._executors.values"
+          ],
+          "explicit_raises": [
+            "ValueError('Executor bindings must be callable')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "76bf079e620f78bec60b23c06a45fd224af6cec71223a0efa6a940ec05f8e58b",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/dispatcher.py",
+          "function": "WorkModuleDispatcher.register_module",
+          "line": 74,
+          "end_line": 84,
+          "signature": "self, module: WorkModule",
+          "docstring": "Register a work module for potential dispatch.\n\nArgs:\n    module: WorkModule to register",
+          "calls": [
+            "ValueError"
+          ],
+          "explicit_raises": [
+            "ValueError('Module identity already registered')",
+            "ValueError('Module identity and executor binding are required')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "2b7576a658bbbf21e789e54c1535fca139f2fabfdcf743663fbaf9dbb35c3bb8",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/dispatcher.py",
+          "function": "WorkModuleDispatcher.dispatch",
+          "line": 86,
+          "end_line": 119,
+          "signature": "self, dispatch_id: str, module: WorkModule, input_data: Dict[str, Any], target_server: str='AGENTIC_AI_SERVER'",
+          "docstring": "Dispatch a work module to target server.\n\nArgs:\n    dispatch_id: Unique dispatch identifier\n    module: WorkModule to dispatch\n    input_data: Input data for module execution\n    target_server: Target server (default AGENTIC_AI_SERVER)\n\nReturns:\n    DispatchRecord tracking this dispatch",
+          "calls": [
+            "DispatchRecord",
+            "ValueError",
+            "isinstance",
+            "self._dispatch_queue.append",
+            "self._modules.get",
+            "self.get_dispatch_status"
+          ],
+          "explicit_raises": [
+            "ValueError('Dispatch identity must be unique and nonempty')",
+            "ValueError('Dispatch input must be a mapping')",
+            "ValueError('Module must match its registered definition')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "5915295a9f0fe07567f5c53b27baeb09ff9770b742ce9d984302f7573d47fbc5",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/dispatcher.py",
+          "function": "WorkModuleDispatcher.execute_dispatch",
+          "line": 121,
+          "end_line": 154,
+          "signature": "self, dispatch_id: str",
+          "docstring": "Execute a dispatched work module.\n\nArgs:\n    dispatch_id: ID of dispatch to execute\n\nReturns:\n    Updated DispatchRecord or None if not found",
+          "calls": [
+            "ValueError",
+            "any",
+            "executor",
+            "isinstance",
+            "self._completed.append",
+            "self._dispatch_queue.remove",
+            "self._executors.get",
+            "self._failed.append"
+          ],
+          "explicit_raises": [
+            "ValueError('Executor output must be a mapping')",
+            "ValueError('No configured executor for this module')",
+            "ValueError('Uncompleted module dependencies')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "940c76d49cf32a284db6b3c42422ce81e2bb73c8fe4d95c9079b757e2288b80e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/dispatcher.py",
+          "function": "WorkModuleDispatcher.get_dispatch_status",
+          "line": 156,
+          "end_line": 168,
+          "signature": "self, dispatch_id: str",
+          "docstring": "Get status of a dispatch.\n\nArgs:\n    dispatch_id: ID of dispatch to check\n\nReturns:\n    Dispatch status or None if not found",
+          "calls": [
+            "asdict"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "0038cf87cdae95791bc93cce0ba7fff2e3c2005917b4c294d13e156e1abb70fa",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/engine.py",
+          "function": "DomainEngine.__init__",
+          "line": 14,
+          "end_line": 17,
+          "signature": "self",
+          "docstring": "Initialize the domain engine.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "905c8275d13575065e5cb6d4e750bcfab8d3760979ec6463dbdae0c3f12de929",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/engine.py",
+          "function": "DomainEngine.initialize",
+          "line": 19,
+          "end_line": 51,
+          "signature": "self",
+          "docstring": "Initialize domain engine with default ring configuration.\n\nRaises:\n    EngineExecutionException: If initialization fails",
+          "calls": [
+            "EngineExecutionException",
+            "Ring",
+            "str"
+          ],
+          "explicit_raises": [
+            "EngineExecutionException(f'Failed to initialize domain engine: {str(e)}')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "79bde2ea4d075f600f92d412735a0968a26d5a35ce1c9f31e20e95b0a095a1b6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/engine.py",
+          "function": "DomainEngine.is_initialized",
+          "line": 54,
+          "end_line": 56,
+          "signature": "self",
+          "docstring": "Check if engine is initialized.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "67259aee8d8ae1ef102d9e6a699992f078a9d4788e7be4fbd2b8c1ebf9956d5b",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/engine.py",
+          "function": "DomainEngine.get_ring",
+          "line": 58,
+          "end_line": 76,
+          "signature": "self, level: RingLevel",
+          "docstring": "Get a ring by level.\n\nArgs:\n    level: Ring level to retrieve\n\nReturns:\n    Ring instance at specified level\n\nRaises:\n    EngineExecutionException: If ring not found",
+          "calls": [
+            "EngineExecutionException"
+          ],
+          "explicit_raises": [
+            "EngineExecutionException('Engine not initialized')",
+            "EngineExecutionException(f'Ring {level.name} not found')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "7a2473c35a0eb871a989d769a7894da6aea25b9ee02ff2b6d7b0bea358dffc34",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "domain/engine.py",
+          "function": "DomainEngine.validate_transition",
+          "line": 78,
+          "end_line": 99,
+          "signature": "self, from_ring: RingLevel, to_ring: RingLevel",
+          "docstring": "Validate that a ring transition is allowed.\n\nArgs:\n    from_ring: Source ring level\n    to_ring: Target ring level\n\nReturns:\n    True if transition is valid",
+          "calls": [
+            "self._rings.get",
+            "source.can_access"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "60dc27b23dfc4d1d3276c9694592aa5875e8d5d2d4f3a853b6db0cb6bfb13933",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "runtime/executor.py",
+          "function": "RuntimeExecutor.__init__",
+          "line": 11,
+          "end_line": 18,
+          "signature": "self, current_ring: Ring",
+          "docstring": "Initialize executor for a ring.\n\nArgs:\n    current_ring: Ring to execute within",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "d64e6e122eb78899a8cf6772fc4c7ea84a45958488477f9d90f69472bfefbdc1",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "runtime/executor.py",
+          "function": "RuntimeExecutor.execute",
+          "line": 20,
+          "end_line": 58,
+          "signature": "self, operation: Callable[..., Any], *args: Any, target_ring: Optional[RingLevel]=None, **kwargs: Any",
+          "docstring": "Execute an operation within ring context.\n\nArgs:\n    operation: Callable to execute\n    *args: Positional arguments for operation\n    target_ring: Ring level required for operation (None = current ring)\n    **kwargs: Keyword arguments for operation\n\nReturns:\n    Result of operation execution\n\nRaises:\n    RingAccessException: If insufficient privilege to execute",
+          "calls": [
+            "RingAccessException",
+            "RuntimeError",
+            "operation",
+            "self.current_ring.can_access",
+            "str"
+          ],
+          "explicit_raises": [
+            "RingAccessException(f'Ring {self.current_ring.level.name} cannot access Ring {target_ring.name}', requested_ring=target_ring.value, current_ring=self.current_ring.level.value)",
+            "RuntimeError(f'Operation execution failed: {str(e)}')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "e424836bc2d78728deee763ff43800dc458254bce549711e430d4bec2b43d6ff",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "runtime/executor.py",
+          "function": "RuntimeExecutor.operation_count",
+          "line": 61,
+          "end_line": 63,
+          "signature": "self",
+          "docstring": "Get total operations executed.",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "8acf01af287a9f8c60fda00ee13e82398a87906e67dc462da0b6f43efeead4e3",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "utils/common.py",
+          "function": "format_memory_address",
+          "line": 6,
+          "end_line": 16,
+          "signature": "address: int, width: int=16",
+          "docstring": "Format a memory address for display.\n\nArgs:\n    address: Memory address as integer\n    width: Number of hex digits to display\n\nReturns:\n    Formatted address string",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "9b0bff49d095ce75974427ba7f4d5df53acece3047ab807a37b7e77b5d57974e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "utils/common.py",
+          "function": "validate_ring_level",
+          "line": 19,
+          "end_line": 28,
+          "signature": "value: int",
+          "docstring": "Validate that value is a valid ring level (0-3).\n\nArgs:\n    value: Ring level value to validate\n\nReturns:\n    True if valid, False otherwise",
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "9b5adc34af2cfa1b494774d059e41bc981ac4022fa143d423a476ece76fb0f4c",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        }
+      ],
+      "count": 26
+    },
+    {
+      "source_root": "/workspace/keddeh-braink-module-audit/vfs_server",
+      "functions": [
+        {
+          "path": "auth.py",
+          "function": "MutationAuthorizer.__init__",
+          "line": 11,
+          "end_line": 16,
+          "signature": "self, token_file: str | None=None",
+          "docstring": null,
+          "calls": [
+            "Path",
+            "Path(token_file).read_text",
+            "Path(token_file).read_text(encoding='utf-8').strip",
+            "ValueError"
+          ],
+          "explicit_raises": [
+            "ValueError('empty_token_file')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "f617096b80f2dffd98efd44c657c517888474d94337e20a64f2b13effb452e37",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "auth.py",
+          "function": "MutationAuthorizer.enabled",
+          "line": 19,
+          "end_line": 19,
+          "signature": "self",
+          "docstring": null,
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b4472790616089fe45289969b62e238dfcc3dd9c629a013d7ec57363a868dbb6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "auth.py",
+          "function": "MutationAuthorizer.allowed",
+          "line": 21,
+          "end_line": 24,
+          "signature": "self, authorization: str | None",
+          "docstring": null,
+          "calls": [
+            "authorization.startswith",
+            "hmac.compare_digest"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "778055300fac5a100300048e23f53a0a6950f077307f66ab044045fe1cafadd6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "backup.py",
+          "function": "sha256",
+          "line": 5,
+          "end_line": 9,
+          "signature": "path",
+          "docstring": null,
+          "calls": [
+            "f.read",
+            "h.hexdigest",
+            "h.update",
+            "hashlib.sha256",
+            "iter",
+            "open"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "c771879d075813099705f5888ebae27070e390acb96846bcd061cc7baf165970",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "backup.py",
+          "function": "create_backup",
+          "line": 11,
+          "end_line": 28,
+          "signature": "root, output",
+          "docstring": null,
+          "calls": [
+            "(td / 'backup-manifest.json').write_text",
+            "Path",
+            "dst.close",
+            "json.dumps",
+            "manifest['objects'].append",
+            "objects.exists",
+            "objects.rglob",
+            "p.relative_to",
+            "p.stat",
+            "sha256",
+            "sorted",
+            "sqlite3.connect",
+            "src.backup",
+            "src.close",
+            "str",
+            "tar.add",
+            "tarfile.open",
+            "tempfile.TemporaryDirectory",
+            "time.time",
+            "x.is_file"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "0b57e913699055f18bc949e385dd659ceb1ee5746f66cc7861118f9bf45bf837",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "backup.py",
+          "function": "main",
+          "line": 30,
+          "end_line": 32,
+          "signature": "",
+          "docstring": null,
+          "calls": [
+            "ap.add_argument",
+            "ap.parse_args",
+            "argparse.ArgumentParser",
+            "create_backup",
+            "print"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "89d9583997a6008dee3d2095901e3a1e71b62ece624fd2ebd9b145182cc9c5b9",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "health.py",
+          "function": "readiness",
+          "line": 5,
+          "end_line": 24,
+          "signature": "store: VFSStore",
+          "docstring": null,
+          "calls": [
+            "all",
+            "bool",
+            "checks.items",
+            "db.execute",
+            "db.execute('SELECT 1').fetchone",
+            "k.endswith",
+            "os.fsync",
+            "os.open",
+            "probe.unlink",
+            "probe.write_bytes",
+            "store._connect",
+            "store.root.mkdir",
+            "store.verify_receipt_chain",
+            "type"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "e277c910c2c9fcee8743e735df621d3b5a94b7e0ae3907781d2adb19267a6192",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "model.py",
+          "function": "ArtifactRecord.as_dict",
+          "line": 21,
+          "end_line": 21,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "asdict"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b6165ce650d127ddcf831a697ad4d155592dc3286f82d5095d3f4ffd8e32d0e6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "model.py",
+          "function": "Receipt.as_dict",
+          "line": 34,
+          "end_line": 34,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "asdict"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b6165ce650d127ddcf831a697ad4d155592dc3286f82d5095d3f4ffd8e32d0e6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "observer.py",
+          "function": "main",
+          "line": 3,
+          "end_line": 6,
+          "signature": "",
+          "docstring": null,
+          "calls": [
+            "SystemExit",
+            "VFSStore",
+            "VFSStore(a.root).verify",
+            "ap.add_argument",
+            "ap.parse_args",
+            "argparse.ArgumentParser",
+            "json.dumps",
+            "print"
+          ],
+          "explicit_raises": [
+            "SystemExit(0 if result['verified'] else 1)"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "bd3accaa21a618469ef10f5cb423f7ab7d29aaea20b55129414812af0726256f",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "qualification.py",
+          "function": "qualify",
+          "line": 6,
+          "end_line": 25,
+          "signature": "",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "AssertionError",
+            "VFSStore",
+            "checks.append",
+            "record",
+            "s.lineage",
+            "s.verify",
+            "s.write",
+            "s2.read_content",
+            "s2.resolve_path",
+            "s2.verify_receipt_chain",
+            "sha256_bytes",
+            "tempfile.TemporaryDirectory"
+          ],
+          "explicit_raises": [
+            "AssertionError(name)"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "8c363fe97e2033ab080ba586405011003c3a445b418ca08bc66684245ffd8e39",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "qualification.py",
+          "function": "qualify.record",
+          "line": 8,
+          "end_line": 10,
+          "signature": "name, ok, detail=None",
+          "docstring": null,
+          "calls": [
+            "AssertionError",
+            "checks.append"
+          ],
+          "explicit_raises": [
+            "AssertionError(name)"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "2dff241a25818f66abb74ad9d6e921797422ae498444d23fdc10f9eec58debd6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "qualification.py",
+          "function": "main",
+          "line": 27,
+          "end_line": 28,
+          "signature": "",
+          "docstring": null,
+          "calls": [
+            "json.dumps",
+            "print",
+            "qualify"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b53cb40fa303b3fef5d0f78671ee042013ef533d80436cb728610cbb96ab7c1d",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "Handler.log_message",
+          "line": 13,
+          "end_line": 13,
+          "signature": "self, *args",
+          "docstring": null,
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": true,
+          "sha256": "843ff26921dbb3da3d25ab7ec91db671c689e7c84b84baa979b83aaf6fa19d4d",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "Handler.send_json",
+          "line": 14,
+          "end_line": 17,
+          "signature": "self, status, obj",
+          "docstring": null,
+          "calls": [
+            "json.dumps",
+            "json.dumps(obj, separators=(',', ':'), sort_keys=True).encode",
+            "len",
+            "self.end_headers",
+            "self.send_header",
+            "self.send_response",
+            "self.wfile.write",
+            "str"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "4e47071ccd1805fb621e2227824af878b694738af7e10a6a7670ae155e2a8bf9",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "Handler.body",
+          "line": 18,
+          "end_line": 22,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ValueError",
+            "int",
+            "json.loads",
+            "self.headers.get",
+            "self.rfile.read"
+          ],
+          "explicit_raises": [
+            "ValueError('request_too_large')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "e2c772603d269ee1f17c52689821c54d610837e56e7b51884201c8ac125360ec",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "Handler.do_GET",
+          "line": 23,
+          "end_line": 43,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "base64.b64encode",
+            "base64.b64encode(self.store.read_content(digest)).decode",
+            "len",
+            "p.split",
+            "p.startswith",
+            "readiness",
+            "rec.as_dict",
+            "self.authorizer.allowed",
+            "self.headers.get",
+            "self.send_json",
+            "self.store.get_artifact",
+            "self.store.lineage",
+            "self.store.read_content",
+            "self.store.resolve_path",
+            "self.store.status",
+            "str",
+            "unquote",
+            "urlparse"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "5b45d6410d0e4f8cca10788589d7016745cc662af8c86893f836169c4723d2fc",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "Handler.do_POST",
+          "line": 44,
+          "end_line": 57,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "base64.b64decode",
+            "data.get",
+            "rec.as_dict",
+            "receipt.as_dict",
+            "self.authorizer.allowed",
+            "self.body",
+            "self.headers.get",
+            "self.send_json",
+            "self.store.verify",
+            "self.store.write",
+            "str",
+            "urlparse"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b05836c400e69d1c75e76690ed9ca0d76a51ab201f865a845b73be0ebbac95be",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "create_server",
+          "line": 59,
+          "end_line": 64,
+          "signature": "root, host='127.0.0.1', port=8787, token_file=None",
+          "docstring": null,
+          "calls": [
+            "MutationAuthorizer",
+            "ThreadingHTTPServer",
+            "VFSStore"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": true,
+          "sha256": "98fde2398b24a53223180eabed2a0c04c5270e706f27087bad0bc2edb5ab48d8",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "server.py",
+          "function": "main",
+          "line": 66,
+          "end_line": 73,
+          "signature": "",
+          "docstring": null,
+          "calls": [
+            "ap.add_argument",
+            "ap.parse_args",
+            "argparse.ArgumentParser",
+            "create_server",
+            "server.serve_forever",
+            "server.server_close"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "e6ddc7793472752cb46d7ac8130a817833486cc30e43888472a1e829ccaaf91d",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "canonical_json",
+          "line": 8,
+          "end_line": 8,
+          "signature": "obj",
+          "docstring": null,
+          "calls": [
+            "json.dumps",
+            "json.dumps(obj, sort_keys=True, separators=(',', ':')).encode"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "2d5d9a7c2847477a97e111e37912a676135fb2a6ac46cb479e06909cf988fdcc",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "sha256_bytes",
+          "line": 9,
+          "end_line": 9,
+          "signature": "data",
+          "docstring": null,
+          "calls": [
+            "hashlib.sha256",
+            "hashlib.sha256(data).hexdigest"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "086810ea01b0f920084ef80706a5085b1383a501f7dc3d275b74db173807f1ea",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "normalize_vfs_path",
+          "line": 10,
+          "end_line": 14,
+          "signature": "value",
+          "docstring": null,
+          "calls": [
+            "PurePosixPath",
+            "ValueError",
+            "str",
+            "value.lstrip"
+          ],
+          "explicit_raises": [
+            "ValueError('invalid_path')",
+            "ValueError('path_traversal')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "c2c2ce48fd67160f96755f31cf86ab5b8cb7862ef810c00055df96b8eca961a1",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.__init__",
+          "line": 17,
+          "end_line": 19,
+          "signature": "self, root",
+          "docstring": null,
+          "calls": [
+            "Path",
+            "self._init_db",
+            "self.objects.mkdir"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "b999ea96c741b685cb19a26d31cd9127d75e2c15d2f160674432ecfad14b2479",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._connect",
+          "line": 20,
+          "end_line": 23,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "db.execute",
+            "sqlite3.connect"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "6d33e8dd05ecff86f8e315ad4c37c07e2d2db24442414f4e8739d0756a1b8589",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._init_db",
+          "line": 24,
+          "end_line": 31,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "db.executescript",
+            "self._connect"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "14e3cebdbc668b287a5300f4e66d0910211966a0569953727c5801707f92a44c",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._object_path",
+          "line": 32,
+          "end_line": 32,
+          "signature": "self, d",
+          "docstring": null,
+          "calls": [],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "7164b69d21da2901e954663c8cd4aed1d7cde7ca06d4520029e8e11b821834e6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._write_object_atomic",
+          "line": 33,
+          "end_line": 47,
+          "signature": "self, digest, content",
+          "docstring": null,
+          "calls": [
+            "RuntimeError",
+            "f.fileno",
+            "f.flush",
+            "f.write",
+            "os.close",
+            "os.fdopen",
+            "os.fsync",
+            "os.open",
+            "os.path.exists",
+            "os.replace",
+            "os.unlink",
+            "self._object_path",
+            "sha256_bytes",
+            "target.exists",
+            "target.parent.mkdir",
+            "target.read_bytes",
+            "tempfile.mkstemp"
+          ],
+          "explicit_raises": [
+            "RuntimeError('object_digest_conflict')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "02c8fa5d349c0fa59100c605299170000701acc799959238ed604e08c177203e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._last_receipt",
+          "line": 48,
+          "end_line": 50,
+          "signature": "self, db",
+          "docstring": null,
+          "calls": [
+            "db.execute",
+            "db.execute('SELECT receipt_digest FROM receipts ORDER BY seq DESC LIMIT 1').fetchone"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "78ad72683483e2c80a26a9412ac33384f2113b7c60dc0c06f5984f50f487cf97",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore._receipt",
+          "line": 51,
+          "end_line": 56,
+          "signature": "self, db, kind, status, digest, path, detail",
+          "docstring": null,
+          "calls": [
+            "Receipt",
+            "canonical_json",
+            "db.execute",
+            "json.dumps",
+            "self._last_receipt",
+            "sha256_bytes",
+            "time.time"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "0150fc4f8204ae1fbbc3cc86addfee6d716961df1c1abfd9bfaf767f6b8770ee",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.write",
+          "line": 57,
+          "end_line": 72,
+          "signature": "self, req: ArtifactWrite",
+          "docstring": null,
+          "calls": [
+            "ValueError",
+            "db.execute",
+            "db.execute('SELECT 1 FROM artifacts WHERE digest=?', (req.predecessor,)).fetchone",
+            "len",
+            "normalize_vfs_path",
+            "self._connect",
+            "self._receipt",
+            "self._write_object_atomic",
+            "self.get_artifact",
+            "sha256_bytes",
+            "time.time"
+          ],
+          "explicit_raises": [
+            "ValueError('artifact_too_large')",
+            "ValueError('unknown_predecessor')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "9b18acc2a2a9768b51afba90311e3d35ee708d90b2e45ef0178c872f1e7ec9a9",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.get_artifact",
+          "line": 73,
+          "end_line": 75,
+          "signature": "self, digest",
+          "docstring": null,
+          "calls": [
+            "ArtifactRecord",
+            "db.execute",
+            "db.execute('SELECT * FROM artifacts WHERE digest=?', (digest,)).fetchone",
+            "dict",
+            "self._connect"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "30d2c375b4fdadf73075525b63dd7371c53a58f903cccf7abd156dec0a6e19cf",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.read_content",
+          "line": 76,
+          "end_line": 80,
+          "signature": "self, digest",
+          "docstring": null,
+          "calls": [
+            "KeyError",
+            "RuntimeError",
+            "self._object_path",
+            "self._object_path(digest).read_bytes",
+            "self.get_artifact",
+            "sha256_bytes"
+          ],
+          "explicit_raises": [
+            "KeyError('artifact_not_found')",
+            "RuntimeError('readback_digest_mismatch')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "ac39ecf88b8b542f6541e81c39d7f1e6f4474333c2b0f43d502175d12e1962e6",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.resolve_path",
+          "line": 81,
+          "end_line": 84,
+          "signature": "self, path",
+          "docstring": null,
+          "calls": [
+            "db.execute",
+            "db.execute('SELECT digest FROM paths WHERE path=?', (path,)).fetchone",
+            "normalize_vfs_path",
+            "self._connect",
+            "self.get_artifact"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "d978b72806f06904cb398de5952fec8d17208526f20b3e92c29cb1c1fa3fbcd0",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.lineage",
+          "line": 85,
+          "end_line": 87,
+          "signature": "self, digest",
+          "docstring": null,
+          "calls": [
+            "db.execute",
+            "db.execute('SELECT parent_digest,relation FROM lineage WHERE child_digest=? ORDER BY parent_digest', (digest,)).fetchall",
+            "dict",
+            "self._connect"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "4d6f087d78f511f05cdd7127d0024dcf1dfa99202955c486ed1b4863f4004bbf",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.verify",
+          "line": 88,
+          "end_line": 98,
+          "signature": "self, digest",
+          "docstring": null,
+          "calls": [
+            "KeyError",
+            "db.execute",
+            "len",
+            "rec.as_dict",
+            "receipt.as_dict",
+            "self._connect",
+            "self._receipt",
+            "self.get_artifact",
+            "self.read_content",
+            "sha256_bytes"
+          ],
+          "explicit_raises": [
+            "KeyError('artifact_not_found')"
+          ],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "a49b142658eb68cce058052f287a26098992952cad26bc14f87b72eaee667373",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.verify_receipt_chain",
+          "line": 99,
+          "end_line": 112,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "canonical_json",
+            "db.execute",
+            "db.execute('SELECT * FROM receipts ORDER BY seq').fetchall",
+            "json.loads",
+            "len",
+            "self._connect",
+            "sha256_bytes"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "beae277b4b2f2f3f2d7109e54a56bf18dcc614d2db29ae4615624f630e6d4f43",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "store.py",
+          "function": "VFSStore.status",
+          "line": 114,
+          "end_line": 117,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "db.execute",
+            "db.execute(f'SELECT COUNT(*) n FROM {t}').fetchone",
+            "self._connect"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "5ee7b6ba90485946a30b5fcd138dd9807ee7afec1b39ea9b6061cc550823c6aa",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_http_configuration.py",
+          "function": "HTTPTests.test_token_read_write_and_restart",
+          "line": 5,
+          "end_line": 26,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "Path",
+            "base64.b64encode",
+            "base64.b64encode(b'bits').decode",
+            "conn.close",
+            "conn.getresponse",
+            "conn.request",
+            "create_server",
+            "http.client.HTTPConnection",
+            "json.dumps",
+            "json.loads",
+            "reopened.RequestHandlerClass.store.read_content",
+            "reopened.server_close",
+            "request",
+            "response.read",
+            "self.assertEqual",
+            "self.assertTrue",
+            "server.server_close",
+            "server.shutdown",
+            "str",
+            "tempfile.TemporaryDirectory",
+            "thread.join",
+            "thread.start",
+            "threading.Thread",
+            "token.write_text"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "313a12445de14bde0c2b533758949ebc10f061ec171798421d4a23e395ccbe33",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_http_configuration.py",
+          "function": "HTTPTests.test_token_read_write_and_restart.request",
+          "line": 9,
+          "end_line": 13,
+          "signature": "method, path, body=None, auth=None",
+          "docstring": null,
+          "calls": [
+            "conn.close",
+            "conn.getresponse",
+            "conn.request",
+            "http.client.HTTPConnection",
+            "json.dumps",
+            "json.loads",
+            "response.read"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "74bed225394f7f74ff2fa9e424fb83887c9b93fc69bfdfc5968285c6b15a240e",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.setUp",
+          "line": 7,
+          "end_line": 7,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "VFSStore",
+            "tempfile.TemporaryDirectory"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "41120ecc665fcde26e8eaf7ae904c12e1f0ea4f39c8ee264e42e0c9d4512ddc8",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.tearDown",
+          "line": 8,
+          "end_line": 8,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "self.tmp.cleanup"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "341d24aa60bb7b01c7b963b1f6acced81d2ebfa225a3535cc3383d404d87062f",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.test_actor_and_observer_are_separate",
+          "line": 9,
+          "end_line": 17,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "self.assertEqual",
+            "self.assertNotEqual",
+            "self.assertTrue",
+            "self.store.read_content",
+            "self.store.verify",
+            "self.store.write",
+            "sha256_bytes"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "7f1f514079ff9cf847e4d31c5e2bdf3a725668b1d745cd1a370d425b9561287c",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.test_lineage_and_path_resolution",
+          "line": 18,
+          "end_line": 22,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "self.assertEqual",
+            "self.store.lineage",
+            "self.store.resolve_path",
+            "self.store.write"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "1b2d2cdf8fab0fabbbb0867282f6ef0ae482ecb1ef8a6724903343b7a39d6048",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.test_receipt_chain_survives_restart",
+          "line": 23,
+          "end_line": 27,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "VFSStore",
+            "reopened.verify_receipt_chain",
+            "self.assertTrue",
+            "self.store.verify",
+            "self.store.write"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "49313e6827f9ff461253d34462e738fb33d52abf80d17f17c5736769a875e82a",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.test_authorizer",
+          "line": 28,
+          "end_line": 29,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "MutationAuthorizer",
+            "MutationAuthorizer().allowed",
+            "self.assertTrue"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "df81bbca5b41fc18091393d9753e10e32770749084ece7309739216a25b34e52",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        },
+        {
+          "path": "tests/test_vfs_server.py",
+          "function": "VFSServerTests.test_unknown_predecessor_fails",
+          "line": 30,
+          "end_line": 32,
+          "signature": "self",
+          "docstring": null,
+          "calls": [
+            "ArtifactWrite",
+            "self.assertRaises",
+            "self.store.write"
+          ],
+          "explicit_raises": [],
+          "contains_pass_or_notimplemented": false,
+          "sha256": "9c955077e6b1087d86732328bd2cfac66007f265724abe331adc3cf1a08810c5",
+          "qualification": "static source inventory; consult executed test receipts separately"
+        }
+      ],
+      "count": 47
+    }
+  ]
+}

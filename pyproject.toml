@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [
-    {name = "Keddeh1", email = ""}
+    {name = "Keddeh1"}
 ]
 keywords = [
     "architecture",
@@ -37,6 +37,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+mcp = ["mcp>=1.30,<2; python_version >= '3.10'"]
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
@@ -60,8 +61,8 @@ docs = [
     "sphinx-rtd-theme>=1.3.0",
 ]
 
-[tool.setuptools]
-packages = ["braink"]
+[tool.setuptools.packages.find]
+include = ["braink", "braink.*", "vfs_server", "vfs_server.*"]
 
 [tool.black]
 line-length = 100

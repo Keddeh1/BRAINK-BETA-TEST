@@ -1,6 +1,7 @@
 """Runtime Executor - Executes operations within ring contexts."""
 
 from typing import Any, Callable, Optional
+from threading import Lock
 from braink.core.rings import Ring, RingLevel
 from braink.core.exceptions import RingAccessException
 
@@ -16,6 +17,7 @@ class RuntimeExecutor:
         """
         self.current_ring = current_ring
         self._operation_count = 0
+        self._count_lock = Lock()
 
     def execute(
         self,
@@ -50,7 +52,8 @@ class RuntimeExecutor:
 
         try:
             result = operation(*args, **kwargs)
-            self._operation_count += 1
+            with self._count_lock:
+                self._operation_count += 1
             return result
         except RingAccessException:
             raise
@@ -60,4 +63,5 @@ class RuntimeExecutor:
     @property
     def operation_count(self) -> int:
         """Get total operations executed."""
-        return self._operation_count
+        with self._count_lock:
+            return self._operation_count

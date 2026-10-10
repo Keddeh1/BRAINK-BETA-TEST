@@ -8,6 +8,8 @@ class ArtifactWrite:
     source:str
     predecessor:Optional[str]=None
     media_type:str="application/octet-stream"
+    continuation_id:Optional[str]=None
+    expected_version:Optional[int]=None
 
 @dataclass(frozen=True)
 class ArtifactRecord:

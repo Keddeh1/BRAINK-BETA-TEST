@@ -4,7 +4,7 @@ Maps BRAINK_SERVER deployment queue to AGENTIC_AI_SERVER function generation.
 Implements PAIR.BRAINK_TO_AGENTIC_AI from R12 genome execution map.
 """
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Callable
 from dataclasses import dataclass, asdict
 from enum import Enum
 
@@ -61,8 +61,12 @@ class DispatchRecord:
 class WorkModuleDispatcher:
     """Dispatches work modules from BRAINK_SERVER to AGENTIC_AI_SERVER."""
 
-    def __init__(self) -> None:
+    def __init__(self, executors: Optional[Dict[str, Callable[[Dict[str, Any]], Dict[str, Any]]]] = None) -> None:
         """Initialize dispatcher."""
+        self._modules: Dict[str, WorkModule] = {}
+        self._executors = dict(executors or {})
+        if any(not callable(fn) for fn in self._executors.values()):
+            raise ValueError("Executor bindings must be callable")
         self._dispatch_queue: List[DispatchRecord] = []
         self._completed: List[DispatchRecord] = []
         self._failed: List[DispatchRecord] = []
@@ -73,8 +77,11 @@ class WorkModuleDispatcher:
         Args:
             module: WorkModule to register
         """
-        # Module is registered but not yet dispatched
-        pass
+        if not module.module_id or not module.executor:
+            raise ValueError("Module identity and executor binding are required")
+        if module.module_id in self._modules:
+            raise ValueError("Module identity already registered")
+        self._modules[module.module_id] = module
 
     def dispatch(
         self,
@@ -94,6 +101,12 @@ class WorkModuleDispatcher:
         Returns:
             DispatchRecord tracking this dispatch
         """
+        if not dispatch_id or self.get_dispatch_status(dispatch_id) is not None:
+            raise ValueError("Dispatch identity must be unique and nonempty")
+        if self._modules.get(module.module_id) != module:
+            raise ValueError("Module must match its registered definition")
+        if not isinstance(input_data, dict):
+            raise ValueError("Dispatch input must be a mapping")
         record = DispatchRecord(
             dispatch_id=dispatch_id,
             server_from="BRAINK_SERVER",
@@ -117,11 +130,25 @@ class WorkModuleDispatcher:
         for record in self._dispatch_queue:
             if record.dispatch_id == dispatch_id:
                 record.state = DispatchState.EXECUTING
-                # In real system, this would invoke the module executor
-                # For now, mark as completed
-                record.state = DispatchState.COMPLETED
-                record.output_data = {"status": "generated"}
-                self._completed.append(record)
+                try:
+                    executor = self._executors.get(record.module.executor)
+                    if executor is None:
+                        raise ValueError("No configured executor for this module")
+                    missing = [dependency for dependency in record.module.dependencies
+                               if not any(done.module.module_id == dependency for done in self._completed)]
+                    if missing:
+                        raise ValueError("Uncompleted module dependencies")
+                    output = executor(record.input_data)
+                    if not isinstance(output, dict):
+                        raise ValueError("Executor output must be a mapping")
+                    record.output_data = output
+                    record.state = DispatchState.COMPLETED
+                    self._completed.append(record)
+                except Exception:
+                    # Do not expose credentials or arbitrary executor exception text.
+                    record.state = DispatchState.FAILED
+                    record.error = "Executor unavailable, dependency unmet, or execution failed"
+                    self._failed.append(record)
                 self._dispatch_queue.remove(record)
                 return record
         return None
