@@ -1,0 +1,11 @@
+{
+  "tests_run": 6,
+  "tests_passed": 6,
+  "scope": "Local scaffold behavior with explicit test doubles",
+  "user_reported_tests": 12,
+  "user_reported_tests_reproduced": false,
+  "production_adapters_bound": false,
+  "durable_commit_verified": false,
+  "ed25519_verified": false,
+  "source_sha256": "6190538a86a1009f4cc70745c51f44019154c189eb4e89729fa1f5c9aac5adbf"
+}

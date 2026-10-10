@@ -8,7 +8,9 @@
     "execution_continuity": "Retained requests, changed-input rejection, interrupted dispatch and replay",
     "nested_vfs": "Backed dedicated vault references; resolution rejects missing backing",
     "model_backing_custody": "Streaming checksum and tamper checks tested on labelled test artifacts",
-    "own_ci": "Real host checks invoked through instantiated CI module; outputs retained in own VFS"
+    "own_ci": "Real host checks invoked through instantiated CI module; outputs retained in own VFS",
+    "model_store_attachment": "Ollama manifest/config/layer references validated against actual backing digests and sizes; test artifacts only",
+    "host_provisioning": "HCF source sequence retained; native launch and observed-service checks implemented; actual invocation reported EXECUTABLE_ABSENT"
   },
   "unresolved": {
     "ollama_carrier": "No executable, configured URL or listening default endpoint in this workspace; Docker daemon unavailable",
@@ -16,7 +18,8 @@
     "inference": "No completed model inference verified",
     "interfaces": "Existing console integration corrected in source; operational variant dispatcher implemented. Complete IDE and production UI flows not qualified.",
     "production": "Source is on additive GitHub branch; production website attachment not deployed by this change",
-    "android": "Source correction present; APK compilation and device execution not qualified"
+    "android": "Source correction present; APK compilation and device execution not qualified",
+    "admission": "Supplied scaffold retained separately; actual Web4, pinned Ed25519, KEX and atomic IL-LLM adapters remain unbound; evidence handoff requires resolution"
   },
   "physical_workspace_observation": {
     "free_disk_bytes_approximate": 178000000,

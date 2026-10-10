@@ -1,0 +1,55 @@
+{
+  "sources": [
+    {
+      "file": "colab_substrate_mount.py",
+      "sha256": "a2c0e2c98a5301d708b66b072f7cdbfa47baadb56bb74b70613472f3493a81c7"
+    },
+    {
+      "file": "k_cloud_substrate_master_daemon.py",
+      "sha256": "17414b23a824cd73452ab4118de70157f0e4837c287044f9b18655df03488b25"
+    },
+    {
+      "file": "copy_of_untitled3.py",
+      "sha256": "c0ae46a51de0d00d5fb40d61700b6812c67e504fe604408c601214176e8c86f5"
+    },
+    {
+      "file": "keddeh-systems-hcf-workstation+braink-ai.zip",
+      "sha256": "7d39b6f1941bc447f4afd498243c6171cd6231b8d117b1e228c5550b214de002"
+    },
+    {
+      "file": "bilateral_discrepancy_solver.py",
+      "sha256": "d096d679ecbf4bc358a34b721a236a813d66318e86e8cf5ea16fdb0eaabb87e2"
+    }
+  ],
+  "processes": {
+    "ollama_provisioning": {
+      "source": "keddeh-systems-hcf-workstation+braink-ai.zip:scripts/setup_dev_env.sh",
+      "source_sha256": "b65ccecdc9c56d99619008872bfae69fbaad0937aedbc16983b519b09f4743f7",
+      "operations": [
+        "install Ollama",
+        "configure Aider",
+        "ollama serve",
+        "ollama pull qwen2.5-coder:7b"
+      ],
+      "source_is_not_execution_evidence": true
+    },
+    "colab_mount": {
+      "source": "colab_substrate_mount.py",
+      "mechanism": "google.colab.output callbacks; includes fixed success responses requiring replacement by observations"
+    },
+    "cloud_daemon": {
+      "source": "k_cloud_substrate_master_daemon.py",
+      "mechanism": "Notebook export includes compiler/client orchestration and KCloudNode definitions; cell boundaries must be resolved before execution"
+    },
+    "node_launch": {
+      "source": "copy_of_untitled3.py",
+      "mechanism": "subprocess.Popen Node server and supervisor; broad pkill calls are excluded from attachment"
+    },
+    "model_store": {
+      "upstream_reference": "https://github.com/ollama/ollama/blob/main/manifest/manifest.go",
+      "mechanism": "Config/layer digests and blob backing readback; no weight duplication"
+    }
+  },
+  "production_host_origin_binding_observed": false,
+  "live_inference_verified": false
+}

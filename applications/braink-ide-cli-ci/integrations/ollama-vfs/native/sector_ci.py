@@ -1,5 +1,5 @@
 """Own-host sector CI: execute real checks and retain their actual outputs in the native VFS."""
-import argparse, subprocess, sys
+import argparse, subprocess, sys, re
 from pathlib import Path
 from uuid import uuid4
 from ollama_node import retain
@@ -18,10 +18,12 @@ def run(root):
     results=[]
     for name,command in checks:
         result=subprocess.run(command,capture_output=True,text=True)
-        document={'check':name,'command':command,'exit_code':result.returncode,
+        match=re.search(r'Ran (\d+) tests',result.stderr) if name=='native' else re.search(r'(?:# |ℹ )tests (\d+)',result.stdout)
+        tests_run=int(match.group(1)) if match else None
+        document={'tests_run':tests_run,'check':name,'command':command,'exit_code':result.returncode,
             'stdout':result.stdout,'stderr':result.stderr}
         receipt=retain(root,'/ci/'+run_id+'/'+name+'.json',document,actor)
-        results.append({'check':name,'exit_code':result.returncode,'receipt':receipt})
+        results.append({'check':name,'exit_code':result.returncode,'tests_run':tests_run,'receipt':receipt})
     report={'run_id':run_id,'checks':results,'passed':all(row['exit_code']==0 for row in results),
         'live_inference_qualified':False}
     retain(root,'/ci/'+run_id+'/report.json',report,actor)
