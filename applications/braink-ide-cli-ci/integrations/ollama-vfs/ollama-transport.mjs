@@ -1,10 +1,12 @@
 /** Transport only: native identity, VFS and mesh custody remain with the caller. */
-export function registerOllamaRoutes(app, {baseURL = process.env.OLLAMA_URL || process.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434', fetchImpl = fetch} = {}) {
+export function registerOllamaRoutes(app, {baseURL = process.env.OLLAMA_URL || process.env.VITE_OLLAMA_URL || 'http://127.0.0.1:11434', fetchImpl = fetch, actor, executionContext} = {}) {
   const base = new URL(baseURL);
   if (!['http:', 'https:'].includes(base.protocol)) throw new Error('Invalid Ollama transport');
   async function forward(req, res, path, mutation) {
     try {
-      const upstream = await fetchImpl(new URL(path, base), {
+      const upstream = actor
+        ? await (mutation ? actor.chat(req.body, await executionContext(req)) : actor.inventory(await executionContext(req)))
+        : await fetchImpl(new URL(path, base), {
         method: mutation ? 'POST' : 'GET',
         headers: mutation ? {'Content-Type':'application/json'} : {},
         ...(mutation ? {body:JSON.stringify(req.body)} : {}),

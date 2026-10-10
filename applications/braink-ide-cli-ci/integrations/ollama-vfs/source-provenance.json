@@ -1,0 +1,37 @@
+{
+  "schema": "keddeh.ollama.source-provenance.v1",
+  "sources": [
+    {
+      "archive": "storespace (1).zip",
+      "sha256": "baa477cb60cbc87c502441a5d99f709336c6ab7783461c3740dc9d7e572ff5f0",
+      "relevant_source_sha256": {
+        "server.ts": "ffd6c1d3ad2bd3c124521037ec4a5d26070fbe57e197a4550bcb54ba35634aeb"
+      }
+    },
+    {
+      "archive": "remix-serverspace-+-mine-proto-proof (1).zip",
+      "sha256": "e8aef970074f538937600bdde7baca22171906c75978c741429ed62ef77a2865",
+      "relevant_source_sha256": {
+        "server.ts": "a1bb6ac4f818264c31351215f6d85de737a0bf8fcb5efccb8450734d8d49b65c",
+        "src/components/os/OllamaChat.tsx": "f5c4916709cd145b9ca98e2fd5c6dfb8f9b6850aacafc2e6cf21c9a138533077",
+        "src/core/vfs/vfs.ts": "6c62c79a5aeeeeb922fa45eb916062196e4ff062672008884bf859aa90dd419f",
+        "src/services/VfsMulticastHypervisor.ts": "f743b3d4e5d7e5ee9fdf385384aa0a8d44608bb5e44b813e8ed3d1a25682436f"
+      }
+    },
+    {
+      "archive": "braink-console (1).zip",
+      "sha256": "f3ed3c79a39b1a1126f47cfb6e5f2c870aab226e73c3d14dd154fbbcdac5cc55",
+      "relevant_source_sha256": {
+        "fabric-runtime.ts": "41a2e11fca498ac1cc53006a89e2fef2477fcb62319e7aaab75f9aa4f3ad53e3",
+        "server.ts": "acc95617f8516eda11353153302262c773fbeb0ca56d0ac0fccb8c4caead14ca",
+        "server/fabricEngine.ts": "58b8572bff04d2fa5b44ded5c8c3d8ceff4f27534d783410a5e3d5ccbf57d9fd"
+      }
+    }
+  ],
+  "observations": {
+    "console": "Contains real OS process and leased execution actuators; not an Ollama integration.",
+    "remix": "Contains Ollama routes, VFS and mesh bridge; existing route silently substitutes Gemini without an explicit Ollama URL.",
+    "storespace": "Contains model-generated terminal simulation; not evidence of host command execution."
+  },
+  "live_ollama_inference_verified": false
+}
