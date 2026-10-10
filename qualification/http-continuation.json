@@ -1,0 +1,15 @@
+{
+  "combined_tests_passed": 61,
+  "client": "vfs_server.client.VFSClient",
+  "live_transport": "authenticated loopback HTTP",
+  "checks": [
+    "Dropped acknowledgment after commit reuses original receipt",
+    "Restarted server returns original result without reverting later binding",
+    "Changed continuation request returns HTTP 409",
+    "Writes without continuation identity are not automatically replayed",
+    "Remote plain HTTP and embedded credentials rejected"
+  ],
+  "retry_policy": "at most three attempts; default two; transport failures only; exact serialized request retained",
+  "production_deployment": false,
+  "scope": "real local HTTP runtime qualification; no multi-host failover claim"
+}
