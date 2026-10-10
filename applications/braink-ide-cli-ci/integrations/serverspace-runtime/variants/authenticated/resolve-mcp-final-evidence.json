@@ -1,0 +1,70 @@
+{
+  "observed_at": 1791643807.6295772,
+  "existing_mcp": {
+    "sdk_server": "Keddeh service activation",
+    "observed_services": 19
+  },
+  "instances": [
+    {
+      "url": "http://127.0.0.1:19091/mcp",
+      "identity": "serverspace/resolve-auth-canary",
+      "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-auth-canary",
+      "tools": [
+        "resolve_q32",
+        "read_resolve_receipt"
+      ],
+      "artifact_digest": "963788d028b82de529799326ac92c62911525a8299b63af46541cef461bee684",
+      "receipt_chain": {
+        "verified": true,
+        "count": 2,
+        "head": "39737b7c81878f3f08a27514c3224362f2a77796179083ba570e879870091980"
+      },
+      "durable_replay": true,
+      "concurrent_replays": 16,
+      "conflict_rejected": true,
+      "zero_warrant_rejected": true,
+      "coercion_rejected": true
+    },
+    {
+      "url": "http://127.0.0.1:19092/mcp",
+      "identity": "serverspace/resolve-replica",
+      "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-replica",
+      "tools": [
+        "resolve_q32",
+        "read_resolve_receipt"
+      ],
+      "artifact_digest": "4da65769bfbe2ae1153914ec95527053440fc88b08e035f6fb3db467d547e068",
+      "receipt_chain": {
+        "verified": true,
+        "count": 1,
+        "head": "1547e57cd397998c9eb607f14cff260c20fee9980053f09b5be3e74db9892ae1"
+      },
+      "durable_replay": true,
+      "concurrent_replays": 16,
+      "conflict_rejected": true,
+      "zero_warrant_rejected": true,
+      "coercion_rejected": true
+    },
+    {
+      "url": "http://127.0.0.1:19093/mcp",
+      "identity": "serverspace/resolve-primary",
+      "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-primary",
+      "tools": [
+        "resolve_q32",
+        "read_resolve_receipt"
+      ],
+      "artifact_digest": "c3059f61b66f304f538ba6dadb7e94069f617bd42224ef541897c7408822a97a",
+      "receipt_chain": {
+        "verified": true,
+        "count": 1,
+        "head": "69671dc7f75192e6f91b844e0cf055644128d30b5818618b90ac8c7e28684ce8"
+      },
+      "durable_replay": true,
+      "concurrent_replays": 16,
+      "conflict_rejected": true,
+      "zero_warrant_rejected": true,
+      "coercion_rejected": true
+    }
+  ],
+  "independent_contexts_retained": true
+}

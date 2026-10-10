@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "keddeh-services": {
+      "command": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "args": [
+        "/workspace/braink-setup/service-activation/source/mcp_service.py",
+        "--manifest",
+        "/workspace/braink-setup/service-activation/source/services.json"
+      ]
+    },
+    "keddeh-resolve-auth-canary": {
+      "url": "http://127.0.0.1:19091/mcp"
+    },
+    "keddeh-resolve-replica": {
+      "url": "http://127.0.0.1:19092/mcp"
+    },
+    "keddeh-resolve-primary": {
+      "url": "http://127.0.0.1:19093/mcp"
+    }
+  }
+}

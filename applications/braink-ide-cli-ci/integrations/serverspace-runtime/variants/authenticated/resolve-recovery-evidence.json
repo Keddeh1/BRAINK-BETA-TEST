@@ -1,0 +1,11 @@
+{
+  "old_sdk_pid": 896371,
+  "new_sdk_pid": 904180,
+  "elapsed_seconds": 1.2650699790028739,
+  "existing_substrate_pids_retained": {
+    "primary": 260548,
+    "replica": 259394,
+    "auth-canary": 256155
+  },
+  "scope": "Canary SDK process restart; canonical substrate workers preserved"
+}

@@ -1,0 +1,11 @@
+{
+  "observed_at": 1791643847.4270868,
+  "old_sdk_pid": 911231,
+  "new_sdk_pid": 914926,
+  "elapsed_seconds": 4.947422099998221,
+  "substrate_daemon_pids_retained": {
+    "primary": 260548,
+    "replica": 259394,
+    "auth-canary": 256155
+  }
+}

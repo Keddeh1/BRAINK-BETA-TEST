@@ -34,6 +34,8 @@ async def qualify(url,identity):
             first=unpack(await client.call_tool('resolve_q32',args))
             replay=unpack(await client.call_tool('resolve_q32',args))
             assert replay['replayed'] and replay['artifact_digest']==first['artifact_digest']
+            simultaneous=await asyncio.gather(*[client.call_tool('resolve_q32',args) for _ in range(16)])
+            assert all(unpack(item)['artifact_digest']==first['artifact_digest'] and unpack(item)['replayed'] for item in simultaneous)
             readback=unpack(await client.call_tool('read_resolve_receipt',{'artifact_digest':first['artifact_digest']}))
             assert readback['result']==first['result'] and readback['chain']['verified']
             assert first['result']['arithmetic']['raw_q32']==13649637264
@@ -47,7 +49,7 @@ async def qualify(url,identity):
                 assert rejected.isError
             return {'url':url,'identity':identity,'server':initialized.serverInfo.name,
                     'tools':[tool.name for tool in tools.tools],'artifact_digest':first['artifact_digest'],
-                    'receipt_chain':readback['chain'],'durable_replay':True,
+                    'receipt_chain':readback['chain'],'durable_replay':True,'concurrent_replays':len(simultaneous),
                     'conflict_rejected':True,'zero_warrant_rejected':True,'coercion_rejected':True}
 
 
