@@ -1,11 +1,11 @@
 {
-  "artifact": "keddeh-hci-slots-0.1.0.zip",
-  "sha256": "0fefe3411244cc106e4b98e1f42482606fe4ce78834e14f43ae1d844223b8306",
+  "artifact": "keddeh-hci-slots-0.1.1.zip",
+  "sha256": "d975bf3b34bf71c0cde64e39672e8d1de6bf6737b797f3b99ef4283e113b46ce",
   "slot_files": {
     "mnt/KEX_RUNTIME/slot_a/bin/keddeh_hci_core.py": "41772e1b3eb500f1d0d6f99d854f564de4219dcdb9eda2852fae09ac055020f6",
-    "mnt/KEX_RUNTIME/slot_a/bin/kex_diagnostics_panel.py": "9673c8a9ee1bb0cc57acf43377501704d63c6e6d43e350b03b9691b5b57692d7",
+    "mnt/KEX_RUNTIME/slot_a/bin/kex_diagnostics_panel.py": "524551c8503641239922446ce7cdd26957a1ad9807285fb38504b111d4341dd8",
     "mnt/KEX_RUNTIME/slot_b/bin/keddeh_hci_core.py": "41772e1b3eb500f1d0d6f99d854f564de4219dcdb9eda2852fae09ac055020f6",
-    "mnt/KEX_RUNTIME/slot_b/bin/kex_diagnostics_panel.py": "9673c8a9ee1bb0cc57acf43377501704d63c6e6d43e350b03b9691b5b57692d7"
+    "mnt/KEX_RUNTIME/slot_b/bin/kex_diagnostics_panel.py": "524551c8503641239922446ce7cdd26957a1ad9807285fb38504b111d4341dd8"
   },
   "packaged_readback_verified": true,
   "boot_secrets_included": false,

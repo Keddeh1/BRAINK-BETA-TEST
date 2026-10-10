@@ -1,5 +1,5 @@
 {
-  "unit_tests_passed": 12,
+  "unit_tests_passed": 17,
   "layout_audit": "83 ASCII columns",
   "native_readback": {
     "node_profile": "Native VFS definitions and receipt chains read back: 118"
@@ -28,5 +28,23 @@
     },
     "physical_terminal_emulation_tested": false,
     "triad_of_triads_topology_verified": false
+  },
+  "responsive_terminal": {
+    "geometry_read_each_frame": true,
+    "pty_widths_verified": [
+      40,
+      80,
+      83
+    ],
+    "narrow_content_wrapped_without_truncation": true,
+    "alternate_screen_opt_in": true,
+    "alternate_screen_restored_on_exception": true,
+    "redirected_output_has_no_ansi": true,
+    "cross_process_output_atomicity_verified": false
+  },
+  "kex_integration": {
+    "owner_definition": "HEX x HEX = KEX",
+    "vfs_kex_execution_binding_verified": false,
+    "existing_checks_scope": "Native storage custody and replay only; not KEX transition qualification"
   }
 }
