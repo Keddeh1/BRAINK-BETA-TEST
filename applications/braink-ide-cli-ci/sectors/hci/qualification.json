@@ -1,8 +1,8 @@
 {
-  "unit_tests_passed": 17,
+  "unit_tests_passed": 18,
   "layout_audit": "83 ASCII columns",
   "native_readback": {
-    "node_profile": "Native VFS definitions and receipt chains read back: 118"
+    "node_profile": "Native VFS definitions and receipt chains read back: 194"
   },
   "hardware_actions_bound": false,
   "physical_rehydration_verified": false,
@@ -47,5 +47,6 @@
     "role": "STATE_SEED",
     "vfs": "Working software, distinct from KEX",
     "correction": "No asserted requirement that VFS execution must pass through KEX"
-  }
+  },
+  "observer_zero_render_verified": true
 }

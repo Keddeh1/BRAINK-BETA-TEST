@@ -1,0 +1,15 @@
+Applied observer-state learning
+
+Source: the user's supplied six-step derivation and subsequent clarifications. The origin anchor, object identity, coordinate, orientation and temporal context remain distinct. KEX remains the owner's state seed (HEX x HEX); VFS remains working software. This implementation does not replace either definition.
+
+Shared applied rule: numeric zero, False, empty values and unavailable values do not erase the entity record. The core observation function preserves I, O, q and t plus its domain. Native InstanceManager execution now retains that context for requests, returned values and failures. Opaque live objects retain explicit type/capture metadata rather than fabricated serialized values.
+
+Arithmetic: exact rational calculations use the supplied frame q = epsilon*(x-o). Coordinate addition, transported addition and transported multiplication are explicit operation names. Transported addition is u+v+epsilon*o; multiplication is epsilon*u*v+o*(u+v)+epsilon*(o*o-o). Mixed frames require explicit transformation. Orientation reversal preserves identity/time and negates both epsilon and q; applying it twice restores the original state.
+
+Delivery: every observer function is source-pinned and instantiated in the four existing variants. braink-observer takes a request JSON file and explicit execution identity, retains operands/result in the existing instance VFS, replays identical requests and rejects changed input under the same identity. --config and --recipient publish the complete tuple through native RELATIONAL_ANCHOR exchange and verify the recipient inbox. Domain values and units are not silently transformed; frame conversion is an explicit operation.
+
+HCI: actual supplied observer_state fields are displayed, including q=0. Layout adapts to terminal width without hiding the state. The HCI render path does not create authoritative numeric identity or claim that display correlation is a signature.
+
+Live application evidence uses the owner's arithmetic example as explicitly labelled example data, not fabricated sensor telemetry. Source-pinned execution, retained result custody, real mesh inbox and zero-preserving HCI were checked together. Scientific or physical conclusions beyond these arithmetic and software invariants are not inferred from the test results.
+
+Installed packages: braink-node-core 0.1.1 and braink-ollama-node 0.1.3, additive installation under the existing colony root; previous installations and VFS instances retained. Clean HCI slot package 0.1.2.

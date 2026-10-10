@@ -1,6 +1,8 @@
 """Instances own distinct VFS stores and independently read back both subscriptions."""
 import json
 import fcntl
+import time
+from braink_node.observer_state import observation
 from pathlib import Path
 
 from braink_node.canonical import canonical_bytes
@@ -86,11 +88,14 @@ class InstanceManager:
             raise ValueError('Invocation definition differs from instantiated source')
         vfs = VFSStore(directory / 'vfs')
         invocation = '/invocations/' + uuid4().hex
+        origin = {'module': module_id, 'definition_sha256': state['definition_sha256'], 'context': context}
         request = {'instance': instance, 'module': module_id, 'args': list(args), 'kwargs': kwargs or {}, 'context': context}
         try:
+            request['observer_state'] = observation(instance, origin, {'args': list(args), 'kwargs': kwargs or {}}, time.time(), 'EXECUTION_REQUEST')
             request_bytes = canonical_bytes(request)
         except (TypeError, ValueError):
             request_bytes = canonical_bytes({'instance': instance, 'module': module_id, 'context': context,
+                'observer_state': observation(instance, origin, {'capture': 'LIVE_CONTEXT'}, time.time(), 'EXECUTION_REQUEST'),
                 'argument_capture': 'LIVE_CONTEXT', 'argument_types': [type(value).__module__ + '.' + type(value).__qualname__ for value in args],
                 'keyword_types': {key: type(value).__module__ + '.' + type(value).__qualname__ for key, value in (kwargs or {}).items()}})
         record, actor = vfs.write(ArtifactWrite(invocation + '/request.json', request_bytes, instance, media_type='application/json'))
@@ -99,15 +104,18 @@ class InstanceManager:
             result = bindings.invoke(module_id, args, kwargs, context)
         except Exception as error:
             failure = {'state': 'RAISED', 'type': type(error).__name__, 'message': str(error), 'request_digest': record.digest}
+            failure['observer_state'] = observation(instance, origin, {'error_type': type(error).__name__}, time.time(), 'EXECUTION_FAILURE')
             failed, _ = vfs.write(ArtifactWrite(invocation + '/result.json', canonical_bytes(failure), instance, media_type='application/json'))
             vfs.verify(failed.digest)
             raise
         try:
-            payload = canonical_bytes({'state': 'RETURNED', 'value': result, 'request_digest': record.digest})
+            payload = canonical_bytes({'state': 'RETURNED', 'value': result, 'request_digest': record.digest,
+                                       'observer_state': observation(instance, origin, result, time.time(), 'EXECUTION_RESULT')})
         except (TypeError, ValueError):
             # Preserve the live return value; do not fabricate serialization of an opaque object.
             payload = canonical_bytes({'state': 'RETURNED', 'value_type': type(result).__module__ + '.' + type(result).__qualname__,
-                                       'value_capture': 'LIVE_CONTEXT', 'request_digest': record.digest})
+                                       'value_capture': 'LIVE_CONTEXT', 'request_digest': record.digest,
+                                       'observer_state': observation(instance, origin, {'capture': 'LIVE_CONTEXT', 'type': type(result).__qualname__}, time.time(), 'EXECUTION_RESULT')})
         returned, _ = vfs.write(ArtifactWrite(invocation + '/result.json', payload, instance, media_type='application/json'))
         vfs.verify(returned.digest)
         return result

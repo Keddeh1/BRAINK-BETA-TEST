@@ -59,4 +59,11 @@ class HCITests(unittest.TestCase):
         self.assertNotIn('NOMINAL', text)
         self.assertNotIn('EVIDENCE_OK', text)
 
+    def test_observer_zero_is_displayed_as_present(self):
+        state = {'I': 'test-only-object', 'O': {'anchor': 'O', 'o': '1', 'epsilon': 1}, 'q': '0', 't': 'test-only-time'}
+        text = ISOUIDiagnosticsPanel(lambda: {'observer_state': state}).render_accessible_console_layout()
+        self.assertIn('Observer q: 0', text)
+        self.assertIn('Observer I: test-only-object', text)
+        self.assertTrue(all(len(row) == 83 for row in text.splitlines()))
+
 if __name__ == '__main__': unittest.main()

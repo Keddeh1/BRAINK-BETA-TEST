@@ -46,6 +46,11 @@ class ISOUIDiagnosticsPanel:
                        for key, label in (('A', 'Stage A/B update'), ('M', 'Compact MRAM'))],
                      '[ X ] Exit', 'STATUS: ' + self.status]:
             lines.extend(self.rows(text, width))
+        if 'observer_state' in state:
+            observation = state['observer_state']
+            for key in ('I', 'O', 'q', 't', 'operation'):
+                if key in observation:
+                    lines.extend(self.rows('Observer ' + key + ': ' + str(observation[key]), width))
         lines.append(border)
         return '\n'.join(lines)
 
