@@ -17,3 +17,5 @@ python applications/braink-ide-cli-ci/sectors/hci/kex_diagnostics_panel.py --nat
 
 Clean additive package:
 python applications/braink-ide-cli-ci/sectors/hci/build_sector.py --output /path/to/hci-slots.zip
+
+Runtime interaction checks require the existing braink-node-core installation. The 12-test suite includes 32 concurrent submissions of the same request identity through native execute/dispatch, distinct identities, serial action/exit behavior, and 32 frames during 64 writes in an isolated native VFS. The provider is an explicitly labelled localhost HTTP fixture. This does not bind slot swap or compaction, establish distributed idempotency, or verify Triad of Triads topology. The native lock is host/filesystem scoped. The viewport check measures frame width; it does not emulate a physical terminal. A fixed 83-column frame exceeds a 40- or 80-column viewport.

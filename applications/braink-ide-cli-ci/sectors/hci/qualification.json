@@ -1,5 +1,5 @@
 {
-  "unit_tests_passed": 8,
+  "unit_tests_passed": 12,
   "layout_audit": "83 ASCII columns",
   "native_readback": {
     "node_profile": "Native VFS definitions and receipt chains read back: 118"
@@ -8,5 +8,25 @@
   "physical_rehydration_verified": false,
   "standards_conformance_assessed": false,
   "extracted_slot_a_layout_passed": true,
-  "extracted_slot_b_layout_passed": true
+  "extracted_slot_b_layout_passed": true,
+  "runtime_interaction_checks": {
+    "shared_identity_concurrent_submissions": 32,
+    "shared_identity_provider_requests": 1,
+    "distinct_identity_provider_requests": 2,
+    "provider": "Labelled localhost HTTP fixture; not Ollama inference or hardware actuation",
+    "runtime": "Actual native execute/dispatch with file lock and retained VFS request/result",
+    "serial_action_submissions": 32,
+    "exit_stops_input_consumption": true,
+    "concurrent_vfs_writes": 64,
+    "rendered_frames": 32,
+    "final_vfs_readback_and_receipt_chain_verified": true,
+    "viewport_fit": {
+      "40": false,
+      "80": false,
+      "83": true,
+      "120": true
+    },
+    "physical_terminal_emulation_tested": false,
+    "triad_of_triads_topology_verified": false
+  }
 }
