@@ -1,0 +1,18 @@
+{
+  "baseline_commit": "201e151b09c7762a1b3015ecbf4c0118f683b6a4",
+  "implementation_status": "Existing baseline implements versioned contextual bindings and continuation receipts; this change adds independent-process qualification",
+  "vfs_unittest_passed": 34,
+  "combined_pytest_passed": 56,
+  "concurrent_independent_processes": 8,
+  "test_source_sha256": "7b88b4dddeec69d587ec00088427cfc5e54a8d8b129b80fb32e9fa93d523c21c",
+  "qualified_behaviour": [
+    "Exact request retries return one original receipt across processes",
+    "Replacement process retry after rebinding preserves the later current binding",
+    "Existing process-exit-before/after-commit and backup restoration tests pass"
+  ],
+  "limits": [
+    "Shared durable SQLite store; not multi-host consensus",
+    "No production data or running service changes",
+    "Not physical power-loss certification"
+  ]
+}
