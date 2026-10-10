@@ -97,6 +97,8 @@ def main():
     ollama_node.retain(colony_vfs,'/deployment/attachment-evidence.json',report,instances[0]['instance'])
     atomic_write(args.root/'deployment.json',canonical_bytes(deployment))
     atomic_write(args.root/'attachment-evidence.json',canonical_bytes(report))
+    from colony_lifecycle import checkpoint
+    checkpoint(args.root)
     print(json.dumps({'instances':report['instances'],'distinct_vfs_roots':report['distinct_vfs_roots'],
         'all_ceremonies_readback':report['all_ceremonies_readback'], 'inventory_states':[row['state'] for row in observations],
         'mesh_exchange_observer_verified':exchanged['observer']['verified']}))

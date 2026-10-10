@@ -1,0 +1,19 @@
+BRAINK colony lifecycle delivery
+
+VFS is the working software. KEX is the state seed, defined by HEX x HEX. This module develops the existing VFS lifecycle; it does not replace the VFS or define new KEX seed mathematics.
+
+Every authored lifecycle function is catalogued as a source-pinned module in its own family and instantiated in console, IDE, CLI and CI variants. Existing native InstanceManager ceremonies establish each instance's own VFS, hub subscription and IL-LLM mesh subscription. Older instance directories and package versions are retained.
+
+Operational commands from the installed 0.1.2 package:
+braink-colony --root /path/to/colony status
+braink-colony --root /path/to/colony checkpoint
+braink-colony --root /path/to/colony --config /path/to/existing-config rehydrate
+braink-colony --root /path/to/colony --config /path/to/existing-config connect --sender INSTANCE --recipient INSTANCE --relation RELATION --message-id MESSAGE_ID
+
+Checkpoint: inspect retained definitions and receipt chains for every declared instance; retain the complete deployment snapshot in the actual colony VFS; atomically publish a recovery locator. This is a metadata checkpoint, not a backup of model weights or all backing objects.
+
+Rehydrate: verify snapshot custody and all existing VFS backing before restoring missing manifest/ceremony projections; resume the owner's native ceremonies against the live hub and mesh; retain a rehydration report. A different current generation is preserved and rejected for recovery until separately checkpointed. Missing backing is rejected without fabricating stores. Root, recovery locator, original backing and live subscription services must remain available; physical disaster recovery and remote-host migration are not qualified.
+
+Connect: verify actual instance membership/custody; send the native RELATIONAL_ANCHOR with its required definition field and explicit message identity; verify the recipient inbox; retain the connection readback in the sender's own VFS. This provides actual mesh delivery, not arbitrary TCP/UDP connectivity or a verified Triad of Triads topology.
+
+ServerSpace duplication remains a separate requested integration. Available checkout and supplied archive contain mining bootstrap scripts, but no discovered UDS complete-frame/CRC32/readiness-mask contract. No matching live socket was found in /proc/net/unix. No substitute frame, readiness value 7, worker status or successful website publication is asserted. The working source/runtime directory is needed to duplicate that protocol correctly. Embedded installation scripts were inspected as source, not executed.

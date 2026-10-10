@@ -1,0 +1,17 @@
+{
+  "archive_sha256": "0391dc521a1e43f580d03f10a9c593587506e97e2fb3bab9595f2b5183693a74",
+  "scripts": {
+    "mining-engine/bootstrap.sh": "90dbd99d4548f7bbd6dd075c49f824ff2e5b586f4cf101f0453d63f27fac4d48",
+    "mining_engine/bootstrap.sh": "90dbd99d4548f7bbd6dd075c49f824ff2e5b586f4cf101f0453d63f27fac4d48"
+  },
+  "embedded_scripts_executed": false,
+  "matching_live_uds_found": false,
+  "state_digest_verified": false,
+  "peer_identity_verified": false,
+  "complete_frame_verified": false,
+  "crc32_verified": false,
+  "readiness_mask_7_verified": false,
+  "both_workers_ready_verified": false,
+  "website_publication_verified": false,
+  "reason": "Requested working ServerSpace runtime path/source contract not located in available checkout and supplied archives"
+}

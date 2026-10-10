@@ -44,7 +44,8 @@
   },
   "kex_integration": {
     "owner_definition": "HEX x HEX = KEX",
-    "vfs_kex_execution_binding_verified": false,
-    "existing_checks_scope": "Native storage custody and replay only; not KEX transition qualification"
+    "role": "STATE_SEED",
+    "vfs": "Working software, distinct from KEX",
+    "correction": "No asserted requirement that VFS execution must pass through KEX"
   }
 }

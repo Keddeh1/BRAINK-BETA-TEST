@@ -1,14 +1,16 @@
 {
   "distribution": "braink-ollama-node",
-  "wheel": "braink_ollama_node-0.1.1-py3-none-any.whl",
-  "sha256": "23237fb1f421042702b9de1a001362af804cacb9d6b87257613b965d85040c2f",
+  "wheel": "braink_ollama_node-0.1.2-py3-none-any.whl",
+  "sha256": "399c54f16f3ac9ff6da5318b7fa0c764f486b272379be851c1c73a371a18c0a7",
   "source_sha256": {
+    "colony_lifecycle.py": "caaf57db629d1e9c0dcf624d7a32148cda31dc3f103e0e446b62030837a06907",
     "host_process.py": "61c7baf5e822b24aeb8e92c26a10a41444e6f40a81019757c66afef1c1c21358",
     "model_store.py": "a9942ea2c307d45df3a2631406c57e754eccb6db3e9cf3bcda883bf43b006f94",
     "node_cli.py": "653891ed0da1e15a699a1609fe839bdf0a7a97b39a7ec993fdf81784e1513e12",
     "ollama_node.py": "f8a52f6c967afdc94c57bcf48dea02e29e9c65fa3ef8d77209268770f6029ddb",
-    "register_node.py": "0197bc72a3383f23258b48ba3327cd7c09b3f7ad8e578db902f54276ff6ad072",
+    "register_node.py": "365dc565769382c50a7e8c41f5b39b3ccbd30daf4434f82f7a19555b1a11ad7d",
     "sector_ci.py": "72a1d6d52e80bba24cedac729f404c416e5041afa0aa469a63451f9549a27a92",
+    "test_colony_lifecycle.py": "7c3478a35bef9a919dfd48a2e75de9deeeb69c15beeb6738ce6ef0537c12c7e7",
     "test_host_process.py": "5758c7210889c06fa7ab31144d896cd21ea60d976fa0f53d369723846811d8ec",
     "test_model_store.py": "de5d04f3e5a7a131b8a2566c24ed966d6acdcb10f52c765313af25ef02a7bacd",
     "test_ollama_node.py": "f73f27eaa2b872683269273538a68015a0e091947a28540bfca2ec2230158355"
@@ -18,7 +20,7 @@
   "installed_checks": {
     "native": {
       "exit_code": 0,
-      "tests": 19
+      "tests": 23
     },
     "console": {
       "exit_code": 0,

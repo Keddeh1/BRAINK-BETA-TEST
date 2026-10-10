@@ -1,0 +1,138 @@
+{
+  "schema": "braink.lifecycle-qualification.v1",
+  "checkpoint": {
+    "state": "CHECKPOINT_READBACK",
+    "instances": 154,
+    "pointer": {
+      "schema": "braink.colony-recovery.v1",
+      "colony_instance": "braink-e12c5cf38868eacf4df85cb03d7b4edaede23086855dd1ca862c82fa825047bd",
+      "snapshot_digest": "c7aa043f88cdc9f5826cfe06abb3e09acd8f66265bb7fcf40791e73d5aabe8ee",
+      "snapshot_path": "/lifecycle/generations/b3cce38d692efcc059f6b114da6876d7ba6d2a460b9ead9d870d6df2eae6e4c8.json"
+    }
+  },
+  "rehydration": {
+    "state": "REHYDRATED_READBACK",
+    "instances": 154,
+    "all_ceremonies_readback": true,
+    "backing_recreated": false,
+    "scope": "Existing VFS backing and live hub/mesh subscriptions"
+  },
+  "missing_deployment_projection_recovered": true,
+  "missing_instance_ceremony_recovered": true,
+  "backing_recreated": false,
+  "source_pinned_module_execution": true,
+  "mesh_connection_receipt": {
+    "digest": "95ba53464ea1adfefdb95005d652ca7f36d4585c5d4a7fa2225315d890804bdc",
+    "observer": {
+      "verified": true,
+      "artifact": {
+        "digest": "95ba53464ea1adfefdb95005d652ca7f36d4585c5d4a7fa2225315d890804bdc",
+        "path": "/lifecycle/connections/5d8082d8290f5ba3ec80d23cbad18be8fcf5b5db1e6123b76d3c9f127bf69c41.json",
+        "source": "braink-8eee0ba3fd32a246873b2409505805f343c5bad7f0b8cdd542f3748054ed2567",
+        "predecessor": null,
+        "media_type": "application/json",
+        "size": 2027,
+        "created_at": 1791616873.9032657
+      },
+      "receipt": {
+        "receipt_id": "OBSERVER_VFS_READBACK:8fde608b95224621a4aae873",
+        "kind": "OBSERVER_VFS_READBACK",
+        "status": "VISIBLE",
+        "artifact_digest": "95ba53464ea1adfefdb95005d652ca7f36d4585c5d4a7fa2225315d890804bdc",
+        "path": "/lifecycle/connections/5d8082d8290f5ba3ec80d23cbad18be8fcf5b5db1e6123b76d3c9f127bf69c41.json",
+        "previous_receipt_digest": "6b177c1d109ae1d6f8e2bd2abe05ed3beff01e0928e66ea12855b7aad24312cf",
+        "receipt_digest": "8fde608b95224621a4aae8736456dbb596dc44c4bc56598bf7aae3634433e917",
+        "at": 1791616873.9061303,
+        "detail": {
+          "expected_digest": "95ba53464ea1adfefdb95005d652ca7f36d4585c5d4a7fa2225315d890804bdc",
+          "observed_digest": "95ba53464ea1adfefdb95005d652ca7f36d4585c5d4a7fa2225315d890804bdc",
+          "size": 2027
+        }
+      }
+    }
+  },
+  "own_ci": {
+    "run_id": "356a120dd4b547cfaa1077889ff037ab",
+    "checks": [
+      {
+        "check": "native",
+        "exit_code": 0,
+        "tests_run": 23,
+        "receipt": {
+          "digest": "14dd95fe02ba5a4be2b97fa24b3235313c565a34181d10f1851fdcd31be4986f",
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "14dd95fe02ba5a4be2b97fa24b3235313c565a34181d10f1851fdcd31be4986f",
+              "path": "/ci/356a120dd4b547cfaa1077889ff037ab/native.json",
+              "source": "braink-4acfcbbc9743585f79765a279920acb5df936878a5dc4784967ce80a9620909d",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 415,
+              "created_at": 1791616874.546525
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:91075f07f18c63309b7ea06c",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "14dd95fe02ba5a4be2b97fa24b3235313c565a34181d10f1851fdcd31be4986f",
+              "path": "/ci/356a120dd4b547cfaa1077889ff037ab/native.json",
+              "previous_receipt_digest": "044be9671628396fbd59ff1bb4038f57894c9ac27d09598306031d7d2db136da",
+              "receipt_digest": "91075f07f18c63309b7ea06c5e7cf83fa40ed54412b52e8ecaf4b6f144813ef7",
+              "at": 1791616874.5492709,
+              "detail": {
+                "expected_digest": "14dd95fe02ba5a4be2b97fa24b3235313c565a34181d10f1851fdcd31be4986f",
+                "observed_digest": "14dd95fe02ba5a4be2b97fa24b3235313c565a34181d10f1851fdcd31be4986f",
+                "size": 415
+              }
+            }
+          }
+        }
+      },
+      {
+        "check": "console",
+        "exit_code": 0,
+        "tests_run": 7,
+        "receipt": {
+          "digest": "ea9ba433b2fb41b5873f14cc84ac38b87242a6f799f3372d3e0eb516b83da340",
+          "observer": {
+            "verified": true,
+            "artifact": {
+              "digest": "ea9ba433b2fb41b5873f14cc84ac38b87242a6f799f3372d3e0eb516b83da340",
+              "path": "/ci/356a120dd4b547cfaa1077889ff037ab/console.json",
+              "source": "braink-4acfcbbc9743585f79765a279920acb5df936878a5dc4784967ce80a9620909d",
+              "predecessor": null,
+              "media_type": "application/json",
+              "size": 1085,
+              "created_at": 1791616874.690629
+            },
+            "receipt": {
+              "receipt_id": "OBSERVER_VFS_READBACK:88e0639de9325aaf9661d591",
+              "kind": "OBSERVER_VFS_READBACK",
+              "status": "VISIBLE",
+              "artifact_digest": "ea9ba433b2fb41b5873f14cc84ac38b87242a6f799f3372d3e0eb516b83da340",
+              "path": "/ci/356a120dd4b547cfaa1077889ff037ab/console.json",
+              "previous_receipt_digest": "05d36d6d28db676850998f17b8cf8118cbe61273b3c8425cf118585c4b9bfbff",
+              "receipt_digest": "88e0639de9325aaf9661d591c7bdf9a861adefe122ba7b1851e4f13ec6f38582",
+              "at": 1791616874.6943312,
+              "detail": {
+                "expected_digest": "ea9ba433b2fb41b5873f14cc84ac38b87242a6f799f3372d3e0eb516b83da340",
+                "observed_digest": "ea9ba433b2fb41b5873f14cc84ac38b87242a6f799f3372d3e0eb516b83da340",
+                "size": 1085
+              }
+            }
+          }
+        }
+      }
+    ],
+    "passed": true,
+    "live_inference_qualified": false
+  },
+  "kex": {
+    "definition": "HEX x HEX",
+    "role": "STATE_SEED"
+  },
+  "vfs": "Working software, distinct from KEX",
+  "serverspace_substrate_handshake_verified": false,
+  "website_publication_verified": false
+}
