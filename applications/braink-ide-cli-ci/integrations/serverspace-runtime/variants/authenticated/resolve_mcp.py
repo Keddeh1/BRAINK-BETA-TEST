@@ -7,6 +7,7 @@ from pathlib import Path
 import re
 
 from mcp.server.fastmcp import FastMCP
+from pydantic import StrictInt
 from starlette.responses import JSONResponse
 from braink_node.owner_vfs.model import ArtifactWrite
 from braink_node.owner_vfs.store import VFSStore, canonical_json
@@ -76,7 +77,7 @@ def main():
                    stateless_http=True,json_response=True)
 
     @server.tool()
-    def resolve_q32(request_id:str, levels:list[int], environment:str, family:str, custody:str)->dict:
+    def resolve_q32(request_id:str, levels:list[StrictInt], environment:str, family:str, custody:str)->dict:
         """Compute canonical Q32.32, commit to this instance's VFS and verify readback."""
         return node.resolve(request_id,levels,environment,family,custody)
 
@@ -90,6 +91,7 @@ def main():
         try:
             frame=node.panel.read()
             return JSONResponse({'identity':node.identity,'readiness_mask':frame['readiness_mask'],
+                                 'deployment_revision':Path(__file__).parent.name,
                                  'mutual_authentication':frame['authentication']['mutual'],
                                  'receipt_chain':node.store.verify_receipt_chain()})
         except Exception as exc:

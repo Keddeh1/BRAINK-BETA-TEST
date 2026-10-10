@@ -42,10 +42,13 @@ async def qualify(url,identity):
             assert conflict.isError
             absent=await client.call_tool('resolve_q32',{**args,'request_id':'invalid-zero','levels':[0]})
             assert absent.isError
+            for invalid in (True,2.0,'2'):
+                rejected=await client.call_tool('resolve_q32',{**args,'request_id':'invalid-type','levels':[invalid]})
+                assert rejected.isError
             return {'url':url,'identity':identity,'server':initialized.serverInfo.name,
                     'tools':[tool.name for tool in tools.tools],'artifact_digest':first['artifact_digest'],
                     'receipt_chain':readback['chain'],'durable_replay':True,
-                    'conflict_rejected':True,'zero_warrant_rejected':True}
+                    'conflict_rejected':True,'zero_warrant_rejected':True,'coercion_rejected':True}
 
 
 async def main():

@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import signal
 import socket
 import subprocess
 import sys
@@ -26,6 +27,8 @@ def main():
     source=Path(__file__).resolve().parent
     repo=next(parent for parent in source.parents if (parent/'.git').exists())
     revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
+    if subprocess.check_output(['git','diff','HEAD','--name-only'],cwd=repo,text=True).strip():
+        raise RuntimeError('Commit source changes before deploying')
     runtime=Path('/workspace/braink-setup/families/SERVERSPACE/runtime')
     software=runtime/'software'/revision
     if not software.exists():
@@ -55,11 +58,26 @@ def main():
                 manifest['services'].append(service)
                 atomic(manifest_path,manifest)
             elif existing['command'][1]!=str(software/'resolve_mcp.py'):
-                raise RuntimeError('Existing RESOLVE owner differs; preserved for reconciliation')
+                if existing['command'][2:]!=['--root',str(root),'--substrate-root',str(runtime/('substrate-'+name)),
+                                           '--identity',identity,'--port',str(port)]:
+                    raise RuntimeError('Existing RESOLVE context differs; preserved for reconciliation')
+                owners=[]
+                for item in Path('/proc').glob('[0-9]*/cmdline'):
+                    try:
+                        command=[x.decode() for x in item.read_bytes().split(b'\0') if x]
+                        if command==existing['command']:owners.append(int(item.parent.name))
+                    except OSError:pass
+                if len(owners)!=1:raise RuntimeError('Cannot resolve single current SDK owner')
+                existing['command'][1]=str(software/'resolve_mcp.py')
+                existing['cwd']=str(software)
+                existing['environment']['PYTHONPATH']=str(software/'dependencies')
+                atomic(manifest_path,manifest)
+                os.kill(owners[0],signal.SIGTERM)
         for _ in range(150):
             try:
                 result=probe('http://127.0.0.1:'+str(port)+'/health')
                 assert result['http_status']==200 and result['response_json']['readiness_mask']==7
+                assert result['response_json'].get('deployment_revision')==revision
                 break
             except Exception:time.sleep(.1)
         else:raise RuntimeError('New instance not ready; rollout stops before next instance')
