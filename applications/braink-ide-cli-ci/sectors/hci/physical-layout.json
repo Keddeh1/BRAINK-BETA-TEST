@@ -1,0 +1,143 @@
+{
+  "partition_1": {
+    "mount": "/mnt/KEX_BOOT",
+    "filesystem": "vfat",
+    "physical_creation_verified": false
+  },
+  "partition_2": {
+    "mount": "/mnt/KEX_RUNTIME",
+    "filesystem": "ext4",
+    "physical_creation_verified": false
+  },
+  "files": {
+    "/mnt/KEX_BOOT/00_KEX_SENTINEL_SEED.txt": {
+      "source": "OWNER_PROVISIONED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_BOOT/boot_manifest.json": {
+      "source": "OWNER_PROVISIONED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_BOOT/slot_A_manifest.sig": {
+      "source": "OWNER_PROVISIONED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_BOOT/slot_B_manifest.sig": {
+      "source": "OWNER_PROVISIONED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_BOOT/test_runtime_contract.py": {
+      "source": "OWNER_PROVISIONED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/kex_loop_runtime.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/advanced_shm_bridge.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/kera_supervisor.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/kera_api.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/braink_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/illlm_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/casepath_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/claimpath_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/foundry_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/control_plane.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/keddeh_hci_core.py": {
+      "source": "keddeh_hci_core.py",
+      "present_in_hci_build": true
+    },
+    "/mnt/KEX_RUNTIME/slot_a/bin/kex_diagnostics_panel.py": {
+      "source": "kex_diagnostics_panel.py",
+      "present_in_hci_build": true
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/kex_loop_runtime.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/advanced_shm_bridge.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/kera_supervisor.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/kera_api.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/braink_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/illlm_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/casepath_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/claimpath_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/foundry_surface.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/control_plane.py": {
+      "source": "EXISTING_NATIVE_IMPLEMENTATION_REQUIRED",
+      "present_in_hci_build": false
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/keddeh_hci_core.py": {
+      "source": "keddeh_hci_core.py",
+      "present_in_hci_build": true
+    },
+    "/mnt/KEX_RUNTIME/slot_b/bin/kex_diagnostics_panel.py": {
+      "source": "kex_diagnostics_panel.py",
+      "present_in_hci_build": true
+    },
+    "/mnt/KEX_RUNTIME/state_ledger/canonical_state.dat": {
+      "source": "AUTHORITATIVE_LEDGER",
+      "present_in_hci_build": false
+    }
+  },
+  "directories": [
+    "/mnt/KEX_RUNTIME/slot_a/config",
+    "/mnt/KEX_RUNTIME/slot_b/config",
+    "/mnt/KEX_RUNTIME/state_ledger/ephemeral_ring"
+  ],
+  "shared_hci_placement": "Both slot bin directories, additive to the supplied tree",
+  "boot_code_immutability": "Not established by FAT32; requires independent enforcement",
+  "ephemeral_ring_memory_mapping": "A directory alone is not a hardware memory mapping",
+  "raw_media_written": false
+}

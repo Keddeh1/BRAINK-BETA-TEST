@@ -1,0 +1,12 @@
+{
+  "unit_tests_passed": 8,
+  "layout_audit": "83 ASCII columns",
+  "native_readback": {
+    "node_profile": "Native VFS definitions and receipt chains read back: 118"
+  },
+  "hardware_actions_bound": false,
+  "physical_rehydration_verified": false,
+  "standards_conformance_assessed": false,
+  "extracted_slot_a_layout_passed": true,
+  "extracted_slot_b_layout_passed": true
+}
