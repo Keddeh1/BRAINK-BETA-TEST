@@ -1,0 +1,23 @@
+{
+  "id": "appgdep_6aca232bc17c81918376d5d15707ad6a",
+  "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+  "title": "KEDDEH.COM/KEDDEH-SYSTEM-RUNTIME",
+  "version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_34210376f500819189a232f278ec53b9",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site",
+  "has_mcp": true,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6aa503aa595481919d947eef56f2556f",
+  "failure_message": null,
+  "env_set_revision": 6,
+  "updated_at": "2026-10-10T11:36:30.730335+00:00",
+  "version_number": 47,
+  "source_commit": "98e5c05e7fe5581b984d8b599d39718c9e4f1385",
+  "external_smoke": {
+    "status": "blocked_at_edge",
+    "http_status": 403,
+    "cloudflare_error": 1010
+  },
+  "assessment": "Sites confirms production publication. Public automated endpoint reachability was blocked by Cloudflare; the page presents recorded runtime evidence."
+}
