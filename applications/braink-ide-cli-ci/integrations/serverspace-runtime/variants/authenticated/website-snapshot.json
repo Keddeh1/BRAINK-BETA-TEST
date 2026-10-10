@@ -1,0 +1,33 @@
+{
+  "scope": "Recorded authenticated ServerSpace execution; not live website telemetry",
+  "instances": [
+    {
+      "identity": "serverspace/substrate-primary",
+      "observedAt": 1791631719.8306174,
+      "digest": "89ae961d60c2106ce7736cae9b2cd19775c6ef3eae18e0de0c1fd223fd3ca17d",
+      "readiness": 7,
+      "frameBytes": 464,
+      "crc32": 2103500927,
+      "workersReady": true,
+      "authentication": "Mutual Ed25519 / KXA2",
+      "resourceLimits": {
+        "addressSpaceBytes": 536870912,
+        "openFiles": 256
+      }
+    },
+    {
+      "identity": "serverspace/substrate-replica",
+      "observedAt": 1791631719.8565032,
+      "digest": "b661e34337f82b92dbb39390baaf5b29a52c06c210e085b02b8df4a19f3e64d3",
+      "readiness": 7,
+      "frameBytes": 464,
+      "crc32": 3128413255,
+      "workersReady": true,
+      "authentication": "Mutual Ed25519 / KXA2",
+      "resourceLimits": {
+        "addressSpaceBytes": 536870912,
+        "openFiles": 256
+      }
+    }
+  ]
+}

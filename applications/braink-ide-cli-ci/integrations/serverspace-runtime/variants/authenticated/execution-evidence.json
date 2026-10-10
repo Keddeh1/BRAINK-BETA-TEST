@@ -1,0 +1,253 @@
+{
+  "canary": {
+    "schema": "keddeh.serverspace-canary-evidence.v1",
+    "observed_at": 1791631525.1703548,
+    "rapid_authenticated_handshakes": 32,
+    "invalid_client_signature": "REJECTED",
+    "api_handshake": "PASS",
+    "resource_observations": {
+      "canonical_writer": {
+        "pid": 253603,
+        "resident_bytes": 22937600,
+        "enforced": {
+          "address_space_bytes": 536870912,
+          "open_files": 256
+        }
+      },
+      "publisher": {
+        "pid": 253602,
+        "resident_bytes": 22872064,
+        "enforced": {
+          "address_space_bytes": 536870912,
+          "open_files": 256
+        }
+      }
+    },
+    "recovery": {
+      "old_daemon_pid": 253600,
+      "new_daemon_pid": 256155,
+      "elapsed_seconds": 2.9219558860022516,
+      "unready_interval_observed": true,
+      "enrolled_key_retained": true,
+      "mmap_inode_retained": true,
+      "last_committed_q": 1539,
+      "recovered_q": 1540
+    },
+    "final_frame": {
+      "state": {
+        "I": "serverspace/substrate-auth-canary",
+        "O": {
+          "daemon_pid": 256155,
+          "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-auth-canary"
+        },
+        "q": 1540,
+        "t": 1791631525.118161,
+        "workers": {
+          "canonical_writer": {
+            "pid": 256158,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          },
+          "publisher": {
+            "pid": 256157,
+            "ready": true,
+            "resource_limits": {
+              "address_space_bytes": 536870912,
+              "open_files": 256
+            }
+          }
+        }
+      },
+      "state_digest": "da44ae5224abe3e6c2bae0b4859da8123744991a7915930e740c544af3f0d530",
+      "readiness_mask": 7,
+      "crc32": 1814601643,
+      "frame_bytes": 470,
+      "peer_identity": {
+        "pid": 256155,
+        "uid": 1000,
+        "gid": 1000
+      },
+      "authentication": {
+        "protocol": "KXA2",
+        "algorithm": "Ed25519",
+        "mutual": true,
+        "server_public": "86d8589ed2dedc908c7a438960a90af299508a3c5c88671f95bac7f715b5bef8",
+        "client_public": "f555df57fa28d1b95b9d2fd01c8bc1407ccd7d9d59aa942c21b0db12c02bd192"
+      }
+    },
+    "scope": "Authenticated local UDS canary; does not establish distributed failover or loss-free networks"
+  },
+  "promotions": [
+    {
+      "schema": "keddeh.serverspace-promotion.v1",
+      "role": "replica",
+      "observed_at": 1791631601.1020741,
+      "before_daemon_pid": 16901,
+      "after": {
+        "state": {
+          "I": "serverspace/substrate-replica",
+          "O": {
+            "daemon_pid": 259394,
+            "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-replica"
+          },
+          "q": 36369,
+          "t": 1791631601.0159678,
+          "workers": {
+            "canonical_writer": {
+              "pid": 259397,
+              "ready": true,
+              "resource_limits": {
+                "address_space_bytes": 536870912,
+                "open_files": 256
+              }
+            },
+            "publisher": {
+              "pid": 259396,
+              "ready": true,
+              "resource_limits": {
+                "address_space_bytes": 536870912,
+                "open_files": 256
+              }
+            }
+          }
+        },
+        "state_digest": "c6c9b5812542bf294a469c7b4e9427791a56ce8e815554ae323e218c5bb44943",
+        "readiness_mask": 7,
+        "crc32": 1335334253,
+        "frame_bytes": 464,
+        "peer_identity": {
+          "pid": 259394,
+          "uid": 1000,
+          "gid": 1000
+        },
+        "authentication": {
+          "protocol": "KXA2",
+          "algorithm": "Ed25519",
+          "mutual": true,
+          "server_public": "ef599333c8be8b5bdaa8185936c6aa72deddba335a3586ede9186726f78e43ea",
+          "client_public": "80ff6068ab1435fd7e05d206e0905f900384eb320d8a2f3770bd82a73a01ecef"
+        }
+      },
+      "other_instance": {
+        "identity": "serverspace/substrate-primary",
+        "mask": 7,
+        "peer": {
+          "pid": 16984,
+          "uid": 1000,
+          "gid": 1000
+        }
+      },
+      "retained_counter": 36368,
+      "rollback_record": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-replica/pre-authenticated-promotion.json",
+      "source": "/workspace/braink-setup/families/SERVERSPACE/runtime/software/d0ccecfc5dc4326a601f0b1b5c20297909759537/substrate.py"
+    },
+    {
+      "schema": "keddeh.serverspace-promotion.v1",
+      "role": "primary",
+      "observed_at": 1791631656.318034,
+      "before_daemon_pid": 16984,
+      "after": {
+        "state": {
+          "I": "serverspace/substrate-primary",
+          "O": {
+            "daemon_pid": 260548,
+            "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-primary"
+          },
+          "q": 35381,
+          "t": 1791631656.2147813,
+          "workers": {
+            "canonical_writer": {
+              "pid": 260551,
+              "ready": true,
+              "resource_limits": {
+                "address_space_bytes": 536870912,
+                "open_files": 256
+              }
+            },
+            "publisher": {
+              "pid": 260550,
+              "ready": true,
+              "resource_limits": {
+                "address_space_bytes": 536870912,
+                "open_files": 256
+              }
+            }
+          }
+        },
+        "state_digest": "4892c494a0d45c239a056275bddea0479cb45859ba7b90d6fbc57405d6f9dffc",
+        "readiness_mask": 7,
+        "crc32": 2023970832,
+        "frame_bytes": 464,
+        "peer_identity": {
+          "pid": 260548,
+          "uid": 1000,
+          "gid": 1000
+        },
+        "authentication": {
+          "protocol": "KXA2",
+          "algorithm": "Ed25519",
+          "mutual": true,
+          "server_public": "4a8e68c7ce8c0840c41be32b43ea31eca1212ef595888f103d9eafe780a08257",
+          "client_public": "4e196a52868575e753f6a64a7e428b705ee219346d1c6c2ceafa42c19ac25a1d"
+        }
+      },
+      "other_instance": {
+        "identity": "serverspace/substrate-replica",
+        "mask": 7,
+        "peer": {
+          "pid": 259394,
+          "uid": 1000,
+          "gid": 1000
+        }
+      },
+      "retained_counter": 35380,
+      "rollback_record": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-primary/pre-authenticated-promotion.json",
+      "source": "/workspace/braink-setup/families/SERVERSPACE/runtime/software/d0ccecfc5dc4326a601f0b1b5c20297909759537/substrate.py"
+    }
+  ],
+  "instances": [
+    {
+      "identity": "serverspace/substrate-primary",
+      "observedAt": 1791631719.8306174,
+      "digest": "89ae961d60c2106ce7736cae9b2cd19775c6ef3eae18e0de0c1fd223fd3ca17d",
+      "readiness": 7,
+      "frameBytes": 464,
+      "crc32": 2103500927,
+      "workersReady": true,
+      "authentication": "Mutual Ed25519 / KXA2",
+      "resourceLimits": {
+        "addressSpaceBytes": 536870912,
+        "openFiles": 256
+      },
+      "api": {
+        "host": "127.0.0.1",
+        "identity": "serverspace/substrate-primary",
+        "pid": 260552,
+        "port": 40185
+      }
+    },
+    {
+      "identity": "serverspace/substrate-replica",
+      "observedAt": 1791631719.8565032,
+      "digest": "b661e34337f82b92dbb39390baaf5b29a52c06c210e085b02b8df4a19f3e64d3",
+      "readiness": 7,
+      "frameBytes": 464,
+      "crc32": 3128413255,
+      "workersReady": true,
+      "authentication": "Mutual Ed25519 / KXA2",
+      "resourceLimits": {
+        "addressSpaceBytes": 536870912,
+        "openFiles": 256
+      },
+      "api": {
+        "host": "127.0.0.1",
+        "identity": "serverspace/substrate-replica",
+        "pid": 259399,
+        "port": 42331
+      }
+    }
+  ]
+}
