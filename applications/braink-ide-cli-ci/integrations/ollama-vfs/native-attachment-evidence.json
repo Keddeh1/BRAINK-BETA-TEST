@@ -1,0 +1,195 @@
+{
+  "all_ceremonies_readback": true,
+  "distinct_vfs_roots": 25,
+  "instances": 25,
+  "mesh_exchange": {
+    "digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+    "observer": {
+      "artifact": {
+        "created_at": 1791606611.8506997,
+        "digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "media_type": "application/json",
+        "path": "/messages/e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "predecessor": null,
+        "size": 500,
+        "source": "braink-255dfe369e4daf7685e317a2554bc29b7cf9dafaf8da9716e1f7d214de8c4647"
+      },
+      "receipt": {
+        "artifact_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "at": 1791606664.4153779,
+        "detail": {
+          "expected_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+          "observed_digest": "e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+          "size": 500
+        },
+        "kind": "OBSERVER_VFS_READBACK",
+        "path": "/messages/e6ef45096767b4dad6368ae865229370412bf3a34292668326b7a9a5f76b22eb",
+        "previous_receipt_digest": "70e2a0617b9331d9d5c0888128e13a978b159e1f3aa2230d769faeb663d54c6a",
+        "receipt_digest": "e2fc62e38abbc250ffe8a7b8fd8f72d78443543758e21bf9dd72efb70dcf9154",
+        "receipt_id": "OBSERVER_VFS_READBACK:e2fc62e38abbc250ffe8a7b8",
+        "status": "VISIBLE"
+      },
+      "verified": true
+    },
+    "replayed": true,
+    "sequence": 275
+  },
+  "ollama_inference_verified": false,
+  "schema": "keddeh.ollama.native-attachment.v1",
+  "scope": "Current connected execution workspace; no production or Android inference claim",
+  "source_sha256": "a02612952e55275d8c1839f0f9c42aff1884b733233f946d083c55937b9141d5",
+  "variant_inventory_observations": [
+    {
+      "actor": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575",
+      "instance": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575",
+      "receipt": {
+        "digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+        "observer": {
+          "artifact": {
+            "created_at": 1791606611.7262444,
+            "digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+            "media_type": "application/json",
+            "path": "/executions/b4788c5201b0478ba7a8e6c7399c75ef/result.json",
+            "predecessor": null,
+            "size": 142,
+            "source": "braink-070ce45fd18d1f7eac6cbf9f55e72e79956d9bdec3a44bbbae1279a875ae0575"
+          },
+          "receipt": {
+            "artifact_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+            "at": 1791606664.3087685,
+            "detail": {
+              "expected_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+              "observed_digest": "a806b15aa0298e1280399ddfa33b84213073ae425cb4ac2bb844e4cd0e6ef19b",
+              "size": 142
+            },
+            "kind": "OBSERVER_VFS_READBACK",
+            "path": "/executions/b4788c5201b0478ba7a8e6c7399c75ef/result.json",
+            "previous_receipt_digest": "3f1b725a3174ea75a89361f059100b740f5ef7804c3b71b1d907640c71de6133",
+            "receipt_digest": "f3e2815e1f9fb91a77ec723445ce33f8210d370b861b93595da3e1a23c6b5430",
+            "receipt_id": "OBSERVER_VFS_READBACK:f3e2815e1f9fb91a77ec7234",
+            "status": "VISIBLE"
+          },
+          "verified": true
+        }
+      },
+      "state": "UNREACHABLE_OR_INVALID",
+      "variant": "variant://braink-ollama/console"
+    },
+    {
+      "actor": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105",
+      "instance": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105",
+      "receipt": {
+        "digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+        "observer": {
+          "artifact": {
+            "created_at": 1791606611.7640624,
+            "digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+            "media_type": "application/json",
+            "path": "/executions/b585433218654235a505b562ad897750/result.json",
+            "predecessor": null,
+            "size": 142,
+            "source": "braink-13637971e514093506afabb918df2ddae1c5b0494f8280178f1f8af4befcb105"
+          },
+          "receipt": {
+            "artifact_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+            "at": 1791606664.3383095,
+            "detail": {
+              "expected_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+              "observed_digest": "06bc91d9b5f8e5042c060af4fb0aaa335aaa1b525dd36a84ad66996526dbeea0",
+              "size": 142
+            },
+            "kind": "OBSERVER_VFS_READBACK",
+            "path": "/executions/b585433218654235a505b562ad897750/result.json",
+            "previous_receipt_digest": "fdd81c91378ad2ef8af5dc814a628fc8abf405bd4dbc310a7974d74fd6ddc9fd",
+            "receipt_digest": "24cde25c190e36176669e77cdb928db0fae761791b29e28808c98e339b77bd2c",
+            "receipt_id": "OBSERVER_VFS_READBACK:24cde25c190e36176669e77c",
+            "status": "VISIBLE"
+          },
+          "verified": true
+        }
+      },
+      "state": "UNREACHABLE_OR_INVALID",
+      "variant": "variant://braink-ollama/ide"
+    },
+    {
+      "actor": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710",
+      "instance": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710",
+      "receipt": {
+        "digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+        "observer": {
+          "artifact": {
+            "created_at": 1791606611.7975323,
+            "digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+            "media_type": "application/json",
+            "path": "/executions/83f969aeea4a4b0ebcdbbadbefc51e58/result.json",
+            "predecessor": null,
+            "size": 142,
+            "source": "braink-360b4b01c0d0a52ab9c0315cac9384fec4e648aa635d7d40ef3aff7399ce9710"
+          },
+          "receipt": {
+            "artifact_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+            "at": 1791606664.3734794,
+            "detail": {
+              "expected_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+              "observed_digest": "61f12ef2b0b9ed74097d8c303f36c0ac9713cf0db727d64975bd3d5610049a11",
+              "size": 142
+            },
+            "kind": "OBSERVER_VFS_READBACK",
+            "path": "/executions/83f969aeea4a4b0ebcdbbadbefc51e58/result.json",
+            "previous_receipt_digest": "78c2b49556ca95113039a057ec34640913d85a0d1c1a57f68657fcaa6470a8fa",
+            "receipt_digest": "e732a664c824adccb7667b37c653c506bb786d210626cfb6361ba02cf8e3681b",
+            "receipt_id": "OBSERVER_VFS_READBACK:e732a664c824adccb7667b37",
+            "status": "VISIBLE"
+          },
+          "verified": true
+        }
+      },
+      "state": "UNREACHABLE_OR_INVALID",
+      "variant": "variant://braink-ollama/cli"
+    },
+    {
+      "actor": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73",
+      "instance": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73",
+      "receipt": {
+        "digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+        "observer": {
+          "artifact": {
+            "created_at": 1791606611.8335135,
+            "digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+            "media_type": "application/json",
+            "path": "/executions/872c809a0da540ad9d3853c02cc7e05d/result.json",
+            "predecessor": null,
+            "size": 142,
+            "source": "braink-99d93130c522b634549a3c79624128549e3947bfe5e441d1e433d518926eff73"
+          },
+          "receipt": {
+            "artifact_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+            "at": 1791606664.4044333,
+            "detail": {
+              "expected_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+              "observed_digest": "82f0d8ffa3e67ebbdab15afae5335c4febd7b60c9cc78915338b59f45f67b414",
+              "size": 142
+            },
+            "kind": "OBSERVER_VFS_READBACK",
+            "path": "/executions/872c809a0da540ad9d3853c02cc7e05d/result.json",
+            "previous_receipt_digest": "75b3f9a6f30c6c8c34d80d401144e99125390e924b9dd396d3c66802c3c7f8bb",
+            "receipt_digest": "d76a876ed464894914f1ecc4826aedb288b603541e300544da66418b77ff2680",
+            "receipt_id": "OBSERVER_VFS_READBACK:d76a876ed464894914f1ecc4",
+            "status": "VISIBLE"
+          },
+          "verified": true
+        }
+      },
+      "state": "UNREACHABLE_OR_INVALID",
+      "variant": "variant://braink-ollama/ci"
+    }
+  ],
+  "qualification": {
+    "javascript_tests_passed": 7,
+    "native_python_tests_passed": 4,
+    "ceremony_resume_readback_verified": true,
+    "nested_model_volume_materialisation_verified": false,
+    "android_build_verified": false,
+    "production_deployment_verified": false
+  }
+}
