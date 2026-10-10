@@ -1,0 +1,98 @@
+{
+  "scope": "Newly developed additive ServerSpace substrate; both local runtime instances are real",
+  "frame_protocol": "KXS1: 48-byte header plus complete canonical JSON payload",
+  "live_checks_passed": true,
+  "instances": [
+    {
+      "instance": "substrate-primary",
+      "handshake": {
+        "state": {
+          "I": "serverspace/substrate-primary",
+          "O": {
+            "daemon_pid": 16984,
+            "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-primary"
+          },
+          "q": 1499,
+          "t": 1791628196.8554928,
+          "workers": {
+            "canonical_writer": {
+              "pid": 16987,
+              "ready": true
+            },
+            "publisher": {
+              "pid": 16986,
+              "ready": true
+            }
+          }
+        },
+        "state_digest": "6f91041dc4645cccc29a025b51110ba1117282f15275b21464d089143dfecfd9",
+        "readiness_mask": 7,
+        "crc32": 3809670735,
+        "frame_bytes": 322,
+        "peer_identity": {
+          "pid": 16984,
+          "uid": 1000,
+          "gid": 1000
+        }
+      },
+      "api": {
+        "host": "127.0.0.1",
+        "identity": "serverspace/substrate-primary",
+        "pid": 16988,
+        "port": 42813
+      },
+      "pool_configured": false,
+      "mining_status": "DISCONNECTED",
+      "api_http_status": 200
+    },
+    {
+      "instance": "substrate-replica",
+      "handshake": {
+        "state": {
+          "I": "serverspace/substrate-replica",
+          "O": {
+            "daemon_pid": 16901,
+            "runtime": "/workspace/braink-setup/families/SERVERSPACE/runtime/substrate-replica"
+          },
+          "q": 3037,
+          "t": 1791628196.815973,
+          "workers": {
+            "canonical_writer": {
+              "pid": 16907,
+              "ready": true
+            },
+            "publisher": {
+              "pid": 16906,
+              "ready": true
+            }
+          }
+        },
+        "state_digest": "db6a69e6239d23c93b9dfae12135bf7e130798bc330334ec0ea4191e093f9b86",
+        "readiness_mask": 7,
+        "crc32": 234403581,
+        "frame_bytes": 321,
+        "peer_identity": {
+          "pid": 16901,
+          "uid": 1000,
+          "gid": 1000
+        }
+      },
+      "api": {
+        "host": "127.0.0.1",
+        "identity": "serverspace/substrate-replica",
+        "pid": 16909,
+        "port": 36563
+      },
+      "pool_configured": false,
+      "mining_status": "DISCONNECTED",
+      "api_http_status": 200
+    }
+  ],
+  "watchdog_fault_test": {
+    "publisher_terminated_for_test": true,
+    "readiness_endpoint_closed": true,
+    "replica_remained_ready": true,
+    "primary_restarted_ready": true,
+    "persistent_mmap_inode_preserved": true
+  }
+}

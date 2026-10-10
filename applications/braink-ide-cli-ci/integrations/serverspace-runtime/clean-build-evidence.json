@@ -1,0 +1,11 @@
+{
+  "artifact": "serverspace-substrate-0.1.0.zip",
+  "sha256": "5b8e0917f98be5dab1918627fafc8b4a497fe8c2f2f416ac134d34473ee21b71",
+  "source_sha256": {
+    "substrate.py": "74e38146c8f505a95b85dbd6778385f3683fa4d6e7d1bc33ccbfb12c6081171e",
+    "owner/stratum_engine.py": "035e73f553dc576ba47f52996e803c52f996253f341b7e4db693fac2e4587140",
+    "source-provenance.json": "0fb196b824365006c220ce432be4fd9a651241550285759020bfa17ae5e4e461"
+  },
+  "tests_passed": 5,
+  "live_evidence": "live-evidence.json"
+}

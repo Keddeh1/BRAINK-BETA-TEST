@@ -1,0 +1,18 @@
+{
+  "project_id": "appgprj_6aa503aa595481919d947eef56f2556f",
+  "version_id": "appgprj_6aa503aa595481919d947eef56f2556f~appgver_ba13357968688191a305788437e8a669",
+  "version_number": 45,
+  "deployment_id": "appgdep_6aca13ee7b0c8191bb9ee0479bfe4a06",
+  "deployment_status": "succeeded",
+  "url": "https://keddeh-systems-runtime.aboudy65097.chatgpt.site/serverspace/substrate",
+  "source_commit": "db914cb16f6be460182a922b7c2656a8d3fc4b80",
+  "environment_revision": 6,
+  "access_mode_preserved": "public",
+  "access_policy_revision": 2,
+  "source_build": "node scripts/run-framework.mjs build",
+  "artifact_sha256": "c4f90dc8d8747e04ba5e776fd483539f63b2caa4d1231b65427a055ae90ff8b0",
+  "independent_assessment_receipt": null,
+  "page_content": "Labelled recorded execution snapshot",
+  "continuous_public_host_connection": false,
+  "http_readback": "Execution network proxy rejected domain CONNECT with 403; native deployment result succeeded"
+}

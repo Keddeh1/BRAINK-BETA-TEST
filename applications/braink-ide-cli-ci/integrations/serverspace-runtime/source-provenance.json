@@ -1,0 +1,7 @@
+{
+  "archive_sha256": "0391dc521a1e43f580d03f10a9c593587506e97e2fb3bab9595f2b5183693a74",
+  "retained_member": "mining_engine/stratum_engine.py",
+  "member_sha256": "035e73f553dc576ba47f52996e803c52f996253f341b7e4db693fac2e4587140",
+  "retained_unmodified": true,
+  "firmware_simulation_excluded": true
+}

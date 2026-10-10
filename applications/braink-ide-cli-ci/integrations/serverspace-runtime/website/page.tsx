@@ -1,0 +1,11 @@
+import snapshot from './snapshot.json';
+export const metadata={title:'ServerSpace substrate | Keddeh Systems Runtime'};
+export default function Substrate(){return <main style={{maxWidth:1000,margin:'auto',padding:'64px 24px',color:'#edf3ef'}}>
+<p style={{letterSpacing:3,color:'#9cceac'}}>SERVERSPACE / RUNTIME DELIVERY</p><h1 style={{fontSize:'clamp(32px,5vw,64px)',lineHeight:1.1}}>Persistent substrate.<br/>Observed execution.</h1>
+<p style={{maxWidth:680,fontSize:18,lineHeight:1.7}}>Two isolated runtime instances with persistent shared-memory backing, canonical state custody and a watchdog. The mining API starts after the local substrate handshake.</p>
+<p role="note">Recorded execution snapshot—not a live connection to the local host. Mining pools are not connected.</p>
+<section aria-label="Verified runtime instances" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',gap:24,marginTop:32}}>{snapshot.instances.map(instance=><article key={instance.identity} style={{border:'1px solid #45604d',borderRadius:16,padding:24,background:'#14281e'}}>
+<h2>{instance.identity}</h2><p>Readiness mask: <strong>{instance.readiness}</strong> · Both workers ready: <strong>{instance.workersReady?'Yes':'No'}</strong></p>
+<p>Complete frame: {instance.frameBytes} bytes · CRC32: {instance.crc32}</p><p>Observed: {new Date(instance.observedAt*1000).toLocaleString('en-AU',{timeZone:'Australia/Adelaide'})} Adelaide</p><p>State SHA-256</p><code style={{overflowWrap:'anywhere'}}>{instance.digest}</code></article>)}</section>
+<section style={{marginTop:40}}><h2>Execution contract</h2><p>UDS peer credentials, complete frame length, CRC32, state digest, worker identities and freshness are checked before accepting readiness. KEX is the state seed; VFS is working software. Shared-memory files provide persistent local backing; they do not establish hardware MRAM or a lock-free ring.</p>
+<p><a style={{color:'#b1e1b8'}} href="https://github.com/Keddeh1/BRAINK-BETA-TEST/tree/feat/vfs-ollama-actor-rebuild/applications/braink-ide-cli-ci/integrations/serverspace-runtime">Source and execution evidence</a> · <a style={{color:'#b1e1b8'}} href="/serverspace">Open ServerSpace</a></p></section></main>}

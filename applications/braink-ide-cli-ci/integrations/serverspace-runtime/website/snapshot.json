@@ -1,0 +1,23 @@
+{
+  "scope": "Newly developed additive ServerSpace substrate, not a claim of recovered pre-existing daemon",
+  "instances": [
+    {
+      "identity": "serverspace/substrate-primary",
+      "observedAt": 1791627692.6012983,
+      "digest": "5aa5b6afb3c3b8d1cf23a504fbc2fd8dbd51a598ef6c0ca672403e5bc78ed671",
+      "readiness": 7,
+      "frameBytes": 321,
+      "crc32": 1627871079,
+      "workersReady": true
+    },
+    {
+      "identity": "serverspace/substrate-replica",
+      "observedAt": 1791627692.703988,
+      "digest": "5b534210209e470189037c0feebef3fcc9df86100183681e71eaeb4147005fad",
+      "readiness": 7,
+      "frameBytes": 320,
+      "crc32": 3991045822,
+      "workersReady": true
+    }
+  ]
+}
