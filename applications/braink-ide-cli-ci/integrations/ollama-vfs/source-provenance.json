@@ -26,12 +26,20 @@
         "server.ts": "acc95617f8516eda11353153302262c773fbeb0ca56d0ac0fccb8c4caead14ca",
         "server/fabricEngine.ts": "58b8572bff04d2fa5b44ded5c8c3d8ceff4f27534d783410a5e3d5ccbf57d9fd"
       }
+    },
+    {
+      "archive": "android-apk-servers.zip",
+      "sha256": "b98811df1aff358bb033fa4d98d2f8466e4c67c9ee21a29499c6008b4ccf0fce",
+      "relevant_source_sha256": {
+        "app/src/main/java/com/example/OpenSourceProvider.kt": "bf290a84aae4ab0c6f66027be2c4494a17eaa8366d251b24289649f59b4683ab"
+      }
     }
   ],
   "observations": {
     "console": "Contains real OS process and leased execution actuators; not an Ollama integration.",
     "remix": "Contains Ollama routes, VFS and mesh bridge; existing route silently substitutes Gemini without an explicit Ollama URL.",
-    "storespace": "Contains model-generated terminal simulation; not evidence of host command execution."
+    "storespace": "Contains model-generated terminal simulation; not evidence of host command execution.",
+    "android": "Existing ModelProvider/OpenAI-compatible client; streaming correction preserves cancellation and rejects premature EOF. Android build and device execution not yet verified."
   },
   "live_ollama_inference_verified": false
 }
