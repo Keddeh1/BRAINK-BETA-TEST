@@ -34,6 +34,7 @@ def canonical(value): return json.dumps(value, sort_keys=True, separators=(',', 
 def atomic(path, content):
     temporary = path.with_name(path.name + '.' + str(os.getpid()) + '.tmp')
     with temporary.open('wb') as stream:
+        os.chmod(temporary,0o600)
         stream.write(content); stream.flush(); os.fsync(stream.fileno())
     os.replace(temporary, path)
     fd=os.open(path.parent,os.O_DIRECTORY)
