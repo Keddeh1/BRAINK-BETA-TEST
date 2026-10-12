@@ -1,6 +1,7 @@
 import tempfile,unittest
 from vfs_server.model import ArtifactWrite
-from vfs_server.store import VFSStore,sha256_bytes\nfrom vfs_server.auth import MutationAuthorizer
+from vfs_server.store import VFSStore,sha256_bytes
+from vfs_server.auth import MutationAuthorizer
 
 class VFSServerTests(unittest.TestCase):
     def setUp(self): self.tmp=tempfile.TemporaryDirectory(); self.store=VFSStore(self.tmp.name)
@@ -25,7 +26,8 @@ class VFSServerTests(unittest.TestCase):
         reopened=VFSStore(self.tmp.name)
         self.assertTrue(reopened.verify_receipt_chain()["verified"])
     def test_authorizer(self):
-        self.assertTrue(MutationAuthorizer().allowed(None))
+        self.assertFalse(MutationAuthorizer().allowed(None))
+        self.assertTrue(MutationAuthorizer(insecure_local_dev=True).allowed(None))
     def test_unknown_predecessor_fails(self):
         with self.assertRaises(ValueError):
             self.store.write(ArtifactWrite("/x",b"x","test","0"*64))
