@@ -1,0 +1,17 @@
+{
+  "schema": "keddeh.triad-hardware-observation.v1",
+  "observed_at": 1791954676.1047697,
+  "process_id": 292971,
+  "vfs_filesystem_device": {
+    "major": 0,
+    "minor": 27
+  },
+  "matching_kernel_block_device": false,
+  "scheduler_statistics_enabled": null,
+  "measurement_scope": "Container-visible device and kernel instrumentation discovery; not a saturation workload",
+  "physical_io_saturation": null,
+  "hardware_thread_contention": null,
+  "calibration_state": "UNRESOLVED: VFS filesystem is not mapped to a kernel block device",
+  "tolerance_index": null,
+  "effect_on_live_session": "NONE"
+}
