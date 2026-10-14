@@ -228,3 +228,15 @@ class CiIntegrityTests(NodeFixture, unittest.TestCase):
             self.assertTrue((root / 'runs/successful/report.json').exists())
         finally:
             process.terminate(); process.wait(timeout=5)
+
+    def test_restarted_supervisor_uses_activated_source_and_git_checkout(self):
+        import importlib.util
+        script = Path(__file__).resolve().parents[1] / 'scripts/supervise_node.py'
+        spec = importlib.util.spec_from_file_location('supervisor_binding', script)
+        module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+        old = self.base / 'old'; new = self.base / 'new'; checkout = self.base / 'checkout'
+        for path in (old, new, checkout): path.mkdir()
+        config = self.base / 'config.json'
+        config.write_text(json.dumps({'source':str(new), 'desired_source':str(checkout)}))
+        self.assertEqual(module.configured_sources(old, config), (new, checkout))
+        self.assertEqual(module.configured_sources(old, None), (old, old))

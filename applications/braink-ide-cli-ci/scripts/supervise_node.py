@@ -62,6 +62,17 @@ def activate_environment(root, activation, config_path):
     return {'environment': str(stage), 'previous_environment': str(previous), 'console_readback': True}
 
 
+def configured_sources(source, config_path):
+    """Use activated runtime source and a Git-capable desired tree for CI jobs."""
+    source = source.resolve(strict=True)
+    if not config_path:
+        return source, source
+    configured = json.loads(config_path.read_text())
+    runtime_source = Path(configured.get('source', str(source))).resolve(strict=True)
+    relay_source = Path(configured.get('desired_source', str(runtime_source))).resolve(strict=True)
+    return runtime_source, relay_source
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime-root', type=Path, required=True)
@@ -74,6 +85,7 @@ def main():
     parser.add_argument('--port', type=int, default=8765)
     args = parser.parse_args()
     root = args.runtime_root.resolve(strict=True)
+    args.source, relay_source = configured_sources(args.source, args.automation_config)
     lock = (root / 'supervisor.lock').open('a')
     fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     secret = json.loads((root / 'worker-credential.json').read_text())
@@ -81,7 +93,7 @@ def main():
     environment = os.environ.copy()
     environment.update(BRAINK_CI_AGENT_TOKEN=secret['agent'], BRAINK_WORKSPACE=str(root/'workspace'), BRAINK_CI_PYTHON=str(python))
     common = [str(python), '-m', 'braink_cli.cli', '--workspace', str(root/'workspace'), '--state-dir', str(root/'state')]
-    definitions = {'node': common+['serve','--port',str(args.port)], 'relay': common+['ci','relay','--source',str(args.source.resolve(strict=True))]}
+    definitions = {'node': common+['serve','--port',str(args.port)], 'relay': common+['ci','relay','--source',str(relay_source)]}
     if args.checkout:
         definitions['branch-trigger'] = [str(python), str(Path(__file__).resolve().parent/'watch_branch.py'), '--runtime-root',str(root),'--checkout',str(args.checkout)]
     if args.owner_export and args.mesh_token_file:
