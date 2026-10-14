@@ -138,3 +138,93 @@ class CiTests(NodeFixture, unittest.TestCase):
         self.assertEqual(report['status'],'error')
         self.assertEqual(calls[-1]['op'],'result')
         self.assertFalse(relay.outbox.exists())
+
+
+class CiIntegrityTests(NodeFixture, unittest.TestCase):
+    def test_tampered_snapshot_never_executes(self):
+        self.file('source.txt', b'original')
+        runner = CIRunner(self.base / 'ci', self.store)
+        marker = self.base / 'must-not-exist'
+        queued = runner.submit(self.root, {'schema':'braink.ci.pipeline.v1', 'stages':[
+            {'name':'mutation', 'command':[sys.executable, '-c', f"open({str(marker)!r}, 'w').write('ran')"]}]})
+        (runner.root / 'runs' / queued['id'] / 'source/source.txt').write_bytes(b'tampered')
+        result = runner.execute_next()
+        self.assertEqual(result['status'], 'error')
+        self.assertEqual(result['stages'], [])
+        self.assertFalse(marker.exists())
+        self.assertTrue(self.store.verify()['ok'])
+
+    def test_added_source_and_rewritten_manifest_are_rejected(self):
+        from braink_ci.runner import verify_source_snapshot
+        from braink_node.canonical import canonical_bytes, sha256_hex
+        self.file('source.txt')
+        runner = CIRunner(self.base / 'ci', self.store)
+        queued = runner.submit(self.root)
+        run = runner.root / 'runs' / queued['id']
+        extra = run / 'source/injected.py'
+        extra.write_text('raise SystemExit(0)')
+        with self.assertRaisesRegex(ValueError, 'file set'):
+            verify_source_snapshot(run, queued['source_digest'])
+        extra.unlink()
+        manifest_path = run / 'source-manifest.json'
+        manifest = json.loads(manifest_path.read_text())
+        manifest['files'][0]['sha256'] = '0' * 64
+        manifest['digest'] = sha256_hex(canonical_bytes(manifest['files']))
+        manifest_path.write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError, 'submitted receipt'):
+            verify_source_snapshot(run, queued['source_digest'])
+
+    def test_qualification_cleanup_preserves_evidence_and_rejects_symlinks(self):
+        import importlib.util
+        script = Path(__file__).resolve().parents[1] / 'scripts/qualify_installed.py'
+        spec = importlib.util.spec_from_file_location('qualification_lifecycle', script)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        run = self.base / 'run'; run.mkdir()
+        env = run / 'qualification-venv'; env.mkdir()
+        (env / 'pyvenv.cfg').write_text('home = test')
+        evidence = run / 'report.json'; evidence.write_text('retained')
+        module.release_environment(run)
+        self.assertFalse(env.exists())
+        self.assertEqual(evidence.read_text(), 'retained')
+        protected = self.base / 'protected'; protected.mkdir()
+        (protected / 'pyvenv.cfg').write_text('preserve')
+        env.symlink_to(protected)
+        with self.assertRaises(ValueError): module.release_environment(run)
+        self.assertTrue((protected / 'pyvenv.cfg').exists())
+
+    def test_modified_artifact_and_log_cannot_be_published(self):
+        self.file('source.txt')
+        runner = CIRunner(self.base / 'ci', self.store)
+        runner.submit(self.root, {'schema':'braink.ci.pipeline.v1', 'stages':[
+            {'name':'produce', 'command':[sys.executable, '-c', "from pathlib import Path; print('log'); Path(r'{artifacts}/output').write_bytes(b'original')"]}]})
+        report = runner.execute_next()
+        self.assertTrue(runner.verify_report(report))
+        run = runner.root / 'runs' / report['id']
+        artifact = run / report['artifacts'][0]['path']
+        artifact.write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError, 'artifact differs'): runner.verify_report(report)
+        artifact.write_bytes(b'original')
+        (run / report['stages'][0]['log']).write_text('changed log')
+        with self.assertRaisesRegex(ValueError, 'log differs'): runner.verify_report(report)
+        report['status'] = 'error'
+        with self.assertRaisesRegex(ValueError, 'terminal receipt'): runner.verify_report(report)
+
+    def test_maintenance_retains_failed_and_active_run_tools(self):
+        import subprocess
+        from braink_ci.maintenance import reclaim_qualified_environments
+        root = self.base / 'ci'
+        for name, status in [('successful', 'passed'), ('failed', 'failed'), ('active', 'passed')]:
+            run = root / 'runs' / name
+            env = run / 'qualification-venv'; env.mkdir(parents=True)
+            (env / 'pyvenv.cfg').write_text('test')
+            (run / 'report.json').write_text(json.dumps({'status':status, 'finished':1}))
+        process = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(30)', str(root / 'runs/active')])
+        try:
+            result = reclaim_qualified_environments(root)
+            self.assertEqual(result['removed'], ['successful'])
+            self.assertTrue((root / 'runs/failed/qualification-venv').exists())
+            self.assertTrue((root / 'runs/active/qualification-venv').exists())
+            self.assertTrue((root / 'runs/successful/report.json').exists())
+        finally:
+            process.terminate(); process.wait(timeout=5)

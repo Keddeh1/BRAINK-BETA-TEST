@@ -94,9 +94,10 @@ class WebsiteRelay:
             finally:
                 heartbeat_stop.set()
                 thread.join(timeout=1)
+        self.runner.verify_report(report)
         # Include actual stage logs and hashes, never runtime credentials or source contents.
         receipt_body = canonical_bytes({key: value for key, value in report.items() if key != "receipt_sha256"}).decode()
-        public = json.loads(json.dumps({key: report[key] for key in ("id", "status", "source_digest", "source_commit", "stages", "artifacts", "finished", "receipt_sha256") if key in report}))
+        public = json.loads(json.dumps({key: report[key] for key in ("id", "status", "source_digest", "source_commit", "source_verified", "stages", "artifacts", "finished", "receipt_sha256") if key in report}))
         for stage in public["stages"]:
             stage["log_text"] = self.runner.read_log(local_id, stage["name"])
         blobs = [{"path": artifact["path"], "base64": base64.b64encode((self.runner.root / "runs" / local_id / artifact["path"]).read_bytes()).decode()} for artifact in report["artifacts"]]

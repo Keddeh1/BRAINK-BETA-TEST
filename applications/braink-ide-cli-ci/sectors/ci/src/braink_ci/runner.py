@@ -82,6 +82,30 @@ def snapshot_source(source: Path, destination: Path):
     return {"digest": sha256_hex(canonical_bytes(inventory)), "files": inventory}
 
 
+def verify_source_snapshot(run, expected_digest):
+    manifest = json.loads((run / 'source-manifest.json').read_text())
+    if manifest.get('digest') != expected_digest or sha256_hex(canonical_bytes(manifest['files'])) != expected_digest:
+        raise ValueError('CI source manifest differs from submitted receipt')
+    source = run / 'source'
+    expected_paths = {row['path'] for row in manifest['files']}
+    observed_paths = set()
+    for parent, directories, files in os.walk(source, followlinks=False):
+        for name in [*directories, *files]:
+            if (Path(parent) / name).is_symlink():
+                raise ValueError('Symlink introduced into CI source snapshot')
+        directories[:] = [name for name in directories if name != '__pycache__']
+        observed_paths.update((Path(parent) / name).relative_to(source).as_posix() for name in files)
+    if observed_paths != expected_paths:
+        raise ValueError('CI source file set differs from submitted snapshot')
+    for row in manifest['files']:
+        path = source / row['path']
+        if path.is_symlink() or not path.resolve().is_relative_to(source.resolve()):
+            raise ValueError('CI source path escapes snapshot')
+        if path.stat().st_size != row['size'] or sha256_hex(path.read_bytes()) != row['sha256']:
+            raise ValueError('CI source bytes differ from submitted snapshot: ' + row['path'])
+    return True
+
+
 class CIRunner:
     def __init__(self, root: Path, ledger, python=None):
         self.root = root.resolve()
@@ -163,6 +187,7 @@ class CIRunner:
         self.ledger.append(event_type="braink.ci.started", route="braink-node/ci",
                            payload={"job_id": report["id"], "source_digest": report["source_digest"]})
         try:
+            report["source_verified"] = verify_source_snapshot(run, report["source_digest"])
             for stage in report["pipeline"]["stages"]:
                 command = [arg.format_map(values) for arg in stage["command"]]
                 log = run / (stage["name"] + ".log")
@@ -210,6 +235,8 @@ class CIRunner:
                            payload={"job_id": report["id"], "status": report["status"],
                                     "receipt_sha256": report["receipt_sha256"],
                                     "source_digest": report["source_digest"]})
+        if report['status'] == 'passed':
+            self.maintain()
         return report
 
     def interrupt(self, job_id):
@@ -230,6 +257,31 @@ class CIRunner:
                            payload={"job_id": job_id, "status": "error", "receipt_sha256": report["receipt_sha256"]})
         return report
 
+    def verify_report(self, report):
+        """Read back the terminal evidence before it can leave this runtime."""
+        body = {key: value for key, value in report.items() if key != 'receipt_sha256'}
+        if sha256_hex(canonical_bytes(body)) != report.get('receipt_sha256'):
+            raise ValueError('CI terminal receipt differs')
+        if report['status'] == 'passed' and (not report.get('source_verified') or
+                len(report['stages']) != len(report['pipeline']['stages']) or
+                any(stage.get('status') != 'passed' or stage.get('returncode') != 0 for stage in report['stages'])):
+            raise ValueError('CI success lacks complete execution evidence')
+        run = self.root / 'runs' / report['id']
+        for row in report['artifacts']:
+            path = run / row['path']
+            if path.is_symlink() or not path.resolve().is_relative_to((run / 'artifacts').resolve()):
+                raise ValueError('CI artifact escapes its run')
+            if path.stat().st_size != row['size'] or sha256_hex(path.read_bytes()) != row['sha256']:
+                raise ValueError('CI artifact differs from terminal receipt')
+        for stage in report['stages']:
+            if stage.get('log_sha256'):
+                path = run / stage['log']
+                if path.is_symlink() or not path.resolve().is_relative_to(run.resolve()):
+                    raise ValueError('CI log escapes its run')
+                if sha256_hex(path.read_bytes()) != stage['log_sha256']:
+                    raise ValueError('CI log differs from terminal receipt')
+        return True
+
     def read_log(self, job_id, stage):
         report = self.get(job_id)
         matches = [x for x in report["stages"] if x["name"] == stage]
@@ -242,7 +294,15 @@ class CIRunner:
             stream.seek(max(0, path.stat().st_size - 100_000))
             return stream.read().decode("utf-8", errors="replace")
 
+    def maintain(self):
+        from .maintenance import reclaim_qualified_environments
+        result = reclaim_qualified_environments(self.root)
+        if result['removed']:
+            self.ledger.append(event_type='braink.ci.tools.reclaimed', route='braink-node/ci', payload=result)
+        return result
+
     def worker(self, stop, poll_seconds=1):
+        self.maintain()
         while not stop.is_set():
             if self.execute_next() is None:
                 stop.wait(poll_seconds)
