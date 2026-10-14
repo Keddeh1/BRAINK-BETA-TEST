@@ -1,0 +1,90 @@
+{
+  "schema": "keddeh.triad-contract-map.v1",
+  "supplied_source_sha256": "f39471fd0fa756bba5ef365ea5fa45c9a106bae69a9e1986125d71bf072a7bb1",
+  "contracts": [
+    {
+      "id": "TRIAD-01",
+      "requirement": "Typed binary unary and stream RPC",
+      "implementation": [
+        "triad_mesh.proto",
+        "triad_grpc_server.py"
+      ],
+      "verification": "qualify_live.py"
+    },
+    {
+      "id": "TRIAD-02",
+      "requirement": "Owner authority and authenticated transport",
+      "implementation": [
+        "enroll.py",
+        "triad_grpc_server.py"
+      ],
+      "verification": "qualify_live.py"
+    },
+    {
+      "id": "TRIAD-03",
+      "requirement": "Stable node identity, separate VFS, durable replay",
+      "implementation": [
+        "triad_grpc_server.py",
+        "sdk_bridge.py"
+      ],
+      "verification": "qualify_live.py"
+    },
+    {
+      "id": "TRIAD-04",
+      "requirement": "Use real SDK/substrate, retain failure state",
+      "implementation": [
+        "sdk_bridge.py",
+        "triad_grpc_server.py"
+      ],
+      "verification": "qualify_live.py"
+    },
+    {
+      "id": "CAL-01",
+      "requirement": "Measured p99, diagnostic SLA without session shutdown",
+      "implementation": [
+        "calibration.py",
+        "qualify_live.py"
+      ],
+      "verification": "test_calibration.py and qualify_live.py"
+    },
+    {
+      "id": "CAL-02",
+      "requirement": "Hardware-calibrated tolerance coefficient",
+      "state": "UNBOUND",
+      "reason": "No device-specific saturation baseline or specified derivation supplied; numeric coefficient not invented"
+    },
+    {
+      "id": "DA-01",
+      "requirement": "Independent DA registrar diagnostics",
+      "state": "UNASSESSED_ISOLATED",
+      "reason": "No DA registrar implementation or binding identified in these assets"
+    },
+    {
+      "id": "KEX-01",
+      "requirement": "Real KEX allocation offset",
+      "state": "UNBOUND",
+      "reason": "No allocator contract mapped; optional offset omitted"
+    },
+    {
+      "id": "IL-01",
+      "requirement": "IL-LLM execution binding",
+      "state": "UNBOUND",
+      "reason": "Meaning execution not implied by transport/RESOLVE success"
+    },
+    {
+      "id": "INFRA-01",
+      "requirement": "Two-region active-active",
+      "state": "REFERENCE_ONLY",
+      "reason": "Supplied Terraform defines VPCs/security groups, not compute, replication or mTLS. No cloud apply performed."
+    }
+  ],
+  "source_corrections": [
+    "Use actual protobuf enum FALSIFIED_FAULT, not nonexistent FALSIFICATION_FAULT",
+    "No UUID-derived memory offset, dummy signature or arbitrary node capacity",
+    "No GitHub-hosted CI replacement; owner CI executes actual checks",
+    "No test-error suppression",
+    "No hardcoded MCP protocol version",
+    "No network security group claimed to validate TLS certificates"
+  ],
+  "independent_assessment_document": null
+}

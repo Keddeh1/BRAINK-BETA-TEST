@@ -1,0 +1,103 @@
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+# --- Primary Region Initialization (Asia Pacific - Sydney) ---
+provider "aws" {
+  alias  = "primary_sydney"
+  region = "ap-southeast-2"
+}
+
+# --- Secondary Region Initialization (US West - Oregon) ---
+provider "aws" {
+  alias  = "secondary_oregon"
+  region = "us-west-2"
+}
+
+# Primary VPC Definition
+resource "aws_vpc" "sydney_foundry_network" {
+  provider             = aws.primary_sydney
+  cidr_block           = "10.100.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = {
+    Name      = "keddeh-sydney-grid"
+    Authority = "a.keddeh"
+    Tier      = "Triad-Core"
+  }
+}
+
+# Secondary VPC Definition
+resource "aws_vpc" "oregon_foundry_network" {
+  provider             = aws.secondary_oregon
+  cidr_block           = "10.200.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+
+  tags = {
+    Name      = "keddeh-oregon-grid"
+    Authority = "a.keddeh"
+    Tier      = "Triad-Core"
+  }
+}
+
+# Isolated Security Policy Group (Sydney Compute Boundary)
+resource "aws_security_group" "sydney_mcp_shield" {
+  provider    = aws.primary_sydney
+  name        = "sg_keddeh_sydney_mcp"
+  description = "Block non-mTLS traffic to local Orc nodes"
+  vpc_id      = aws_vpc.sydney_foundry_network.id
+
+  ingress {
+    from_port   = 8443
+    to_port     = 8443
+    protocol    = "tcp"
+    cidr_blocks = ["10.100.1.0/24"] # Strict internal validation subnet constraint
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# Isolated Security Policy Group (Oregon Compute Boundary)
+resource "aws_security_group" "oregon_mcp_shield" {
+  provider    = aws.secondary_oregon
+  name        = "sg_keddeh_oregon_mcp"
+  description = "Block non-mTLS traffic to local Orc nodes"
+  vpc_id      = aws_vpc.oregon_foundry_network.id
+
+  ingress {
+    from_port   = 8443
+    to_port     = 8443
+    protocol    = "tcp"
+    cidr_blocks = ["10.200.1.0/24"] 
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+output "primary_foundry_vpc_id" {
+  value       = aws_vpc.sydney_foundry_network.id
+  description = "Sovereign Sydney VPC network routing ID descriptor token."
+}
+
+output "secondary_foundry_vpc_id" {
+  value       = aws_vpc.oregon_foundry_network.id
+  description = "Sovereign Oregon VPC network routing ID descriptor token."
+}

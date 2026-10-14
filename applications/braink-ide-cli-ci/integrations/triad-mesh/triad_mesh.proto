@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package keddeh.systems.triad.v1;
+
+enum MatrixStatus {
+  MATRIX_STATUS_UNSPECIFIED = 0;
+  MATRIX_STATUS_PENDING = 1;
+  MATRIX_STATUS_VERIFIED_OPERATIONAL = 2;
+  MATRIX_STATUS_FALSIFIED_FAULT = 3;
+}
+
+message ConceptTier {
+  string word_processed = 1;
+  string assigned_node_id = 2;
+  string vfs_mount_path = 3;
+}
+
+message ExecutionTier {
+  string il_llm_state = 1;
+  string braink_verdict = 2;
+  optional uint64 kex_memory_allocation_offset = 3;
+}
+
+message ResearchProvenance {
+  string source_git_revision = 1;
+  optional double empirical_saturation_ratio = 2;
+}
+
+message IntegrationTier {
+  bool sdk_commit_verified = 1;
+  string mcp_transport_version = 2;
+  ResearchProvenance provenance = 3;
+}
+
+message TriadMatrixHopRequest {
+  string raw_word_input = 1;
+  string target_git_revision = 2;
+  double current_load_factor = 3;
+  string authority_signature = 4;
+  string request_id = 5;
+  int64 timestamp_epoch_ns = 6;
+  bytes nonce = 7;
+  repeated uint32 warrant_levels = 8;
+}
+
+message TriadMatrixHopResponse {
+  MatrixStatus status = 1;
+  ConceptTier concept = 2;
+  ExecutionTier execution = 3;
+  IntegrationTier integration = 4;
+  string authority_lock = 5;
+  int64 timestamp_epoch_ns = 6;
+  string artifact_digest = 7;
+  string receipt_digest = 8;
+  repeated string unresolved_bindings = 9;
+}
+
+service TriadMeshOrchestrator {
+  rpc TraversalMatrixHop(TriadMatrixHopRequest) returns (TriadMatrixHopResponse);
+  rpc StreamMatrixTelemetry(TriadMatrixHopRequest) returns (stream TriadMatrixHopResponse);
+}
