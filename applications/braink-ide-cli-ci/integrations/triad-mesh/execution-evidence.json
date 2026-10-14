@@ -1,0 +1,161 @@
+{
+  "schema": "keddeh.triad-integration-execution.v1",
+  "observed_at": 1791954598.7232394,
+  "installed_source_revision": "319153aab65795b38d0c9ada6b283b930a101ab3",
+  "published_source_revision": "81c9c5022ed3a854b0d66bb68e897f620796750c",
+  "source_tree": "8acfa667ab9ae24371c9a7a7a8e79de1fc9a0584",
+  "deployment": {
+    "pid": 275364,
+    "revision": "319153aab65795b38d0c9ada6b283b930a101ab3",
+    "transport": "gRPC/mTLS",
+    "status": "CANARY",
+    "matrix_status": "PENDING",
+    "health": {
+      "identity": "serverspace/triad-grpc-canary",
+      "readiness_mask": 7,
+      "transport": "gRPC/mTLS",
+      "matrix_status": "MATRIX_STATUS_PENDING",
+      "source_revision": "319153aab65795b38d0c9ada6b283b930a101ab3",
+      "artifact_digest": "a6a045c5667b9424652da988b4c972e03a1a640d30cbca61876d81cdaf0c9ef5",
+      "receipt_verified": true,
+      "backing_readiness_mask": 7
+    }
+  },
+  "owner_ci": {
+    "id": "d3234a49f19942b089070f925d9e8d23",
+    "status": "failed",
+    "source_digest": "a58f08af0db96173b61709bde281555d02adb3d17ff43ac2665bcc3ba5d51fd9",
+    "source_verified": true,
+    "receipt_sha256": "f4046845ca78ca0e7f96d11224ffae8d74f93bdf2c02a5c9bae63094a636ae27",
+    "stages": [
+      {
+        "name": "syntax",
+        "status": "passed",
+        "returncode": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "protobuf",
+        "status": "passed",
+        "returncode": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "calibration-regression",
+        "status": "passed",
+        "returncode": 0,
+        "log_sha256": "360298c67063df06beae38d6de3ce6ca8629543492d416419154f094c6c06af4"
+      },
+      {
+        "name": "live-contract",
+        "status": "passed",
+        "returncode": 0,
+        "log_sha256": "dce4b5a03c429d7b75925e36c1cb9af8a3a3eddfaf3dd414577dd1dea934b822"
+      },
+      {
+        "name": "latency-acceptance",
+        "status": "failed",
+        "returncode": 1,
+        "log_sha256": "1ad0141383a915a22674c91f18b6f5aa423166879582ae3408482024ef77370f"
+      }
+    ],
+    "artifacts": [
+      {
+        "path": "artifacts/live.json",
+        "size": 1419,
+        "sha256": "7613192f342093d35a61efcbca2183788001cb6c76c94ccfad1922a91fb951d7"
+      },
+      {
+        "path": "artifacts/triad_mesh_pb2.py",
+        "size": 4346,
+        "sha256": "3594d61533f84a275b06e243480f958239cc5b2fde1af45459509e9b379da89c"
+      },
+      {
+        "path": "artifacts/triad_mesh_pb2_grpc.py",
+        "size": 5555,
+        "sha256": "cd5ff1ad0ec4d2257ef290ef317caf07849ed4cd75a6ebdbef613ac0390e6423"
+      }
+    ]
+  },
+  "live_contract": {
+    "schema": "keddeh.triad-live-qualification.v1",
+    "observed_at": 1791954438.8579147,
+    "transport": "Real gRPC with mandatory mTLS",
+    "instance": "serverspace/triad-grpc-canary",
+    "source_revision": "319153aab65795b38d0c9ada6b283b930a101ab3",
+    "source_commit_verified": true,
+    "request_id": "profile-1791954438227127877",
+    "backing_mcp": "http://127.0.0.1:19091/mcp",
+    "mcp_protocol": "2025-11-25",
+    "artifact_digest": "e73847b2da7f7a4cc639346139b0825520fc617b44b3e340a3d9f00e992e54df",
+    "receipt_digest": "a8bb9490b684dc0364145b7e03d631e571c3c0d2269f1103edb39d659afe1c7a",
+    "concurrent_replays": 16,
+    "signature_rejected": true,
+    "conflict_rejected": true,
+    "stale_rejected": true,
+    "missing_client_certificate_rejected": true,
+    "full_word_retained": true,
+    "state_retained_after_rejections": true,
+    "kex_offset_fabricated": false,
+    "matrix_status": "PENDING",
+    "unresolved_bindings": [
+      "IL_LLM_EXECUTION",
+      "KEX_ALLOCATION",
+      "EMPIRICAL_CAPACITY_CALIBRATION"
+    ],
+    "latency": {
+      "samples": 26,
+      "p99_ns": 69562347,
+      "budget_ns": 15000000,
+      "acceptance": "EXCEEDED",
+      "scope": "Complete real client RPC round trip including SDK/VFS on first admission"
+    },
+    "calibration": {
+      "tolerance_index": null,
+      "state": "HARDWARE_BASELINE_NOT_BOUND",
+      "gates_transport": false
+    },
+    "da_registrar": {
+      "state": "UNASSESSED",
+      "independent_of_braink": true
+    }
+  },
+  "post_restart_retained_result": {
+    "artifact_digest": "e73847b2da7f7a4cc639346139b0825520fc617b44b3e340a3d9f00e992e54df",
+    "receipt_digest": "a8bb9490b684dc0364145b7e03d631e571c3c0d2269f1103edb39d659afe1c7a",
+    "verified": true
+  },
+  "recovery": {
+    "old_pid": 275364,
+    "new_pid": 292971,
+    "recovery_seconds": 2.4062770319999345,
+    "tls_identity_retained": true,
+    "authority_retained": true
+  },
+  "lifecycle_readback": {
+    "id": "triad-grpc-canary",
+    "action": "ADOPTED",
+    "pid": 292971,
+    "readback": {
+      "identity": "serverspace/triad-grpc-canary",
+      "readiness_mask": 7,
+      "transport": "gRPC/mTLS",
+      "matrix_status": "MATRIX_STATUS_PENDING",
+      "source_revision": "319153aab65795b38d0c9ada6b283b930a101ab3",
+      "artifact_digest": "a6a045c5667b9424652da988b4c972e03a1a640d30cbca61876d81cdaf0c9ef5",
+      "receipt_verified": true,
+      "backing_readiness_mask": 7
+    },
+    "state": "RESPONDING"
+  },
+  "transport_certificate_not_after": "2026-10-21T05:02:35+00:00",
+  "release_state": "CANARY_ONLY_PERFORMANCE_ACCEPTANCE_FAILED",
+  "cloud_infrastructure": "REFERENCE_PRESERVED_NOT_APPLIED",
+  "non_promotions": [
+    "No verified-operational 9-point matrix claim",
+    "No claimed multi-region compute or consensus",
+    "No fabricated KEX offset or DA registrar status",
+    "No calculated hardware variance coefficient without a qualified baseline"
+  ],
+  "independent_assessment_document": null
+}

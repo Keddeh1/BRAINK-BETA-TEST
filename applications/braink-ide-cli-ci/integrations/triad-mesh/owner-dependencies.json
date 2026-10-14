@@ -1,0 +1,14 @@
+{
+  "schema": "keddeh.owner-sector-dependencies.v1",
+  "qualified_owner_source": "15de944d5ac3a423808502ffbe89366c01b12f83",
+  "wheels": [
+    {
+      "name": "braink_ci_node-0.1.0-py3-none-any.whl",
+      "sha256": "1ea9c1b488b24a3189c6292e3966fe082dbc7061670c0a3eb2d2b18e2367b035"
+    },
+    {
+      "name": "braink_node_core-0.1.1-py3-none-any.whl",
+      "sha256": "30ccbd8cdf54595147279610090e786084c79a46f1a364a329e096cfe3d7a2c7"
+    }
+  ]
+}
