@@ -1,0 +1,260 @@
+{
+  "schema": "keddeh.ci-prevention-execution.v1",
+  "observed_at": 1791953658.0504918,
+  "implementation_commit": "15de944d5ac3a423808502ffbe89366c01b12f83",
+  "source_tree": "92085b786eea20b453759252703c69f3341eb249",
+  "implemented_controls": [
+    "source snapshot verification before execution",
+    "terminal receipt, artifact and log verification before relay publication",
+    "qualification evidence persisted before disposable tools cleanup",
+    "inactive successful-run environment reclamation; failed and active runs retained",
+    "activated runtime and Git source binding",
+    "authenticated substrate health-check import resolution",
+    "continuous watchdog isolated from family deployment operations"
+  ],
+  "installed_tests": {
+    "core": 19,
+    "cli": 1,
+    "ide": 2,
+    "ci": 16,
+    "protocol": 7,
+    "automation": 13,
+    "total": 58
+  },
+  "qualification": {
+    "interpreter": "Python 3.12.14",
+    "schema": "braink.installed-qualification.v1",
+    "sector": "all",
+    "status": "passed",
+    "wheels": [
+      {
+        "name": "braink_cli_node-0.1.0-py3-none-any.whl",
+        "sha256": "cd5f44918a58021c2d150d72699c71fa63de37a56661ea7e8f6e53d3716d4b63"
+      },
+      {
+        "name": "braink_ide_node-0.1.0-py3-none-any.whl",
+        "sha256": "a987e46de31fac8e4f43fbc5ca544dea69b2cc2e103efd1e06afc43103847962"
+      },
+      {
+        "name": "braink_ci_node-0.1.0-py3-none-any.whl",
+        "sha256": "1ea9c1b488b24a3189c6292e3966fe082dbc7061670c0a3eb2d2b18e2367b035"
+      },
+      {
+        "name": "braink_node_core-0.1.1-py3-none-any.whl",
+        "sha256": "30ccbd8cdf54595147279610090e786084c79a46f1a364a329e096cfe3d7a2c7"
+      }
+    ]
+  },
+  "canary": {
+    "job": "1d342547f2a948ddbad872506ec6d69b",
+    "source_verified": true,
+    "receipt_sha256": "aad71e6e3b0ba0a408d266a473f0eba30e9ed7716fc8c4173a6c536f0dcdf215",
+    "reopened_readback": true,
+    "cleanup_verified": true,
+    "ledger": {
+      "ok": true,
+      "event_count": 3,
+      "head": "148b65290df019a10549433b63801b7c24c34ec180798a5020c31ed4ccdc2afc"
+    }
+  },
+  "owner_queue_execution": {
+    "job": "3ab4fbcb965e4535b6f2a1b73ed7bce4",
+    "status": "passed",
+    "source_verified": true,
+    "receipt_sha256": "d007321cfa807516ff8584a1d31391dd82a1b8b2721e0276c6f2bb82cd49c649",
+    "stages": [
+      {
+        "name": "syntax",
+        "status": "passed",
+        "returncode": 0
+      },
+      {
+        "name": "clean-sector-build",
+        "status": "passed",
+        "returncode": 0
+      },
+      {
+        "name": "test-installed-sector",
+        "status": "passed",
+        "returncode": 0
+      }
+    ],
+    "artifact_readback_verified": true,
+    "temporary_environment_removed": true
+  },
+  "activation": {
+    "revision": "15de944d5ac3a423808502ffbe89366c01b12f83",
+    "state": "ACTIVATED",
+    "health": {
+      "ok": true,
+      "node": "braink-ide-cli-ci",
+      "version": "0.1.0"
+    },
+    "rollback": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/releases/15de944d5ac3a423808502ffbe89366c01b12f83/rollback-services.json",
+    "environment_readback": {
+      "environment": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/releases/15de944d5ac3a423808502ffbe89366c01b12f83/activation-venv-b576f6f8873d4f7d89b88c5802364026",
+      "previous_environment": "/workspace/braink-setup/application-nodes/braink-ide-cli-ci/releases/15de944d5ac3a423808502ffbe89366c01b12f83/previous-venv-b576f6f8873d4f7d89b88c5802364026",
+      "console_readback": true
+    }
+  },
+  "watchdog_sha256": "73f1d2c7a135371c81544a367d7d6d7777824e68dfe17526319c349d95351791",
+  "runtime_states": [
+    {
+      "id": "vfs-hub",
+      "state": "RESPONDING"
+    },
+    {
+      "id": "protocol-mesh",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-primary",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-replica",
+      "state": "READY"
+    },
+    {
+      "id": "braink-ide-ci-supervisor",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-auth-canary",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-resolve-auth-canary",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-resolve-replica",
+      "state": "READY"
+    },
+    {
+      "id": "serverspace-resolve-primary",
+      "state": "READY"
+    },
+    {
+      "id": "BRAINK-BETA-TEST",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "KEDDEH-SOVEREIGN-NAMESPACE-RUNTIME",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "Keddeh-SYSTEMS-Virtual-File-Space-ZCG-ARCHITECTURE",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "SERVERSPACE",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "SERVERSPACE-EXTERNAL",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "SYSTEMS-SERVICES-FOR-DEPLOYMENT-QUEUE",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "Virtual-File-Space-ZCG-ARCHITECTURE",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "braink-foundary-schema",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "keddeh.com",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    },
+    {
+      "id": "tensor-shell-resident-bundle",
+      "state": "NOT_CHECKED_BY_WATCHER"
+    }
+  ],
+  "post_rollout_mcp": {
+    "observed_at": 1791953536.7704334,
+    "existing_mcp": {
+      "sdk_server": "Keddeh service activation",
+      "observed_services": 9
+    },
+    "instances": [
+      {
+        "url": "http://127.0.0.1:19091/mcp",
+        "identity": "serverspace/resolve-auth-canary",
+        "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-auth-canary",
+        "tools": [
+          "resolve_q32",
+          "read_resolve_receipt"
+        ],
+        "artifact_digest": "963788d028b82de529799326ac92c62911525a8299b63af46541cef461bee684",
+        "receipt_chain": {
+          "verified": true,
+          "count": 2,
+          "head": "39737b7c81878f3f08a27514c3224362f2a77796179083ba570e879870091980"
+        },
+        "durable_replay": true,
+        "concurrent_replays": 16,
+        "conflict_rejected": true,
+        "zero_warrant_rejected": true,
+        "coercion_rejected": true
+      },
+      {
+        "url": "http://127.0.0.1:19092/mcp",
+        "identity": "serverspace/resolve-replica",
+        "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-replica",
+        "tools": [
+          "resolve_q32",
+          "read_resolve_receipt"
+        ],
+        "artifact_digest": "4da65769bfbe2ae1153914ec95527053440fc88b08e035f6fb3db467d547e068",
+        "receipt_chain": {
+          "verified": true,
+          "count": 1,
+          "head": "1547e57cd397998c9eb607f14cff260c20fee9980053f09b5be3e74db9892ae1"
+        },
+        "durable_replay": true,
+        "concurrent_replays": 16,
+        "conflict_rejected": true,
+        "zero_warrant_rejected": true,
+        "coercion_rejected": true
+      },
+      {
+        "url": "http://127.0.0.1:19093/mcp",
+        "identity": "serverspace/resolve-primary",
+        "server": "Keddeh ServerSpace RESOLVE serverspace/resolve-primary",
+        "tools": [
+          "resolve_q32",
+          "read_resolve_receipt"
+        ],
+        "artifact_digest": "c3059f61b66f304f538ba6dadb7e94069f617bd42224ef541897c7408822a97a",
+        "receipt_chain": {
+          "verified": true,
+          "count": 1,
+          "head": "69671dc7f75192e6f91b844e0cf055644128d30b5818618b90ac8c7e28684ce8"
+        },
+        "durable_replay": true,
+        "concurrent_replays": 16,
+        "conflict_rejected": true,
+        "zero_warrant_rejected": true,
+        "coercion_rejected": true
+      }
+    ],
+    "independent_contexts_retained": true
+  },
+  "disk_cleanup": {
+    "initial_completed_environments_removed": 12,
+    "maintenance_module_removed": 71,
+    "retained": "source, artifacts, logs, manifests, receipts; failed and active run tools"
+  },
+  "boundaries": [
+    "This is an implemented and exercised set of preventive controls, not an estate-wide standards certification.",
+    "Managed-environment configuration publication and external website verification have not been established by this execution.",
+    "Independent assessment receipt is not available."
+  ],
+  "independent_assessment_document": null
+}
