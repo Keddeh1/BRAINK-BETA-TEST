@@ -10,6 +10,7 @@ MAX_REQUEST_BYTES=70*1024*1024
 class Handler(BaseHTTPRequestHandler):
     store=None
     authorizer=MutationAuthorizer()
+    verifier_authorizer=MutationAuthorizer()
     def log_message(self,*args): pass
     def send_json(self,status,obj):
         b=json.dumps(obj,separators=(",",":"),sort_keys=True).encode()
@@ -42,9 +43,10 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError,KeyError) as e:return self.send_json(400,{"error":str(e)})
         except Exception:return self.send_json(500,{"error":"internal_error"})
     def do_POST(self):
-        if not self.authorizer.allowed(self.headers.get("authorization")):
-            return self.send_json(401,{"error":"unauthorized"})
         p=urlparse(self.path).path
+        gate = self.verifier_authorizer if p == "/verify" else self.authorizer
+        if not gate.allowed(self.headers.get("authorization")):
+            return self.send_json(401,{"error":"unauthorized"})
         try:
             data=self.body()
             if p=="/artifacts":
@@ -60,15 +62,21 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--root",default=".vfs-server")
     ap.add_argument("--host",default="127.0.0.1"); ap.add_argument("--port",type=int,default=8787)
     ap.add_argument("--token-file", help="Path to bearer token file required for protected endpoints")
+    ap.add_argument("--verifier-token-file", help="Distinct verifier-only bearer token file")
     ap.add_argument("--insecure-local-dev", action="store_true", help="Explicitly allow unauthenticated local development; loopback only")
     a=ap.parse_args()
     if a.insecure_local_dev and a.host not in ("127.0.0.1", "::1", "localhost"):
         ap.error("--insecure-local-dev requires loopback host")
-    if a.insecure_local_dev and a.token_file:
+    if a.insecure_local_dev and (a.token_file or a.verifier_token_file):
         ap.error("choose token-file or insecure-local-dev, not both")
     if not a.token_file and not a.insecure_local_dev:
         ap.error("missing --token-file; fail-closed (or explicitly opt into loopback development)")
+    if not a.insecure_local_dev and not a.verifier_token_file:
+        ap.error("missing --verifier-token-file; independent verifier admission required")
     Handler.store=VFSStore(a.root)
     Handler.authorizer=MutationAuthorizer(a.token_file, insecure_local_dev=a.insecure_local_dev)
+    Handler.verifier_authorizer=MutationAuthorizer(a.verifier_token_file, insecure_local_dev=a.insecure_local_dev)
+    if not a.insecure_local_dev and Handler.authorizer.token == Handler.verifier_authorizer.token:
+        ap.error("writer and verifier tokens must be distinct")
     ThreadingHTTPServer((a.host,a.port),Handler).serve_forever()
 if __name__=="__main__":main()
