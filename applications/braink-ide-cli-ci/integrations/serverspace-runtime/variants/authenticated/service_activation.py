@@ -25,6 +25,12 @@ def processes(command):
 
 def readback(service):
     probe=service['probe']
+    if probe['kind']=='grpc':
+        value=subprocess.run(probe['command'],check=True,capture_output=True,text=True,timeout=8)
+        result=json.loads(value.stdout)
+        if result.get('identity')!=probe['identity'] or result.get('backing_readiness_mask')!=7 or result.get('receipt_verified') is not True:
+            raise RuntimeError('gRPC authenticated readback differs')
+        return result
     if probe['kind']=='substrate':
         spec=importlib.util.spec_from_file_location('owner_substrate',service['command'][1])
         module=importlib.util.module_from_spec(spec)

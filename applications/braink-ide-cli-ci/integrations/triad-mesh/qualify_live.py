@@ -24,11 +24,12 @@ def channel(tls,address,client=True):
     return grpc.secure_channel(address,credentials)
 
 
-def qualify(config,address):
+def qualify(config,address,case_id=None):
     key=Ed25519PrivateKey.from_private_bytes((Path(config['tls_root'])/'authority.key').read_bytes())
-    def request(identity='qualified-hop',word='Preserve the complete supplied semantic word path.'):
+    case_id=case_id or 'profile-'+str(time.time_ns())
+    def request(identity=None,word='Preserve the complete supplied semantic word path.'):
         r=pb.TriadMatrixHopRequest(raw_word_input=word,target_git_revision=config['source_revision'],
-            current_load_factor=850,request_id=identity,timestamp_epoch_ns=time.time_ns(),nonce=os.urandom(32),warrant_levels=[1,2,3,4])
+            current_load_factor=850,request_id=identity or case_id,timestamp_epoch_ns=time.time_ns(),nonce=os.urandom(32),warrant_levels=[1,2,3,4])
         r.authority_signature=key.sign(signed_bytes(r)).hex();return r
     observer=Measurements()
     with channel(config['tls_root'],address) as transport:
@@ -45,6 +46,7 @@ def qualify(config,address):
         with ThreadPoolExecutor(max_workers=8) as pool:
             replay=list(pool.map(lambda _:call(request()),range(16)))
         assert all(x.SerializeToString()==first.SerializeToString() for x in replay)
+        for index in range(8):call(request(identity=case_id+'-admission-'+str(index)))
         invalid=request('invalid-signature');invalid.authority_signature='00'*64
         try:call(invalid)
         except grpc.RpcError as e:assert e.code()==grpc.StatusCode.UNAUTHENTICATED
@@ -66,7 +68,7 @@ def qualify(config,address):
         ordered=sorted(observer.window);p99=ordered[(99*len(ordered)+99)//100-1]
         return {'schema':'keddeh.triad-live-qualification.v1','observed_at':time.time(),
           'transport':'Real gRPC with mandatory mTLS','instance':config['identity'],
-          'source_revision':config['source_revision'],'source_commit_verified':True,
+          'source_revision':config['source_revision'],'source_commit_verified':True,'request_id':case_id,
           'backing_mcp':config['mcp_url'],'mcp_protocol':first.integration.mcp_transport_version,
           'artifact_digest':first.artifact_digest,'receipt_digest':first.receipt_digest,
           'concurrent_replays':len(replay),'signature_rejected':True,'conflict_rejected':True,'stale_rejected':True,
@@ -79,6 +81,6 @@ def qualify(config,address):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--config',type=Path,required=True);parser.add_argument('--address',required=True);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
-    result=qualify(json.loads(args.config.read_text()),args.address)
+    parser=argparse.ArgumentParser();parser.add_argument('--config',type=Path,required=True);parser.add_argument('--address',required=True);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--case-id');args=parser.parse_args()
+    result=qualify(json.loads(args.config.read_text()),args.address,args.case_id)
     args.output.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))
