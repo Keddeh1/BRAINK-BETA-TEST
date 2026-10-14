@@ -7,7 +7,11 @@ def readiness(store: VFSStore):
     try:
         store.root.mkdir(parents=True,exist_ok=True)
         probe=store.root/".readiness"
-        probe.write_bytes(b"ready"); os.fsync(os.open(probe,os.O_RDONLY)); probe.unlink()
+        probe.write_bytes(b"ready")
+        fd=os.open(probe,os.O_RDONLY)
+        try: os.fsync(fd)
+        finally: os.close(fd)
+        probe.unlink()
         checks["root_writable"]=True
     except Exception as e:
         checks["root_writable"]=False; checks["root_error"]=type(e).__name__
